@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Qt," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="&amp;#x5728;&amp;#x4E0A;&amp;#x4E00;&amp;#x5468;&amp;#x7684;&amp;#x7A0B;&amp;#x5E8F;&amp;#x8BBE;&amp;#x8BA1;&amp;#x5468;&amp;#x8FD0;&amp;#x7528;Qt&amp;#x5BF9;&amp;#x8001;&amp;#x5E08;&amp;#x7ED9;&amp;#x51FA;&amp;#x7684;&amp;#x8BFE;&amp;#x9898;(&amp;#x6392;&amp;#x73ED;&amp;#x7BA1;&amp;#x7406;&amp;#x7C">
+<meta name="keywords" content="Qt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Qt笔记之登录与数据库">
+<meta property="og:url" content="http://yoursite.com/2018/04/14/Qt1/index.html">
+<meta property="og:site_name" content="Qin&amp;#x7684;&amp;#x4FEE;&amp;#x884C;&amp;#x4E4B;&amp;#x8DEF;">
+<meta property="og:description" content="&amp;#x5728;&amp;#x4E0A;&amp;#x4E00;&amp;#x5468;&amp;#x7684;&amp;#x7A0B;&amp;#x5E8F;&amp;#x8BBE;&amp;#x8BA1;&amp;#x5468;&amp;#x8FD0;&amp;#x7528;Qt&amp;#x5BF9;&amp;#x8001;&amp;#x5E08;&amp;#x7ED9;&amp;#x51FA;&amp;#x7684;&amp;#x8BFE;&amp;#x9898;(&amp;#x6392;&amp;#x73ED;&amp;#x7BA1;&amp;#x7406;&amp;#x7C">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-11T08:56:27.624Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Qt笔记之登录与数据库">
+<meta name="twitter:description" content="&amp;#x5728;&amp;#x4E0A;&amp;#x4E00;&amp;#x5468;&amp;#x7684;&amp;#x7A0B;&amp;#x5E8F;&amp;#x8BBE;&amp;#x8BA1;&amp;#x5468;&amp;#x8FD0;&amp;#x7528;Qt&amp;#x5BF9;&amp;#x8001;&amp;#x5E08;&amp;#x7ED9;&amp;#x51FA;&amp;#x7684;&amp;#x8BFE;&amp;#x9898;(&amp;#x6392;&amp;#x73ED;&amp;#x7BA1;&amp;#x7406;&amp;#x7C">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/14/Qt1/"/>
+
+
+
+
+
+  <title>Qt笔记之登录与数据库 | Qin&#x7684;&#x4FEE;&#x884C;&#x4E4B;&#x8DEF;</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Qin&#x7684;&#x4FEE;&#x884C;&#x4E4B;&#x8DEF;</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+    
+  
+  
+
+  <article class="post post-type-normal true" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/14/Qt1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="qin.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qin&#x7684;&#x4FEE;&#x884C;&#x4E4B;&#x8DEF;">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Qt笔记之登录与数据库</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-14T12:58:51+08:00">
+                2018-04-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习心得/" itemprop="url" rel="index">
+                    <span itemprop="name">学习心得</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x5728;&#x4E0A;&#x4E00;&#x5468;&#x7684;&#x7A0B;&#x5E8F;&#x8BBE;&#x8BA1;&#x5468;&#x8FD0;&#x7528;Qt&#x5BF9;&#x8001;&#x5E08;&#x7ED9;&#x51FA;&#x7684;&#x8BFE;&#x9898;(&#x6392;&#x73ED;&#x7BA1;&#x7406;&#x7CFB;&#x7EDF;)&#x8FDB;&#x884C;&#x4E86;UI&#x754C;&#x9762;&#x7684;&#x8BBE;&#x8BA1;&#xFF0C;&#x5728;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x4E2D;&#x6709;&#x4E86;&#x4E0D;&#x5C0F;&#x7684;&#x6536;&#x83B7;&#xFF0C;&#x7279;&#x6B64;&#x4E0E;&#x5927;&#x5BB6;&#x4E00;&#x8D77;&#x5206;&#x4EAB;&#xFF0C;&#x4E0D;&#x559C;&#x52FF;&#x55B7;&#xFF01;<br><a id="more"></a></p>
+<h1 id="x8BBE-x8BA1-x601D-x8DEF"><a href="#x8BBE-x8BA1-x601D-x8DEF" class="headerlink" title="&#x8BBE;&#x8BA1;&#x601D;&#x8DEF;"></a>&#x8BBE;&#x8BA1;&#x601D;&#x8DEF;</h1><p>&#x8BE5;&#x8BFE;&#x9898;&#x4E3A;&#x6392;&#x73ED;&#x7BA1;&#x7406;&#x7CFB;&#x7EDF;&#xFF0C;&#x5BF9;&#x767B;&#x5F55;&#x3001;&#x6CE8;&#x518C;&#x3001;&#x4F11;&#x606F;&#x65E5;&#x9009;&#x62E9;&#x3001;&#x6392;&#x73ED;&#x5747;&#x6709;&#x8981;&#x6C42;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x8BBE;&#x7F6E;&#x4E86;&#x56DB;&#x4E2A;&#x7A97;&#x53E3;&#x6765;&#x5206;&#x522B;&#x5BF9;&#x5E94;&#x56DB;&#x4E2A;&#x90E8;&#x5206;&#x3002;</p>
+<h1 id="x767B-x5F55-x90E8-x5206"><a href="#x767B-x5F55-x90E8-x5206" class="headerlink" title="&#x767B;&#x5F55;&#x90E8;&#x5206;"></a>&#x767B;&#x5F55;&#x90E8;&#x5206;</h1><p>&#x9996;&#x5148;&#x662F;&#x767B;&#x5F55;&#x90E8;&#x5206;&#xFF0C;&#x65E2;&#x7136;&#x662F;&#x767B;&#x5F55;&#x90A3;&#x4E48;&#x80AF;&#x5B9A;&#x4F1A;&#x6D89;&#x53CA;&#x5230;&#x7528;&#x6237;&#x540D;&#x5BC6;&#x7801;&#x7684;&#x5339;&#x914D;&#xFF0C;&#x6211;&#x4EEC;&#x5728;&#x8FD9;&#x91CC;&#x91C7;&#x7528;&#x7684;&#x662F;sqlite&#x4F5C;&#x4E3A;&#x6570;&#x636E;&#x5E93;&#x6765;&#x50A8;&#x5B58;&#x7528;&#x6237;&#x540D;&#x5BC6;&#x7801;&#x4EE5;&#x53CA;&#x7535;&#x8BDD;&#x53F7;&#x7801;&#x7B49;&#x6570;&#x636E;&#x3002;&#x6D89;&#x53CA;&#x5230;&#x6570;&#x636E;&#x5E93;&#x4E0E;Qt&#x4E4B;&#x95F4;&#x8FDB;&#x884C;&#x4EA4;&#x4E92;&#xFF0C;&#x5177;&#x4F53;&#x6570;&#x636E;&#x5E93;&#x7684;&#x521B;&#x5EFA;&#x3001;&#x8F93;&#x51FA;&#x548C;&#x8F93;&#x5165;&#x540E;&#x9762;&#x4F1A;&#x8BB2;&#xFF0C;&#x5728;&#x8FD9;&#x91CC;&#x4E3B;&#x8981;&#x8BB2;Qt&#x548C;&#x6570;&#x636E;&#x7684;&#x8FDE;&#x63A5;&#x3002;</p>
+<h2 id="x6253-x5F00-x6570-x636E-x5E93"><a href="#x6253-x5F00-x6570-x636E-x5E93" class="headerlink" title="&#x6253;&#x5F00;&#x6570;&#x636E;&#x5E93;"></a>&#x6253;&#x5F00;&#x6570;&#x636E;&#x5E93;</h2><p>&#x5728;login.cpp&#x4E2D;<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">//打开数据库</span><br><span class="line">if(!database.open())</span><br><span class="line">&#123;</span><br><span class="line">    qDebug()&lt;&lt;database.lastError();  //打开失败</span><br><span class="line">    qFatal(&quot;failed to connect.&quot;) ;</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    qDebug()&lt;&lt;&quot;open seccess&quot;;</span><br><span class="line">    QSqlQuery sql_query;        //改变量必须在成功打开数据库后定义才有效</span><br><span class="line">    sql_query.prepare(select_table);</span><br><span class="line">    if(!sql_query.exec())</span><br><span class="line">    &#123;</span><br><span class="line">        qDebug()&lt;&lt;sql_query.lastError();</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        QString tableName;</span><br><span class="line">        while(sql_query.next())</span><br><span class="line">        &#123;</span><br><span class="line">            tableName = sql_query.value(0).toString();</span><br><span class="line">            qDebug()&lt;&lt;tableName;</span><br><span class="line">            if(tableName.compare(&quot;user&quot;))  //打开名为user的数据库</span><br><span class="line">            &#123;</span><br><span class="line">                tableFlag=false;</span><br><span class="line">                qDebug()&lt;&lt;&quot;table is not exist&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                tableFlag=true;</span><br><span class="line">                qDebug()&lt;&lt;&quot;table is exist&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    if(tableFlag==false)   //该数据库不存在就创建一个user的数据库</span><br><span class="line">    &#123;</span><br><span class="line">        sql_query.prepare(create_sql);</span><br><span class="line">        if(!sql_query.exec())</span><br><span class="line">        &#123;</span><br><span class="line">            qDebug()&lt;&lt;sql_query.lastError();</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            qDebug()&lt;&lt;&quot;table created!&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    //database.close();</span><br><span class="line">&#125;</span><br><span class="line">//先判断数据库能否打开再判断是否数据库存在。</span><br></pre></td></tr></table></figure></p>
+<p>&#x8FD9;&#x4E00;&#x6BB5;&#x4EE3;&#x7801;&#x653E;&#x5728;<strong>Login::Login(QWidget *parent) :</strong>&#x4E2D;&#xFF0C;&#x5982;&#x679C;&#x6253;&#x5F00;&#x6570;&#x636E;&#x5E93;&#x6210;&#x529F;&#x5219;&#x4F1A;&#x8FD4;&#x56DE;<strong>open seccess</strong>&#xFF0C;&#x521B;&#x5EFA;&#x6210;&#x529F;&#x5219;&#x4F1A;&#x8FD4;&#x56DE;<strong>table created!</strong>&#xFF0C;&#x6253;&#x5F00;&#x5931;&#x8D25;&#x5219;&#x4F1A;&#x8FD4;&#x56DE;<strong>failed to connect.</strong>&#x3002;</p>
+<h2 id="x767B-x5F55-x7B97-x6CD5"><a href="#x767B-x5F55-x7B97-x6CD5" class="headerlink" title="&#x767B;&#x5F55;&#x7B97;&#x6CD5;"></a>&#x767B;&#x5F55;&#x7B97;&#x6CD5;</h2><p>&#x8BE5;&#x767B;&#x5F55;&#x7B97;&#x6CD5;&#x8F83;&#x4E3A;&#x7B80;&#x964B;&#xFF0C;&#x5177;&#x4F53;&#x5B9E;&#x73B0;&#x662F;&#x901A;&#x8FC7;&#xFF1A;</p>
+<ol>
+<li>&#x8BFB;&#x53D6;&#x7528;&#x6237;&#x8F93;&#x5165;&#x7684;&#x7528;&#x6237;&#x540D;&#x3002;</li>
+<li>&#x5BF9;&#x6570;&#x636E;&#x5E93;&#x8FDB;&#x884C;&#x68C0;&#x7D22;&#xFF0C;&#x82E5;&#x53EF;&#x4EE5;&#x627E;&#x5230;&#x5BF9;&#x5E94;&#x7684;&#x5BC6;&#x7801;&#x5219;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x5BC6;&#x7801;&#x548C;ID&#xFF0C;&#x82E5;&#x4E0D;&#x80FD;&#x627E;&#x5230;&#x5219;&#x8FD4;&#x56DE;&#x7528;&#x6237;&#x540D;&#x4E0D;&#x5B58;&#x5728;&#x3002;</li>
+<li>&#x8BFB;&#x53D6;&#x7528;&#x6237;&#x8F93;&#x5165;&#x7684;&#x5BC6;&#x7801;&#x4E0E;&#x4E4B;&#x524D;&#x68C0;&#x7D22;&#x51FA;&#x6765;&#x7684;&#x5BC6;&#x7801;&#x8FDB;&#x884C;&#x5339;&#x914D;&#x3002;</li>
+<li>&#x5224;&#x65AD;&#x662F;&#x5426;&#x767B;&#x5F55;&#x6210;&#x529F; <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">if(matchFlag==false)</span><br><span class="line">&#123;</span><br><span class="line">//用户名错误</span><br><span class="line">qDebug()&lt;&lt;&quot;name invalid&quot;;</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">if(usr_passwd!=ui-&gt;passwdLineEdit-&gt;text())</span><br><span class="line">&#123;</span><br><span class="line">//密码错误</span><br><span class="line">qDebug()&lt;&lt;&quot;passwd not match&quot;;</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">//用户名和密码均正确</span><br><span class="line">mainwindow cw(this);</span><br><span class="line">this-&gt;hide();</span><br><span class="line">cw.show();</span><br><span class="line">cw.exec();</span><br><span class="line">this-&gt;close();</span><br><span class="line">  &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="x8C03-x7528-x6570-x636E-x5E93"><a href="#x8C03-x7528-x6570-x636E-x5E93" class="headerlink" title="&#x8C03;&#x7528;&#x6570;&#x636E;&#x5E93;"></a>&#x8C03;&#x7528;&#x6570;&#x636E;&#x5E93;</h2><p>&#x5F53;&#x6570;&#x636E;&#x5E93;&#x548C;&#x767B;&#x5F55;&#x7B97;&#x6CD5;&#x90FD;&#x5199;&#x597D;&#x540E;&#xFF0C;&#x65B0;&#x7684;&#x95EE;&#x9898;&#x6765;&#x4E86;&#xFF0C;&#x5728;Qt&#x4E2D;&#x5982;&#x4F55;&#x8C03;&#x7528;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x5462;&#xFF1F;<br>&#x9996;&#x5148;&#x6211;&#x4EEC;&#x5E94;&#x8BE5;&#x5148;&#x67E5;&#x8BE2;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x628A;&#x5BF9;&#x5E94;&#x7684;&#x6570;&#x636E;&#x5B58;&#x5165;&#x81EA;&#x5DF1;&#x5B9A;&#x4E49;&#x7684;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#x4E2D;&#xFF0C;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;<br>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">QSqlQuery sql_query;        //改变量必须在成功打开数据库后定义才有效</span><br><span class="line">//查询部分数据(name)</span><br><span class="line">QString tempstring=&quot;select * from user where name=&apos;&quot;+name+&quot;&apos;&quot;;//查询的字段为name</span><br><span class="line">qDebug()&lt;&lt;tempstring;</span><br><span class="line">if(!sql_query.exec(tempstring))</span><br><span class="line">&#123;</span><br><span class="line">    qDebug()&lt;&lt;sql_query.lastError();</span><br><span class="line">    matchFlag=false;</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    while(sql_query.next())</span><br><span class="line">    &#123;</span><br><span class="line">        //将数据存入自己定义的变量中</span><br><span class="line">        usr_id = sql_query.value(0).toInt();</span><br><span class="line">        usr_passwd = sql_query.value(1).toString();</span><br><span class="line">        usr_name = sql_query.value(2).toString();</span><br><span class="line">        usr_email = sql_query.value(3).toString();</span><br><span class="line">        usr_history = sql_query.value(4).toInt();</span><br><span class="line">    &#125;</span><br><span class="line">    //比如sql_query.value(0).toInt();</span><br><span class="line">    //其中的value（0）表示读取的是第几个字段</span><br><span class="line">    //toInt（）表示的是读取的数据类型</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Qt/" rel="tag"><i class="fa fa-tag"></i> Qt</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/14/Qt2/" rel="prev" title="Qt笔记之注册与数据库">
+                Qt笔记之注册与数据库 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">qin.</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/wwqin" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:245432372@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-qq"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#x8BBE-x8BA1-x601D-x8DEF"><span class="nav-number">1.</span> <span class="nav-text">设计思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#x767B-x5F55-x90E8-x5206"><span class="nav-number">2.</span> <span class="nav-text">登录部分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#x6253-x5F00-x6570-x636E-x5E93"><span class="nav-number">2.1.</span> <span class="nav-text">打开数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#x767B-x5F55-x7B97-x6CD5"><span class="nav-number">2.2.</span> <span class="nav-text">登录算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#x8C03-x7528-x6570-x636E-x5E93"><span class="nav-number">2.3.</span> <span class="nav-text">调用数据库</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">qin.</span>
+
+  
+</div>
+
+
+  <!-- <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+-->
+
+
+<div>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv" style='display:none'>
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+    有<span id="busuanzi_value_site_uv"></span>人看过我的博客啦~好开心~
+</span>
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":200},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>

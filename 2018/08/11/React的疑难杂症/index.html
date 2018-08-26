@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="React," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="render外层嵌套的divrander函数return只能返回一个大的JSX，如果出现两个就需要在外面套一个&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;但是多出来的一个不必要的div会给我们增加许多的麻烦所以就可以用&amp;lt;React.fragment&amp;gt;&amp;lt;/React.fragment&amp;gt;来取代&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;。">
+<meta name="keywords" content="React">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React学习笔记">
+<meta property="og:url" content="http://yoursite.com/2018/08/11/React的疑难杂症/index.html">
+<meta property="og:site_name" content="Qin&amp;#x7684;&amp;#x4FEE;&amp;#x884C;&amp;#x4E4B;&amp;#x8DEF;">
+<meta property="og:description" content="render外层嵌套的divrander函数return只能返回一个大的JSX，如果出现两个就需要在外面套一个&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;但是多出来的一个不必要的div会给我们增加许多的麻烦所以就可以用&amp;lt;React.fragment&amp;gt;&amp;lt;/React.fragment&amp;gt;来取代&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/iQMlj9b.jpg">
+<meta property="og:updated_time" content="2018-08-20T06:34:09.088Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React学习笔记">
+<meta name="twitter:description" content="render外层嵌套的divrander函数return只能返回一个大的JSX，如果出现两个就需要在外面套一个&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;但是多出来的一个不必要的div会给我们增加许多的麻烦所以就可以用&amp;lt;React.fragment&amp;gt;&amp;lt;/React.fragment&amp;gt;来取代&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;。">
+<meta name="twitter:image" content="https://i.imgur.com/iQMlj9b.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/11/React的疑难杂症/"/>
+
+
+
+
+
+  <title>React学习笔记 | Qin&#x7684;&#x4FEE;&#x884C;&#x4E4B;&#x8DEF;</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Qin&#x7684;&#x4FEE;&#x884C;&#x4E4B;&#x8DEF;</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+    
+  
+  
+
+  <article class="post post-type-normal true" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/11/React的疑难杂症/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="qin.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qin&#x7684;&#x4FEE;&#x884C;&#x4E4B;&#x8DEF;">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">React学习笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-11T16:16:36+08:00">
+                2018-08-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Debug/" itemprop="url" rel="index">
+                    <span itemprop="name">Debug</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="render外层嵌套的div"><a href="#render外层嵌套的div" class="headerlink" title="render外层嵌套的div"></a>render外层嵌套的div</h1><p>rander函数return只能返回一个大的JSX，如果出现两个就需要在外面套一个<code>&lt;div&gt;&lt;/div&gt;</code>但是多出来的一个不必要的div会给我们增加许多的麻烦所以就可以用<code>&lt;React.fragment&gt;&lt;/React.fragment&gt;</code>来取代<code>&lt;div&gt;&lt;/div&gt;</code>。<br><a id="more"></a></p>
+<h1 id="关于key值的warning"><a href="#关于key值的warning" class="headerlink" title="关于key值的warning"></a>关于key值的warning</h1><p>Warning: Each child in an array or iterator should have a unique “key” prop.<br>这个Warning代表缺少key值，补充一下key值的是干嘛的：</p>
+<blockquote>
+<p>当我们组件状态更新后，会重新渲染组件，渲染组件的时候会一个个去根据key值的情况去渲染：<br>A. 渲染前的key值存在，则去寻找这个key值对应的组件：<br>    a.组件数据不变，则不重新渲染这个组件；<br>    b.若组件数据改变，则渲染改变的这一部分数据；<br>B.渲染前的key值不存在，则会销毁这个key值对应的组件：<br>C.出现新的key值，则渲染一个新的key值对应的组件；</p>
+</blockquote>
+<h1 id="父组件与子组件的通信"><a href="#父组件与子组件的通信" class="headerlink" title="父组件与子组件的通信"></a>父组件与子组件的通信</h1><p>将网页拆分成多个组件之后还可以将大的组件继续拆分，所以就出现了子组件，但是父组件与子组件是如何通信的呢？<br>父组件向子组件传值，这个比较容易理解，例如<br><code>&lt;TodoItem handDelete={this.handDelete.bind(this)} key={index} index={index} content={item}/&gt;</code>中的<code>content</code>就是向子组件传递了一个<code>item</code>值，在子组件接手数据的时候则是<code>this.props.content</code>等于父组件中的<code>item</code>值。<br>子组件如何与父组件通信<br>总的来说就是通过函数传递，父组件那边写好了处理子组件数据的函数并传给子组件，子组件调用函数并传入数据，父组件就可以接收数据并存储。</p>
+<h1 id="React里面写函数有特定的规则"><a href="#React里面写函数有特定的规则" class="headerlink" title="React里面写函数有特定的规则"></a>React里面写函数有特定的规则</h1><p>React里面写函数有特定的规则，例如<code>onClick={this.handleBtnClick.bind(this)}</code>与普通JavaScript不同的是大小写和花括号的区别，调用css的区别也差不多用的是<code>className={style}</code>而不是<code>class=“style”</code>。</p>
+<h2 id="JSX注释"><a href="#JSX注释" class="headerlink" title="JSX注释"></a>JSX注释</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">在JSx中注释与在JavaScript中略有不同，之前说过在JSX想写js的话需要加一个&#123; &#125;写注释的时候同理</span><br><span class="line">&#123;/*这是注释*/&#125;</span><br><span class="line">单行注释比较麻烦</span><br><span class="line">&#123;</span><br><span class="line">//这是注释</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="输入不转译"><a href="#输入不转译" class="headerlink" title="输入不转译"></a>输入不转译</h2><p><code>&lt;li&gt;dangerrouslySetInnerHTML={{__html: item}}&lt;/li&gt;</code></p>
+<h2 id="利用lable聚焦"><a href="#利用lable聚焦" class="headerlink" title="利用lable聚焦"></a>利用lable聚焦</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;lable&gt;输入聚焦</span><br><span class="line">&lt;lable htmlFor=&quot;a&quot;&gt;输入内容&lt;/lable&gt;</span><br><span class="line">&lt;input id=&quot;a&quot;&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="关于Registerserviceworker"><a href="#关于Registerserviceworker" class="headerlink" title="关于Registerserviceworker"></a>关于Registerserviceworker</h1><p><code>import Registerserviceworker from ‘Registerserviceworker’；</code><br><em>PWA progressive web application</em>,它在有https协议的服务器上缓存可以离线运行。</p>
+<h2 id="科普PWA"><a href="#科普PWA" class="headerlink" title="科普PWA"></a>科普PWA</h2><p>PWA全称Progressive Web App，直译是渐进式WEB应用，是 Google 在 2015 年提出，2016年6月才推广的项目。是结合了一系列现代Web技术的组合。在网页应用中实现和原生应用相近的用户体验。<br>所谓的P（Progressive）这里有两层含义，一方面是渐进增强，让WEB APP的体验和功能能够用渐进增强的方式来更接近原生APP的体验及功能。另一方面是指下一代WEB技术。PWA并非描写叙述一个技术。而是一些技术的合集。</p>
+<h1 id="propTypes与defaultProps"><a href="#propTypes与defaultProps" class="headerlink" title="propTypes与defaultProps"></a>propTypes与defaultProps</h1><h2 id="propTypes"><a href="#propTypes" class="headerlink" title="propTypes"></a>propTypes</h2><p>顾名思义prop-types就是对react组件中props对象中的变量进行类型检测的，因为props是react数据流的管道，我们通过prop-types就可以轻松监控react里大多数据的变量类型。eg：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">yourComponent.propTypes = &#123;</span><br><span class="line">    属性1：属性1的变量类型，</span><br><span class="line">    属性2：属性2的变量类型</span><br><span class="line">    //...</span><br><span class="line">&#125;</span><br><span class="line">XX.propTypes = &#123;</span><br><span class="line">     optionalArray: PropTypes.array,//检测数组类型</span><br><span class="line">     optionalBool: PropTypes.bool,//检测布尔类型</span><br><span class="line">     optionalFunc: PropTypes.func,//检测函数（Function类型）</span><br><span class="line">     optionalNumber: PropTypes.number,//检测数字</span><br><span class="line">     optionalObject: PropTypes.object,//检测对象</span><br><span class="line">     optionalString: PropTypes.string,//检测字符串</span><br><span class="line">     optionalSymbol: PropTypes.symbol,//ES6新增的symbol类型</span><br><span class="line">	 number:PropTypes.oneOfType(</span><br><span class="line">           [PropTypes.string,PropTypes.number]</span><br><span class="line">         )//规定多个检测通过的数据类型</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="defaultProps"><a href="#defaultProps" class="headerlink" title="defaultProps"></a>defaultProps</h2><p>React组件的默认状态（defaultProps），给你的数据设定默认数据。eg：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">class XX extends React.Component &#123;</span><br><span class="line">    constructor(props)&#123;</span><br><span class="line">        super(props);</span><br><span class="line">        this.state=&#123;</span><br><span class="line">            name:props.name</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">XX.defaultProps=&#123;</span><br><span class="line">    name:&apos;default name&apos;</span><br><span class="line">&#125;;</span><br><span class="line">or</span><br><span class="line">const XXX=(props)=&gt;&#123;</span><br><span class="line">    return (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;p&gt;&#123;props.name&#125;&lt;/p&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">XXX.defaultProps=&#123;</span><br><span class="line">    name:&apos;default name&apos;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h1 id="state-props-render"><a href="#state-props-render" class="headerlink" title="state props render"></a>state props render</h1><h2 id="props"><a href="#props" class="headerlink" title="props"></a>props</h2><p><strong>设置 props 的方式</strong><br>1）可以在组件挂载时设置props：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var HelloWorld = React.createClass(&#123;</span><br><span class="line">    render: function()&#123;</span><br><span class="line">        return &lt;p&gt;Hello, &#123;this.props.name ? this.props.name : &quot;World&quot;&#125;&lt;/p&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">React.render(&lt;HelloWorld name=&quot;Sam&quot; /&gt;, document.body);</span><br></pre></td></tr></table></figure></p>
+<p>2）也可以通过调用组件实例的setProps()方法来设置props（在ES6中将被禁用，这个方法不支持ES6类组件React.Component扩展。）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var HelloWorld = React.createClass(&#123;</span><br><span class="line">    render: function()&#123;</span><br><span class="line">        return &lt;p&gt;Hello, &#123;this.props.name ? this.props.name : &quot;World&quot;&#125;&lt;/p&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">var instance = React.render(&lt;HelloWorld/&gt;, document.body);</span><br><span class="line">instance.setProps(&#123;name: &apos;Tim&apos;&#125;);</span><br></pre></td></tr></table></figure></p>
+<p><strong>prop 支持的数据类型</strong><br>我们先从外部世界来看，prop是如何使用的，在下面的JSX代码片段中，就使用了prop：<br><code>&lt;App id=&quot;sample&quot; borderWidth={2} onClick={onButtonClick}/&gt;</code><br>在上面的例子中，创建了名为 App 的组件实例，使用了名字分别为id、borderWidth、onClick和style的 prop，看起来，React组件的 prop 很像是HTML元素的属性，不过，HTML组件属性的值都是字符串类型，即使是内嵌的JavaScript，也依然是字符串形式表示代码。React组件的 prop 所能支持的类型则丰富得多，可以是任何一种JavaScript语言支持的数据类型。比如在上面的App中，borderWidth就是数字类型，onClick是函数类型，style的值是一个包含color字段的对象，当 prop 的类型不是字符串类型时，在JSX中必须用花括号{}把 prop 值包住，所以style的值有两层花括号，外层花括号代表是JSX的语法，内层的花括号代表这是一个对象常量。当外部世界要传递一些数据给React组件，一个最直接的方式就是通过 prop；同样，React组件要反馈数据给外部世界，也可以用 prop，因为 prop 的类型不限于纯数据，也可以是函数，函数类型的 prop 等于让父组件交给了子组件一个回调函数，子组件在恰当的实际调用函数类型的 prop，可以带上必要的参数，这样就可以反过来把信息传递给外部世界。<br><strong>不要修改props</strong><br>这样是反模式，因为 React 不能帮你检查属性类型（propTypes）。这样即使你的属性类型有错误也不能得到清晰的错误提示。Props 应该被当作禁止修改的。修改 props 对象可能会导致预料之外的结果，所以最好不要去修改 props 对象。<br><strong>关于super(props)</strong><br>如果一个组件需要定义自己的构造函数，一定要记得在构造函数的第一行通过 super 调用父类也就是React.Component的构造函数。如果在构造函数中没有调用super(props)，那么组件实例被构造之后，类实例的所有成员函数就无法通过 this.props 访问到父组件传递过来的 props 值。</p>
+<h2 id="关于-state"><a href="#关于-state" class="headerlink" title="关于 state"></a>关于 state</h2><p><strong>this.state 与 this.setState</strong><br>在代码中，通过 this.state 可以读取到组件的当前 state。值得注意的是，我们改变组件 state 必须要使用 this.setState 函数，而不能直接去修改 this.state 。直接修改 this.state 的值，虽然事实上改变了组件的内部状态，但只是野蛮地修改了 state，却没有驱动组件进行重新渲染，既然组件没有重新渲染，当然不会反应 this.state 值的变化；而 this.setState() 函数所做的事情，首先是改变 this.state 的值，然后驱动组件经历更新过程，这样才有机会让 this.state 里新的值出现在界面上。<br><strong>构造函数 constructor</strong><br>初始化 state，因为组件生命周期中任何函数都可能要访问 state，那么整个生命周期中第一个被调用的构造函数自然是初始化 state 最理想的地方；<br>绑定成员函数的 this 环境；<br>在ES6语法下，类的每个成员函数在执行时的 this 并不是和类实例自动绑定的。而在构造函数中，this 就是当前组件实例，所以，为了方便将来的调用，往往在构造函数中将这个实例的特定函数绑定 this 为当前实例。 </p>
+<h2 id="render"><a href="#render" class="headerlink" title="render"></a>render</h2><p>通常一个组件要发挥作用，总是要渲染一些东西，render 函数并不做实际的渲染动作，它只是返回一个JSX描述的结构，最终由React来操作渲染过程。（render函数并不往DOM树上渲染或者装载内容，它只是返回一个JSX表示的对象，然后由React库来根据返回对象决定如何渲染。而React库肯定是要把所有组件返回的结果综合起来，才能知道该如何产生对应的DOM修改。）<br>需要注意，render 函数应该是一个纯函数，完全根据 this.state 和this.props 来决定返回的结果，而且不要产生任何副作用。在 render 函数中去调用this.setState 毫无疑问是错误的，因为一个纯函数不应该引起状态的改变。<br>父组件的render运行时子组件的render自动被重新运行一次</p>
+<h1 id="虚拟DOM"><a href="#虚拟DOM" class="headerlink" title="虚拟DOM"></a>虚拟DOM</h1><p>1、state 数据<br>2、JSX 模板<br>3、生成虚拟DOM（虚拟DOM就是一个JS对象，用来描述真实的DOM）<br><code>[&#39;idv&#39;,{id:&#39;abc&#39;},[&#39;span&#39;,{},&#39;hello world&#39;]]</code><br>4、用虚拟结构的DOM生成真实的DOM<br><code>&lt;div id=&#39;a&#39;&gt;&lt;span&gt;hello world&lt;/span&gt; &lt;/div&gt;</code><br>5、state发生变化<br>6、生成新的虚拟DOM<br>7、比较原始虚拟DOM和新的虚拟DOM的区别，找到区别的内容</p>
+<blockquote>
+<p>Diff，当第一层不同的时候删除以下所有DOM节点，用新的替换， 同层比较，算法简单，与key值做关联。index不作为key值的理由：删除一个节点所有index发生变化与旧的虚拟DOM不相同无法建立关联损耗性能</p>
+</blockquote>
+<p>8、直接操作DOM替换其中不同的地方<br>优点：<br>1、性能提升了<br>2、它使得跨端应用得以实现，React Native。<br>3、JSX -&gt; Js对象(React.createElement) -&gt; 真实的DOM（不用去繁琐的使用<code>React.createElement(&#39;div&#39;,{},&#39;item&#39;)）//React.createElement(&#39;div&#39;,{},&#39;item&#39;)是更为底层的语法</code></p>
+<h1 id="生命周期函数"><a href="#生命周期函数" class="headerlink" title="生命周期函数"></a>生命周期函数</h1><p>生命周期函数指在某一个时刻组件会自动调用执行的函数，render就是一个生命周期函数。<br>组件经历过的几个过程：<img src="https://i.imgur.com/iQMlj9b.jpg" alt=""><br>初始化定义state接收props<br><strong>挂载</strong></p>
+<ol>
+<li>componentWillMount（组件即将被挂载到页面的时候执行）</li>
+<li>render</li>
+<li>componentDidMount（组件被挂载之后执行）</li>
+</ol>
+<p><strong>组件更新</strong></p>
+<ol>
+<li>当数据（props、state）发生变化时执行生命周期函数，shouldComponentUpdata(组件即将被变更)产生布尔返回值，true是需要改变组件，false不需要更新。</li>
+<li>componentWillUpdata（组件被更新之前shouldComponentUpdata返回true执行）。</li>
+<li>render重新渲染。</li>
+<li>componentDidUpdata（组件更新完成之后执行）。componentWillReceiveProps（没有props的情况下不会被执行，顶层组件没有接收所以不会调用。当一个组件从父组接收参数，只要父组件的render函数被<strong>重新</strong>执行了，子组件的这个函数就会被执行）</li>
+</ol>
+<p><strong>去除挂载</strong></p>
+<ol>
+<li>componentWillUnmount（当这个组件即将被从页面种剔除的时候执行的函数）</li>
+</ol>
+<p>所有生命周期函数可以不存在，render函数必须存在，因为之前继承了component里面就已经有了</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/React/" rel="tag"><i class="fa fa-tag"></i> React</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/11/React01/" rel="next" title="React快速入门">
+                <i class="fa fa-chevron-left"></i> React快速入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">qin.</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/wwqin" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:245432372@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-qq"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#render外层嵌套的div"><span class="nav-number">1.</span> <span class="nav-text">render外层嵌套的div</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于key值的warning"><span class="nav-number">2.</span> <span class="nav-text">关于key值的warning</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#父组件与子组件的通信"><span class="nav-number">3.</span> <span class="nav-text">父组件与子组件的通信</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React里面写函数有特定的规则"><span class="nav-number">4.</span> <span class="nav-text">React里面写函数有特定的规则</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JSX注释"><span class="nav-number">4.1.</span> <span class="nav-text">JSX注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入不转译"><span class="nav-number">4.2.</span> <span class="nav-text">输入不转译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用lable聚焦"><span class="nav-number">4.3.</span> <span class="nav-text">利用lable聚焦</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于Registerserviceworker"><span class="nav-number">5.</span> <span class="nav-text">关于Registerserviceworker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#科普PWA"><span class="nav-number">5.1.</span> <span class="nav-text">科普PWA</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#propTypes与defaultProps"><span class="nav-number">6.</span> <span class="nav-text">propTypes与defaultProps</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#propTypes"><span class="nav-number">6.1.</span> <span class="nav-text">propTypes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#defaultProps"><span class="nav-number">6.2.</span> <span class="nav-text">defaultProps</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#state-props-render"><span class="nav-number">7.</span> <span class="nav-text">state props render</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#props"><span class="nav-number">7.1.</span> <span class="nav-text">props</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于-state"><span class="nav-number">7.2.</span> <span class="nav-text">关于 state</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#render"><span class="nav-number">7.3.</span> <span class="nav-text">render</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#虚拟DOM"><span class="nav-number">8.</span> <span class="nav-text">虚拟DOM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生命周期函数"><span class="nav-number">9.</span> <span class="nav-text">生命周期函数</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">qin.</span>
+
+  
+</div>
+
+
+  <!-- <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+-->
+
+
+<div>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv" style='display:none'>
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+    有<span id="busuanzi_value_site_uv"></span>人看过我的博客啦~好开心~
+</span>
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":200},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>

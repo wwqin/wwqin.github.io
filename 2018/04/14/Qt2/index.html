@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Qt," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="&amp;#x6CE8;&amp;#x518C;&amp;#x90E8;&amp;#x5206;&amp;#x6CE8;&amp;#x518C;&amp;#x90E8;&amp;#x5206;&amp;#x662F;&amp;#x6211;&amp;#x8BA4;&amp;#x4E3A;&amp;#x6BD4;&amp;#x8F83;&amp;#x96BE;&amp;#x7684;&amp;#x90E8;&amp;#x5206;&amp;#x4EC5;&amp;#x6B21;&amp;#x4E8E;&amp;#x540E;&amp;#x9762;&amp;#x6392;&amp;#x73ED;">
+<meta name="keywords" content="Qt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Qt笔记之注册与数据库">
+<meta property="og:url" content="http://yoursite.com/2018/04/14/Qt2/index.html">
+<meta property="og:site_name" content="Qin&amp;#x7684;&amp;#x4FEE;&amp;#x884C;&amp;#x4E4B;&amp;#x8DEF;">
+<meta property="og:description" content="&amp;#x6CE8;&amp;#x518C;&amp;#x90E8;&amp;#x5206;&amp;#x6CE8;&amp;#x518C;&amp;#x90E8;&amp;#x5206;&amp;#x662F;&amp;#x6211;&amp;#x8BA4;&amp;#x4E3A;&amp;#x6BD4;&amp;#x8F83;&amp;#x96BE;&amp;#x7684;&amp;#x90E8;&amp;#x5206;&amp;#x4EC5;&amp;#x6B21;&amp;#x4E8E;&amp;#x540E;&amp;#x9762;&amp;#x6392;&amp;#x73ED;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-11T08:56:28.844Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Qt笔记之注册与数据库">
+<meta name="twitter:description" content="&amp;#x6CE8;&amp;#x518C;&amp;#x90E8;&amp;#x5206;&amp;#x6CE8;&amp;#x518C;&amp;#x90E8;&amp;#x5206;&amp;#x662F;&amp;#x6211;&amp;#x8BA4;&amp;#x4E3A;&amp;#x6BD4;&amp;#x8F83;&amp;#x96BE;&amp;#x7684;&amp;#x90E8;&amp;#x5206;&amp;#x4EC5;&amp;#x6B21;&amp;#x4E8E;&amp;#x540E;&amp;#x9762;&amp;#x6392;&amp;#x73ED;">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/14/Qt2/"/>
+
+
+
+
+
+  <title>Qt笔记之注册与数据库 | Qin&#x7684;&#x4FEE;&#x884C;&#x4E4B;&#x8DEF;</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Qin&#x7684;&#x4FEE;&#x884C;&#x4E4B;&#x8DEF;</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+    
+  
+  
+
+  <article class="post post-type-normal true" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/14/Qt2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="qin.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qin&#x7684;&#x4FEE;&#x884C;&#x4E4B;&#x8DEF;">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Qt笔记之注册与数据库</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-14T15:23:56+08:00">
+                2018-04-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习心得/" itemprop="url" rel="index">
+                    <span itemprop="name">学习心得</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="x6CE8-x518C-x90E8-x5206"><a href="#x6CE8-x518C-x90E8-x5206" class="headerlink" title="&#x6CE8;&#x518C;&#x90E8;&#x5206;"></a>&#x6CE8;&#x518C;&#x90E8;&#x5206;</h1><p>&#x6CE8;&#x518C;&#x90E8;&#x5206;&#x662F;&#x6211;&#x8BA4;&#x4E3A;&#x6BD4;&#x8F83;&#x96BE;&#x7684;&#x90E8;&#x5206;&#x4EC5;&#x6B21;&#x4E8E;&#x540E;&#x9762;&#x6392;&#x73ED;&#x8868;&#x683C;&#x7684;&#x8F93;&#x51FA;&#xFF0C;&#x96BE;&#x70B9;&#x4E3B;&#x8981;&#x662F;&#x63D2;&#x5165;&#x6570;&#x636E;&#x548C;&#x67E5;&#x8BE2;&#x6570;&#x636E;&#x5224;&#x65AD;&#x7528;&#x6237;&#x540D;&#x662F;&#x5426;&#x91CD;&#x590D;&#x8FD9;&#x4E24;&#x4E2A;&#x90E8;&#x5206;&#x3002;<br><a id="more"></a></p>
+<h2 id="x67E5-x8BE2-x6570-x636E"><a href="#x67E5-x8BE2-x6570-x636E" class="headerlink" title="&#x67E5;&#x8BE2;&#x6570;&#x636E;"></a>&#x67E5;&#x8BE2;&#x6570;&#x636E;</h2><p>&#x4E4B;&#x524D;&#x5728;&#x767B;&#x5F55;&#x90E8;&#x5206;&#x5C31;&#x6709;&#x63D0;&#x8FC7;&#x4ECE;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x67E5;&#x8BE2;&#x6570;&#x636E;&#x7684;&#x64CD;&#x4F5C;&#xFF0C;&#x90A3;&#x4E2A;&#x662F;&#x901A;&#x8FC7;&#x67E5;&#x8BE2;name&#x5B57;&#x6BB5;&#x6765;&#x5B9E;&#x73B0;&#x901A;&#x8FC7;&#x7528;&#x6237;&#x540D;&#x627E;&#x5230;&#x5BC6;&#x7801;&#xFF0C;&#x8FD9;&#x4E2A;&#x5927;&#x540C;&#x5C0F;&#x5F02;&#xFF0C;&#x4E3B;&#x8981;&#x662F;&#x901A;&#x8FC7;&#x7528;&#x6237;&#x540D;&#x6765;&#x67E5;&#x627E;&#x7528;&#x6237;&#x540D;&#x662F;&#x5426;&#x5B58;&#x5728;&#xFF0C;&#x5177;&#x4F53;&#x65B9;&#x6CD5;&#x4E0E;&#x524D;&#x9762;&#x7C7B;&#x4F3C;&#xFF0C;&#x8FD9;&#x91CC;&#x5C31;&#x4E0D;&#x8D58;&#x8FF0;&#x4E86;&#x3002;<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">//查询部分数据(name)</span><br><span class="line">if(!sql_query.exec(select_sql))</span><br><span class="line">&#123;</span><br><span class="line">    qDebug()&lt;&lt;sql_query.lastError();</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    while(1)</span><br><span class="line">    &#123;</span><br><span class="line">        if(sql_query.next())    //name有数据</span><br><span class="line">        &#123;</span><br><span class="line">            QString name = sql_query.value(&quot;name&quot;).toString();</span><br><span class="line">            qDebug()&lt;&lt;QString(&quot;name=%1&quot;).arg(name);</span><br><span class="line">            if(ui-&gt;nameLineEdit-&gt;text()==name)    //用户名已经存在</span><br><span class="line">            &#123;</span><br><span class="line">                ui-&gt;nameLineEdit-&gt;setFocus();</span><br><span class="line">                nameFlag=false;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                //newname=ui-&gt;nameLineEdit-&gt;text();</span><br><span class="line">                nameFlag=true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;       </span><br><span class="line">            //name列为空</span><br><span class="line">            nameFlag=true;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">newchatid=max_id+1;</span><br><span class="line">if(nameFlag==true) </span><br><span class="line">    newname=ui-&gt;nameLineEdit-&gt;text();</span><br><span class="line">else                </span><br><span class="line">    return;</span><br><span class="line">if(passwdFlag==true)    </span><br><span class="line">    newpasswd=ui-&gt;passwd1LineEdit-&gt;text();</span><br><span class="line">else                    </span><br><span class="line">    return;</span><br></pre></td></tr></table></figure></p>
+<h2 id="x63D2-x5165-x6570-x636E"><a href="#x63D2-x5165-x6570-x636E" class="headerlink" title="&#x63D2;&#x5165;&#x6570;&#x636E;"></a>&#x63D2;&#x5165;&#x6570;&#x636E;</h2><p>&#x5F53;&#x5224;&#x65AD;&#x7528;&#x6237;&#x540D;&#x4E0D;&#x5B58;&#x5728;&#x800C;&#x4E14;&#x7528;&#x6237;&#x6CE8;&#x518C;&#x6210;&#x529F;&#x7684;&#x65F6;&#x5019;&#x5C31;&#x9700;&#x8981;&#x5728;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x63D2;&#x5165;&#x65B0;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x9996;&#x5148;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x8BBE;&#x5B9A;&#x4E00;&#x4E2A;id&#xFF0C;&#x901A;&#x8FC7;&#x6700;&#x5927;id&#x627E;&#x5230;&#x6570;&#x636E;&#x5E93;&#x7684;&#x5C3E;&#x90E8;<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//查询最大id</span><br><span class="line">max_id = 0;</span><br><span class="line">sql_query.prepare(select_max_sql);</span><br><span class="line">if(!sql_query.exec())</span><br><span class="line">&#123;</span><br><span class="line">    qDebug()&lt;&lt;sql_query.lastError();</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    while(sql_query.next())</span><br><span class="line">    &#123;</span><br><span class="line">        max_id = sql_query.value(0).toInt();</span><br><span class="line">        qDebug()&lt;&lt;QString(&quot;max chatid:%1&quot;).arg(max_id);//输出最大ID在Debug界面</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>&#x6700;&#x5927;ID&#x627E;&#x5230;&#x540E;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x518D;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;<strong>newID=max_id+1</strong>&#x6765;&#x627E;&#x5230;&#x6570;&#x636E;&#x5E93;&#x5C3E;&#x90E8;&#x7684;&#x4E0B;&#x4E00;&#x7EC4;&#xFF0C;&#x73B0;&#x5728;&#x6211;&#x4EEC;&#x5F00;&#x59CB;&#x63D2;&#x5165;&#x6570;&#x636E;<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">//插入数据</span><br><span class="line">sql_query.prepare(insert_sql);</span><br><span class="line">sql_query.addBindValue(newID);  //id</span><br><span class="line">sql_query.addBindValue(newpasswd);              //passwd</span><br><span class="line">sql_query.addBindValue(newname);                //name</span><br><span class="line">sql_query.addBindValue(newemail);               //email</span><br><span class="line">sql_query.addBindValue(0);                      //history</span><br><span class="line">if(!sql_query.exec())</span><br><span class="line">&#123;</span><br><span class="line">    qDebug()&lt;&lt;sql_query.lastError();</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">    qDebug()&lt;&lt;&quot;inserted!&quot;;                      //插入成功</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">this-&gt;close();</span><br></pre></td></tr></table></figure></p>
+<h2 id="x5F39-x7A97"><a href="#x5F39-x7A97" class="headerlink" title="&#x5F39;&#x7A97;"></a>&#x5F39;&#x7A97;</h2><p>&#x5728;&#x4E4B;&#x524D;&#x7684;&#x64CD;&#x4F5C;&#x4E2D;&#xFF0C;&#x6BD4;&#x5982;&#xFF1A;&#x767B;&#x5F55;&#x9519;&#x8BEF;&#x3001;&#x7528;&#x6237;&#x540D;&#x91CD;&#x590D;&#x7B49;&#x4FE1;&#x606F;&#x9700;&#x8981;&#x4F20;&#x8FBE;&#x7ED9;&#x4F7F;&#x7528;&#x8005;&#xFF0C;&#x8FD9;&#x65F6;&#x5C31;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x5F39;&#x7A97;&#x6765;&#x5B9E;&#x73B0;&#xFF0C;&#x5728;&#x5934;&#x6587;&#x4EF6;&#x4E2D;&#x52A0;&#x5165; <strong>QMessageBox</strong> &#x5373;&#x53EF;&#x3002;<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">QMessageBox::warning(this,tr(&quot;提示&quot;),tr(&quot;喂！\n 你两次密码输的不一样，你是不是傻？！&quot;),QMessageBox::Yes);</span><br><span class="line">ui-&gt;passwd2LineEdit-&gt;clear();//清空密码输入栏</span><br><span class="line">ui-&gt;passwd2LineEdit-&gt;setFocus();//将鼠标定位到密码输入栏</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Qt/" rel="tag"><i class="fa fa-tag"></i> Qt</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/14/Qt1/" rel="next" title="Qt笔记之登录与数据库">
+                <i class="fa fa-chevron-left"></i> Qt笔记之登录与数据库
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/19/Qt3/" rel="prev" title="Qt笔记之主界面操作数据库">
+                Qt笔记之主界面操作数据库 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">qin.</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/wwqin" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:245432372@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-qq"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#x6CE8-x518C-x90E8-x5206"><span class="nav-number">1.</span> <span class="nav-text">注册部分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#x67E5-x8BE2-x6570-x636E"><span class="nav-number">1.1.</span> <span class="nav-text">查询数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#x63D2-x5165-x6570-x636E"><span class="nav-number">1.2.</span> <span class="nav-text">插入数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#x5F39-x7A97"><span class="nav-number">1.3.</span> <span class="nav-text">弹窗</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">qin.</span>
+
+  
+</div>
+
+
+  <!-- <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+-->
+
+
+<div>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv" style='display:none'>
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+    有<span id="busuanzi_value_site_uv"></span>人看过我的博客啦~好开心~
+</span>
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":200},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>

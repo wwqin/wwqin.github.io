@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Qt," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="&amp;#x7B97;&amp;#x6CD5;&amp;#x90E8;&amp;#x5206;&amp;#x5728;C&amp;#x4E2D;&amp;#x7684;&amp;#x7B97;&amp;#x6CD5;&amp;#x7B97;&amp;#x6CD5;&amp;#x90E8;&amp;#x5206;&amp;#x4E3B;&amp;#x8981;&amp;#x662F;&amp;#x7531;&amp;#x6211;&amp;#x7684;&amp;#x961F;&amp;#x53CB; pedant &amp;#x8D1F;&amp;#x8D23;&amp;#xFF0C">
+<meta name="keywords" content="Qt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Qt笔记之表格输出">
+<meta property="og:url" content="http://yoursite.com/2018/04/19/Qt4/index.html">
+<meta property="og:site_name" content="Qin&amp;#x7684;&amp;#x4FEE;&amp;#x884C;&amp;#x4E4B;&amp;#x8DEF;">
+<meta property="og:description" content="&amp;#x7B97;&amp;#x6CD5;&amp;#x90E8;&amp;#x5206;&amp;#x5728;C&amp;#x4E2D;&amp;#x7684;&amp;#x7B97;&amp;#x6CD5;&amp;#x7B97;&amp;#x6CD5;&amp;#x90E8;&amp;#x5206;&amp;#x4E3B;&amp;#x8981;&amp;#x662F;&amp;#x7531;&amp;#x6211;&amp;#x7684;&amp;#x961F;&amp;#x53CB; pedant &amp;#x8D1F;&amp;#x8D23;&amp;#xFF0C">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-11T08:56:30.366Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Qt笔记之表格输出">
+<meta name="twitter:description" content="&amp;#x7B97;&amp;#x6CD5;&amp;#x90E8;&amp;#x5206;&amp;#x5728;C&amp;#x4E2D;&amp;#x7684;&amp;#x7B97;&amp;#x6CD5;&amp;#x7B97;&amp;#x6CD5;&amp;#x90E8;&amp;#x5206;&amp;#x4E3B;&amp;#x8981;&amp;#x662F;&amp;#x7531;&amp;#x6211;&amp;#x7684;&amp;#x961F;&amp;#x53CB; pedant &amp;#x8D1F;&amp;#x8D23;&amp;#xFF0C">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/19/Qt4/"/>
+
+
+
+
+
+  <title>Qt笔记之表格输出 | Qin&#x7684;&#x4FEE;&#x884C;&#x4E4B;&#x8DEF;</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Qin&#x7684;&#x4FEE;&#x884C;&#x4E4B;&#x8DEF;</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+    
+  
+  
+
+  <article class="post post-type-normal true" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/19/Qt4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="qin.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qin&#x7684;&#x4FEE;&#x884C;&#x4E4B;&#x8DEF;">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Qt笔记之表格输出</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-19T13:19:49+08:00">
+                2018-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习心得/" itemprop="url" rel="index">
+                    <span itemprop="name">学习心得</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="x7B97-x6CD5-x90E8-x5206"><a href="#x7B97-x6CD5-x90E8-x5206" class="headerlink" title="&#x7B97;&#x6CD5;&#x90E8;&#x5206;"></a>&#x7B97;&#x6CD5;&#x90E8;&#x5206;</h1><h2 id="x5728-C-x4E2D-x7684-x7B97-x6CD5"><a href="#x5728-C-x4E2D-x7684-x7B97-x6CD5" class="headerlink" title="&#x5728;C&#x4E2D;&#x7684;&#x7B97;&#x6CD5;"></a>&#x5728;C&#x4E2D;&#x7684;&#x7B97;&#x6CD5;</h2><p>&#x7B97;&#x6CD5;&#x90E8;&#x5206;&#x4E3B;&#x8981;&#x662F;&#x7531;&#x6211;&#x7684;&#x961F;&#x53CB; <em>pedant</em> &#x8D1F;&#x8D23;&#xFF0C;&#x5728;C&#x7684;&#x73AF;&#x5883;&#x4E2D;&#x7684;&#x5177;&#x4F53;&#x4EE3;&#x7801;&#x5982;&#x4E0B;<br><a id="more"></a><br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line">include &lt;stdio.h&gt;</span><br><span class="line">int save[8][8]=&#123;0,0&#125;;               </span><br><span class="line">int table[1000][8] = &#123;0,0&#125;;</span><br><span class="line">int r = 1;</span><br><span class="line">int day[8] = &#123;0&#125;; </span><br><span class="line"></span><br><span class="line">void store()&#123;               //找到一个方案之后储存到数组table中</span><br><span class="line">int i,j;</span><br><span class="line">  for(j=1;j&lt;8;j++)&#123;</span><br><span class="line">    for(i=1;i&lt;8;i++)&#123;</span><br><span class="line">        if(save[i][j]==2)</span><br><span class="line">        table[r][j] = i; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;r++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int can(int k,int j)&#123;               //对于第k名员工在第J天是否可以休息进行判断</span><br><span class="line">int s=0,i;</span><br><span class="line">for(i=1;i&lt;8;i++)                </span><br><span class="line">    if(save[k][i]==2)</span><br><span class="line">    s++;</span><br><span class="line">if(s&gt;1)  return 0;</span><br><span class="line"></span><br><span class="line">for(s=0,i=1;i&lt;8;i++)</span><br><span class="line">    if(save[i][j]==2)</span><br><span class="line">    s++;</span><br><span class="line">if(s&gt;1)  return 0;              </span><br><span class="line">return 1;&#125;                      //符合要求，k在j可以休息，则返回1</span><br><span class="line"></span><br><span class="line">void dfs(int k)&#123;                    //深度优先搜索，从初始位置开始进行遍历，即从第K名员工开始</span><br><span class="line">int i,j;</span><br><span class="line">for(j=1;j&lt;8;j++)            </span><br><span class="line">    if(save[k][j]==1)&#123;            //第k名员工将j设为自己的休息日  </span><br><span class="line">        save[k][j]=2;            //save[i][j]已经遍历过</span><br><span class="line">        if(can(k,j))&#123;            //如果这天满足条件</span><br><span class="line">            if(k==7)          //找到一个方案，储存到save中</span><br><span class="line">                store(); </span><br><span class="line">            else</span><br><span class="line">                dfs(k+1);        //继续向下遍历</span><br><span class="line">        &#125;</span><br><span class="line">        save[k][j]=1;            //回溯，遍历下一个不同的休息日</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">int i = 1,j = 1,k,temp[10][10] = &#123;0,0&#125;,cotp[8][8]; //储存初始数据的格式</span><br><span class="line">int jud = 1;</span><br><span class="line">char ch;</span><br><span class="line">    </span><br><span class="line">for( ;i &lt; 8; i++)&#123;                   //员工信息的初始化，i代表各个员工的key，j代表该i对应的员工请假的日期。</span><br><span class="line">  do &#123;</span><br><span class="line">      scanf(&quot;%d&quot;,&amp;save[i][j]);</span><br><span class="line">            j++;&#125;</span><br><span class="line">  while((ch = getchar())!=&apos;\n&apos;);</span><br><span class="line">  j = 1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">dfs(1);</span><br><span class="line">if(table[1][1] == 0)</span><br><span class="line">    jud = 0;</span><br><span class="line"></span><br><span class="line">for( i = 1; i&lt;r ;i++)</span><br><span class="line">    for(j = 1; j&lt;8; j++)</span><br><span class="line">    table[i][j] = 0;</span><br><span class="line">r = 1;</span><br><span class="line"></span><br><span class="line">if(jud == 0)&#123;            </span><br><span class="line">    for(i = 1; i&lt;8; i++)</span><br><span class="line">        for(j = 1; j&lt;8; j++)</span><br><span class="line">            cotp[i][j] = save[i][j];</span><br><span class="line"></span><br><span class="line">    j = 1;</span><br><span class="line">     for( i = 1; i&lt;9; i++) &#123;</span><br><span class="line">         for(; j&lt;8; j++)&#123;</span><br><span class="line">            if(i == 8)</span><br><span class="line">                &#123;i = 1; day[j]= 1; continue;&#125;</span><br><span class="line">            if(cotp[i][j])</span><br><span class="line">            &#123;   for(k = j; k&lt;8; k++)</span><br><span class="line">                cotp[i][k] = 0;</span><br><span class="line">                i = 1;</span><br><span class="line">                continue;&#125;</span><br><span class="line">            else break;</span><br><span class="line">            &#125;</span><br><span class="line">            if(j == 8)</span><br><span class="line">            break;</span><br><span class="line">        &#125;    </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">if(jud)&#123;</span><br><span class="line">    dfs(1);</span><br><span class="line">    printf(&quot;%d\n&quot;,r-1);              //r-1代表共有r-1种方案</span><br><span class="line">    for(i = 1; i&lt;r; i++)&#123;            //和qt交换数据时把print改成赋值，把putchar取消即可</span><br><span class="line">        for(j = 1; j&lt;8; j++)&#123;</span><br><span class="line">        printf(&quot;%d &quot;,table[i][j]);</span><br><span class="line">    &#125; putchar(&apos;\n&apos;);&#125;</span><br><span class="line">&#125;</span><br><span class="line">else&#123;</span><br><span class="line">    printf(&quot;0\n&quot;);</span><br><span class="line">    for(i = 1; i&lt;8; i++)</span><br><span class="line">        if(day[i])</span><br><span class="line">        printf(&quot;%d &quot;,i);            //day[i]中只有0和1,当day[i] == 1时，代表第i天没有人值班，没有人值班的天数可能不止一天</span><br><span class="line">    printf(&quot;has no worker&quot;);</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">getchar(); getchar();</span><br><span class="line"></span><br><span class="line">return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="x6539-x5199-x4EE3-x7801"><a href="#x6539-x5199-x4EE3-x7801" class="headerlink" title="&#x6539;&#x5199;&#x4EE3;&#x7801;"></a>&#x6539;&#x5199;&#x4EE3;&#x7801;</h2><p>&#x5F53;&#x7136;&#xFF0C;&#x5728;Qt&#x4E2D;&#x76F4;&#x63A5;&#x5957;&#x7528;C&#x7684;&#x4EE3;&#x7801;&#x662F;&#x884C;&#x4E0D;&#x901A;&#x7684;&#xFF0C;&#x7279;&#x522B;&#x662F;&#x8FD8;&#x5B9A;&#x4E49;&#x4E86;&#x5176;&#x4ED6;&#x7684;&#x51FD;&#x6570;&#x3002;&#x6240;&#x4EE5;&#x5E94;&#x5F53;&#x8FDB;&#x884C;&#x9002;&#x5F53;&#x7684;&#x6539;&#x5199;&#xFF0C;&#x9996;&#x5148;&#x5C31;&#x9700;&#x8981;&#x5728;&#x5934;&#x6587;&#x4EF6;&#x4E2D;&#x7684;<strong>private slots:</strong>&#x4E2D;&#x8FDB;&#x884C;&#x58F0;&#x660E;<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">private slots:</span><br><span class="line">    void dfs(int k);</span><br><span class="line">    int can(int k, int j);</span><br><span class="line">    void store();</span><br></pre></td></tr></table></figure></p>
+<p>&#x58F0;&#x660E;&#x8FC7;&#x540E;&#x51FD;&#x6570;&#x518D;&#x5728;form.cpp&#x4E2D;&#x7F16;&#x5199;&#x5373;&#x53EF;&#xFF0C;&#x518D;&#x5BF9;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x90E8;&#x5206;&#x8FDB;&#x884C;&#x7B26;&#x5408;Qt&#x98CE;&#x683C;&#x7684;&#x6539;&#x7F16;&#x5373;&#x53EF;&#xFF0C;&#x5177;&#x4F53;&#x5728;Qt&#x4E2D;&#x8FD0;&#x884C;&#x7684;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">int i=1,temp[10][10] = &#123; 0, 0 &#125;;</span><br><span class="line">int nnn=1;</span><br><span class="line">int m=0,e=0;</span><br><span class="line">QSqlQuery query;</span><br><span class="line">QString select_sql = &quot;select one, two, three, four, five, six, seven from work&quot;;</span><br><span class="line">if(!query.exec(select_sql))</span><br><span class="line"> &#123;</span><br><span class="line">     qDebug()&lt;&lt;query.lastError();</span><br><span class="line"> &#125;</span><br><span class="line">else</span><br><span class="line"> &#123;</span><br><span class="line">     while(query.next())  //读入数据</span><br><span class="line">     &#123;</span><br><span class="line">       save[i][1] = query.value(0).toInt();</span><br><span class="line">       save[i][2] = query.value(1).toInt();</span><br><span class="line">       save[i][3] = query.value(2).toInt();</span><br><span class="line">       save[i][4] = query.value(3).toInt();</span><br><span class="line">       save[i][5] = query.value(4).toInt();</span><br><span class="line">       save[i][6] = query.value(5).toInt();</span><br><span class="line">       save[i][7] = query.value(6).toInt();</span><br><span class="line">       //qDebug(&quot;%d %d %d %d %d %d %d&quot;, temp[i][1], temp[i][2], temp[i][3], temp[i][4], temp[i][5], temp[i][6], temp[i][7]);//测试是否读入</span><br><span class="line">       i=i+1;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line">int j = 1,k,cotp[8][8]; //储存初始数据的格式</span><br><span class="line">int jud = 1;</span><br><span class="line">dfs(1);</span><br><span class="line">if(table[1][1] == 0)</span><br><span class="line">   jud = 0;</span><br><span class="line">for( i = 1; i&lt;r ;i++)</span><br><span class="line">   for(j = 1; j&lt;8; j++)</span><br><span class="line">   table[i][j] = 0;</span><br><span class="line">r = 1;</span><br><span class="line"></span><br><span class="line">if(jud == 0)&#123;</span><br><span class="line">  for(i = 1; i&lt;8; i++)</span><br><span class="line">      for(j = 1; j&lt;8; j++)</span><br><span class="line">          cotp[i][j] = save[i][j];</span><br><span class="line"></span><br><span class="line">  j = 1;</span><br><span class="line">  for( i = 1; i&lt;9; i++) &#123;</span><br><span class="line">      for(; j&lt;8; j++)&#123;</span><br><span class="line">          if(i == 8)</span><br><span class="line">             &#123;i = 1; day[j]= 1; continue;&#125;</span><br><span class="line">          if(cotp[i][j])</span><br><span class="line">          &#123;   for(k = j; k&lt;8; k++)</span><br><span class="line">              cotp[i][k] = 0;</span><br><span class="line">              i = 1;</span><br><span class="line">              continue;&#125;</span><br><span class="line">          else break;</span><br><span class="line">          &#125;</span><br><span class="line">          if(j == 8)</span><br><span class="line">          break;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if(jud)&#123;</span><br><span class="line">   dfs(1);</span><br><span class="line">   qDebug(&quot;%d\n&quot;,r-1);              //r-1代表共有r-1种方案</span><br><span class="line">   for(i=1;i&lt;r;i++)</span><br><span class="line">   &#123;</span><br><span class="line">    nnn=1;</span><br><span class="line">   select_sql = &quot;select name from work&quot;;</span><br><span class="line">   if(!query.exec(select_sql))</span><br><span class="line">     &#123;</span><br><span class="line">         qDebug()&lt;&lt;query.lastError();</span><br><span class="line">     &#125;</span><br><span class="line">   else</span><br><span class="line">     &#123;</span><br><span class="line">         while(query.next())  //读入数据</span><br><span class="line">         &#123;</span><br><span class="line">           e=table[i][nnn]-1;</span><br><span class="line">           qDebug(&quot;%d&quot;,e);</span><br><span class="line">           n1 = query.value(0).toString();</span><br><span class="line">           tabl-&gt;setItem(m,e,new QTableWidgetItem(QString(&quot;%1&quot;).arg(n1)));</span><br><span class="line">           //qDebug(&quot;%d %d %d %d %d %d %d&quot;, temp[i][1], temp[i][2], temp[i][3], temp[i][4], temp[i][5], temp[i][6], temp[i][7]);//测试是否读入</span><br><span class="line">           nnn=nnn+1;</span><br><span class="line">           //e=e+1;</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line">     m=m+1;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">else&#123;</span><br><span class="line">    qDebug(&quot;0\n&quot;);</span><br><span class="line">    for(i = 1; i&lt;8; i++)</span><br><span class="line">        if(day[i])</span><br><span class="line">        //qDebug(&quot;%d &quot;,i);            //day[i]中只有0和1,当day[i] == 1时，代表第i天没有人值班，没有人值班的天数可能不止一天</span><br><span class="line">    QMessageBox::warning(this,tr(&quot;提示&quot;),QString(&quot;星期%1无法安排值班！&quot;).arg(i),QMessageBox::Yes);</span><br><span class="line">   &#125;</span><br><span class="line">n2=r-1;</span><br><span class="line"></span><br><span class="line">qDebug(&quot;%d &quot;,m);</span><br></pre></td></tr></table></figure></p>
+<p>&#x7531;&#x4E0A;&#x53EF;&#x4EE5;&#x770B;&#x51FA;C&#x7684;&#x7F16;&#x7801;&#x98CE;&#x683C;&#x5E76;&#x4E0D;&#x9002;&#x7528;&#x4E8E;Qt&#x5C3D;&#x7BA1;&#x53EF;&#x4EE5;&#x8FD0;&#x884C;&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#x4ECD;&#x7136;&#x5B58;&#x5728;&#x591A;&#x4E2A;&#x8B66;&#x544A;&#x65E0;&#x6CD5;&#x6D88;&#x9664;&#xFF0C;&#x6240;&#x4EE5;&#x8FD8;&#x662F;&#x5C3D;&#x91CF;&#x7528;C++&#x5427;&#xFF0C;&#x4E0D;&#x7136;&#x6539;&#x5199;&#x5F88;&#x9EBB;&#x70E6;&#x3002;</p>
+<h1 id="x8868-x683C-x90E8-x5206"><a href="#x8868-x683C-x90E8-x5206" class="headerlink" title="&#x8868;&#x683C;&#x90E8;&#x5206;"></a>&#x8868;&#x683C;&#x90E8;&#x5206;</h1><p>&#x6211;&#x7ED8;&#x5236;&#x8868;&#x683C;&#x91C7;&#x7528;&#x7684;&#x662F;&#x51FD;&#x6570;&#x7ED8;&#x56FE;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x4F7F;&#x7528;&#x63A7;&#x4EF6;&#xFF0C;&#x8FD9;&#x6837;&#x7684;&#x597D;&#x5904;&#x662F;&#x53EF;&#x4EE5;&#x7CBE;&#x786E;&#x7684;&#x63A7;&#x5236;&#x8868;&#x683C;&#x5927;&#x5C0F;&#xFF0C;&#x9AD8;&#x5BBD;&#x7B49;&#x7B49;&#x3002;</p>
+<h2 id="x8868-x683C-x7684-x521B-x5EFA"><a href="#x8868-x683C-x7684-x521B-x5EFA" class="headerlink" title="&#x8868;&#x683C;&#x7684;&#x521B;&#x5EFA;"></a>&#x8868;&#x683C;&#x7684;&#x521B;&#x5EFA;</h2><p>&#x521B;&#x5EFA;&#x8868;&#x683C;&#x9700;&#x8981;&#x5148;&#x521B;&#x7ACB;&#x4E00;&#x4E2A;&#x9002;&#x5F53;&#x5927;&#x5C0F;&#x7684;tablewidget&#xFF0C;&#x7136;&#x540E;&#x518D;&#x521B;&#x5EFA;&#x5B57;&#x6BB5;&#x5B9A;&#x4E49;&#x5217;&#x5BBD;&#x884C;&#x5BBD;&#xFF0C;&#x6211;&#x7F16;&#x5199;&#x8FD9;&#x4E00;&#x6BB5;&#x5148;&#x662F;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;creatable&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x7136;&#x540E;&#x5728;&#x51FD;&#x6570;&#x4E2D;&#x8FDB;&#x884C;&#x521B;&#x5EFA;&#xFF0C;&#x5F53;&#x7136;&#x521B;&#x5EFA;&#x8868;&#x683C;&#x7684;&#x4EE3;&#x7801;&#x4E5F;&#x53EF;&#x4EE5;&#x653E;&#x5165;&#x4E3B;&#x51FD;&#x6570;&#x4E2D;&#xFF0C;&#x5177;&#x4F53;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">QTableWidget *tabl = new QTableWidget(this);</span><br><span class="line">tabl-&gt;setColumnCount(7);    //设置列数</span><br><span class="line">tabl-&gt;setRowCount(5040);    //设置行数</span><br><span class="line">/*设置列名*/</span><br><span class="line">QStringList headers;</span><br><span class="line">headers&lt;&lt;&quot;星期一&quot;&lt;&lt;&quot;星期二&quot;&lt;&lt;&quot;星期三&quot;&lt;&lt;&quot;星期四&quot;&lt;&lt;&quot;星期五&quot;&lt;&lt;&quot;星期六&quot;&lt;&lt;&quot;星期日&quot;;</span><br><span class="line">tabl-&gt;setHorizontalHeaderLabels(headers);</span><br><span class="line">tabl-&gt;resize(600,500);      //设置大小尺寸</span><br></pre></td></tr></table></figure></p>
+<h2 id="x8868-x683C-x6570-x636E-x7684-x8F93-x51FA"><a href="#x8868-x683C-x6570-x636E-x7684-x8F93-x51FA" class="headerlink" title="&#x8868;&#x683C;&#x6570;&#x636E;&#x7684;&#x8F93;&#x51FA;"></a>&#x8868;&#x683C;&#x6570;&#x636E;&#x7684;&#x8F93;&#x51FA;</h2><p>&#x5728;C&#x4E2D;&#x7684;&#x8868;&#x683C;&#x8F93;&#x51FA;&#x7528;&#x7684;&#x662F;printf&#xFF0C;&#x800C;&#x8F93;&#x51FA;&#x5230;&#x8868;&#x683C;&#x4E2D;&#x9700;&#x8981;&#x7528;&#x5230;&#x7684;&#x8BED;&#x53E5;&#x662F;tabl-&gt;setItem&#xFF0C;&#x56E0;&#x6B64;&#x5C31;&#x9700;&#x8981;&#x5BF9;&#x8F93;&#x51FA;&#x6570;&#x636E;&#x8FDB;&#x884C;&#x6539;&#x5199;&#xFF0C;&#x800C;&#x5728;&#x8868;&#x683C;&#x4E2D;&#x7684;&#x8F93;&#x51FA;&#x53EA;&#x80FD;&#x6309;&#x987A;&#x5E8F;&#x8FDB;&#x884C;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x53EA;&#x80FD;&#x6539;&#x53D8;&#x8981;&#x8F93;&#x51FA;&#x5230;&#x8868;&#x683C;&#x7684;&#x6570;&#x636E;&#x7684;&#x987A;&#x5E8F;&#xFF0C;&#x5177;&#x4F53;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;<br>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">for(i=1;i&lt;r;i++)</span><br><span class="line">   &#123;</span><br><span class="line">    nnn=1;</span><br><span class="line">    select_sql = &quot;select name from work&quot;;//选择数据库</span><br><span class="line">    if(!query.exec(select_sql))</span><br><span class="line">     &#123;</span><br><span class="line">         qDebug()&lt;&lt;query.lastError();</span><br><span class="line">     &#125;</span><br><span class="line">   else</span><br><span class="line">     &#123;</span><br><span class="line">         while(query.next())  //读入数据</span><br><span class="line">         &#123;</span><br><span class="line">           e=table[i][nnn]-1;</span><br><span class="line">           //qDebug(&quot;%d&quot;,e);</span><br><span class="line">           n1 = query.value(0).toString();</span><br><span class="line">           tabl-&gt;setItem(m,e,new QTableWidgetItem(QString(&quot;%1&quot;).arg(n1)));</span><br><span class="line">           nnn=nnn+1;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">     m=m+1;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Qt/" rel="tag"><i class="fa fa-tag"></i> Qt</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/19/Qt3/" rel="next" title="Qt笔记之主界面操作数据库">
+                <i class="fa fa-chevron-left"></i> Qt笔记之主界面操作数据库
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/02/about-html/" rel="prev" title="About html">
+                About html <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">qin.</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/wwqin" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:245432372@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-qq"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#x7B97-x6CD5-x90E8-x5206"><span class="nav-number">1.</span> <span class="nav-text">算法部分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#x5728-C-x4E2D-x7684-x7B97-x6CD5"><span class="nav-number">1.1.</span> <span class="nav-text">在C中的算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#x6539-x5199-x4EE3-x7801"><span class="nav-number">1.2.</span> <span class="nav-text">改写代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#x8868-x683C-x90E8-x5206"><span class="nav-number">2.</span> <span class="nav-text">表格部分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#x8868-x683C-x7684-x521B-x5EFA"><span class="nav-number">2.1.</span> <span class="nav-text">表格的创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#x8868-x683C-x6570-x636E-x7684-x8F93-x51FA"><span class="nav-number">2.2.</span> <span class="nav-text">表格数据的输出</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">qin.</span>
+
+  
+</div>
+
+
+  <!-- <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+-->
+
+
+<div>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv" style='display:none'>
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+    有<span id="busuanzi_value_site_uv"></span>人看过我的博客啦~好开心~
+</span>
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":200},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>
