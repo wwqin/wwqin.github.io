@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[数据可视化]]></title>
+    <url>%2F2018%2F10%2F19%2F%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
     <title><![CDATA[Antv]]></title>
     <url>%2F2018%2F10%2F19%2FAntv%2F</url>
     <content type="text"><![CDATA[Antv踩的一些坑因为项目需要做一些数据可视化的东西，一开始考察了几个库，比如：echart、D3、antv，因为后面可能需要做一些类似地图的图表而echart这个库做不了，还改了一次库，D3的话上手难度比较高。具体的一些设置我就不说了，官方文档写的相当详细了。创建一个图表可以说是相当的简单，你只需要123456var chart=new G2.chart(&#123; container: &apos;id&apos;,&#125;);chart.source(data);chart.interval().postion(&apos;x*y&apos;).size(5);chart.render(); 可以看到只需要指定一个id和一个数据来源就可以建立一张简单的表了，这个有一个坑就是数据的问题，x*y对应data中的字段，eg:1234567891011var data=[ &#123;time:&apos;2008&apos;,num:30,percentage:0&#125;, &#123;time:&apos;2009&apos;,num:40,percentage:0.33&#125;, &#123;time:&apos;2010&apos;,num:44,percentage:0.1&#125;, &#123;time:&apos;2011&apos;,num:38,percentage:-0.16&#125;, &#123;time:&apos;2012&apos;,num:26,percentage:-0.32&#125;, &#123;time:&apos;2013&apos;,num:33,percentage:0.27&#125;, &#123;time:&apos;2014&apos;,num:44,percentage:0.33&#125;, &#123;time:&apos;2015&apos;,num:37,percentage:-0.16&#125;, &#123;time:&apos;2016&apos;,num:47,percentage:0.27&#125;, &#123;time:&apos;2017&apos;,num:55,percentage:0.15&#125;]; 如果设置postion(‘time*num’)就对应设置成time字段的数据为x轴，num数据为y轴。这里又引出了一个新的坑，比如如果你的字段是英文的但是你在x轴显示的时候你想展示成英文的你就需要为你的字段设置一个新的别名来改变原有的英文字段，eg:12345678chart.scale(&#123; &apos;name&apos;: &#123; alias: &apos;IPCs&apos; // 设置属性的别名 &#125;, &apos;value&apos;: &#123; alias: &apos;数量&apos; &#125; &#125;); 这样就可以将name的别名改为IPCs在网页显示的时候显示的也是IPCs，下面的value同理。 之后会讲一些回调函数等着再更新]]></content>

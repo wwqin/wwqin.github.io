@@ -1834,7 +1834,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #2de4c6;
+  background: #b97caa;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3133,11 +3133,10 @@ pre .javascript .function {
   }
 }
 body {
-  background: url("/images/037bb5858f173c1a8012049efb93858.jpg");
+  background: url("/images/timg3.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: 50% 50%;
-  background-size: 100% 100%;
 }
 .main-inner {
   opacity: 0.92;
