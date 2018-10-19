@@ -79,15 +79,18 @@
 
 
 
+<meta name="description" content="Git+hexo 搭博客  作为一个老学长帮新生搭博客，在这过程中遇到了许多坑，什么大小写问题全角标点不注意空格看不到之类的已经数不胜数了，下面有几点要注意！！！！！！">
 <meta name="keywords" content="Debug">
 <meta property="og:type" content="article">
 <meta property="og:title" content="hexo 搭博客踩坑大全">
 <meta property="og:url" content="http://yoursite.com/2018/10/19/hexo-搭博客踩坑大全/index.html">
 <meta property="og:site_name" content="Qin&amp;#x7684;&amp;#x4FEE;&amp;#x884C;&amp;#x4E4B;&amp;#x8DEF;">
+<meta property="og:description" content="Git+hexo 搭博客  作为一个老学长帮新生搭博客，在这过程中遇到了许多坑，什么大小写问题全角标点不注意空格看不到之类的已经数不胜数了，下面有几点要注意！！！！！！">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-19T06:34:14.873Z">
+<meta property="og:updated_time" content="2018-10-19T08:52:54.634Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo 搭博客踩坑大全">
+<meta name="twitter:description" content="Git+hexo 搭博客  作为一个老学长帮新生搭博客，在这过程中遇到了许多坑，什么大小写问题全角标点不注意空格看不到之类的已经数不胜数了，下面有几点要注意！！！！！！">
 
 
 
@@ -331,7 +334,16 @@
       
 
       
-        
+        <h1 id="Git-hexo-搭博客"><a href="#Git-hexo-搭博客" class="headerlink" title="Git+hexo 搭博客"></a>Git+hexo 搭博客</h1><p>  作为一个老学长帮新生搭博客，在这过程中遇到了许多坑，什么大小写问题全角标点不注意空格看不到之类的已经数不胜数了，下面有几点要注意！！！！！！<br><a id="more"></a></p>
+<h2 id="仔细看好大小写"><a href="#仔细看好大小写" class="headerlink" title="仔细看好大小写"></a>仔细看好大小写</h2><h2 id="注意全角和半角的切换"><a href="#注意全角和半角的切换" class="headerlink" title="注意全角和半角的切换"></a>注意全角和半角的切换</h2><h2 id="配置里冒号后面都有空格"><a href="#配置里冒号后面都有空格" class="headerlink" title="配置里冒号后面都有空格"></a>配置里冒号后面都有空格</h2><h1 id="安装Git-bash，安装Nodejs，注册Github"><a href="#安装Git-bash，安装Nodejs，注册Github" class="headerlink" title="安装Git bash，安装Nodejs，注册Github"></a>安装Git bash，安装Nodejs，注册Github</h1><p>安装Git bash和Nodejs直接在官网安装就好了，然后到github上注册账号</p>
+<h1 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h1><p>安装hexo的话，打开cmd输入<code>npm i -g hexo</code>,如果加载速度过慢或者不动的话建议换一个网络试试</p>
+<h1 id="生成ssh-key"><a href="#生成ssh-key" class="headerlink" title="生成ssh key"></a>生成ssh key</h1><p>生成ssh key<br>打开你的Git bash，输入<code>ssh-keygen -t rsa -C &quot;youremail@example.com&quot;</code>,接下来连续三个回车出现一个个人ssh key，然后再输入<code>cd ~/.ssh</code>之后输入<code>cat id_rsa.pub</code>会出现一串以ssh-rsa开头的一段公钥。复制打开你的github在设置中找到SSH and GPG keys建立一个新的SSH keys。</p>
+<h1 id="配置博客"><a href="#配置博客" class="headerlink" title="配置博客"></a>配置博客</h1><p>前面的做好之后打开你之前建立的博客文件夹找到一个名为<code>_config.yml</code>（冒号之后都是有一个半角空格）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https://github.com/YourgithubName/YourgithubName.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
+<p>回到Git bash进入blog，执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure></p>
+<p>注：hexo 3.0把服务器独立成个别模块，需要单独安装：<code>npm i hexo-server</code>。<br>打开浏览器<code>http://localhost:4000</code>就可以看到你的博客了</p>
+<h1 id="部署项目"><a href="#部署项目" class="headerlink" title="部署项目"></a>部署项目</h1><p>先安装：<code>npm install hexo-deployer-git --save</code>（这样才能将你写好的文章部署到github服务器上并让别人浏览到）<br>安装好后执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure></p>
+<p>在浏览器中输入<code>http://你的用户名.github.io</code>就可以看到你的个人博客啦，是不是很兴奋！</p>
+
       
     </div>
     
@@ -370,10 +382,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/19/hexo-搭博客踩坑大全-1/" rel="prev" title="hexo 搭博客踩坑大全">
-                hexo 搭博客踩坑大全 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -449,8 +457,17 @@ var jiathis_config={
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -465,7 +482,7 @@ var jiathis_config={
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -526,6 +543,22 @@ var jiathis_config={
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Git-hexo-搭博客"><span class="nav-number">1.</span> <span class="nav-text">Git+hexo 搭博客</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#仔细看好大小写"><span class="nav-number">1.1.</span> <span class="nav-text">仔细看好大小写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意全角和半角的切换"><span class="nav-number">1.2.</span> <span class="nav-text">注意全角和半角的切换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置里冒号后面都有空格"><span class="nav-number">1.3.</span> <span class="nav-text">配置里冒号后面都有空格</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装Git-bash，安装Nodejs，注册Github"><span class="nav-number">2.</span> <span class="nav-text">安装Git bash，安装Nodejs，注册Github</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装hexo"><span class="nav-number">3.</span> <span class="nav-text">安装hexo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生成ssh-key"><span class="nav-number">4.</span> <span class="nav-text">生成ssh key</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置博客"><span class="nav-number">5.</span> <span class="nav-text">配置博客</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#部署项目"><span class="nav-number">6.</span> <span class="nav-text">部署项目</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

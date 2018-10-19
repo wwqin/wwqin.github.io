@@ -2,13 +2,8 @@
 <search>
   <entry>
     <title><![CDATA[hexo 搭博客踩坑大全]]></title>
-    <url>%2F2018%2F10%2F19%2Fhexo-%E6%90%AD%E5%8D%9A%E5%AE%A2%E8%B8%A9%E5%9D%91%E5%A4%A7%E5%85%A8-1%2F</url>
-    <content type="text"></content>
-  </entry>
-  <entry>
-    <title><![CDATA[hexo 搭博客踩坑大全]]></title>
     <url>%2F2018%2F10%2F19%2Fhexo-%E6%90%AD%E5%8D%9A%E5%AE%A2%E8%B8%A9%E5%9D%91%E5%A4%A7%E5%85%A8%2F</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[Git+hexo 搭博客 作为一个老学长帮新生搭博客，在这过程中遇到了许多坑，什么大小写问题全角标点不注意空格看不到之类的已经数不胜数了，下面有几点要注意！！！！！！ 仔细看好大小写注意全角和半角的切换配置里冒号后面都有空格安装Git bash，安装Nodejs，注册Github安装Git bash和Nodejs直接在官网安装就好了，然后到github上注册账号 安装hexo安装hexo的话，打开cmd输入npm i -g hexo,如果加载速度过慢或者不动的话建议换一个网络试试 生成ssh key生成ssh key打开你的Git bash，输入ssh-keygen -t rsa -C &quot;youremail@example.com&quot;,接下来连续三个回车出现一个个人ssh key，然后再输入cd ~/.ssh之后输入cat id_rsa.pub会出现一串以ssh-rsa开头的一段公钥。复制打开你的github在设置中找到SSH and GPG keys建立一个新的SSH keys。 配置博客前面的做好之后打开你之前建立的博客文件夹找到一个名为_config.yml（冒号之后都是有一个半角空格）1234deploy: type: git repo: https://github.com/YourgithubName/YourgithubName.github.io.git branch: master 回到Git bash进入blog，执行123hexo cleanhexo ghexo s 注：hexo 3.0把服务器独立成个别模块，需要单独安装：npm i hexo-server。打开浏览器http://localhost:4000就可以看到你的博客了 部署项目先安装：npm install hexo-deployer-git --save（这样才能将你写好的文章部署到github服务器上并让别人浏览到）安装好后执行123hexo cleanhexo generatehexo deploy 在浏览器中输入http://你的用户名.github.io就可以看到你的个人博客啦，是不是很兴奋！]]></content>
       <tags>
         <tag>Debug</tag>
       </tags>
