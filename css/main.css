@@ -1660,6 +1660,16 @@ pre .javascript .function {
 .rtl.post-title {
   font-family: UKIJ Ekran;
 }
+.post-body p a {
+  color: #0593d3;
+  border-bottom: none;
+  border-bottom: 1px solid #cae1ff;
+}
+.post-body p a:hover {
+  color: #cae1ff;
+  border-bottom: none;
+  border-bottom: 1px solid #cae1ff;
+}
 .sidebar {
   position: fixed;
   right: 0;
@@ -1824,7 +1834,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #5e4dff;
+  background: #653355;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3123,10 +3133,11 @@ pre .javascript .function {
   }
 }
 body {
-  background: url("/images/timg1.jpg");
+  background: url("/images/037bb5858f173c1a8012049efb93858.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: 50% 50%;
+  background-size: 100% 100%;
 }
 .main-inner {
   opacity: 0.92;
