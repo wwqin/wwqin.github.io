@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="JavaScript 中 undefined 和 not defined 的区别JavaScript 未声明变量直接使用会抛出异常：var name is not defined，如果没有处理异常，代码就停止运行了。但是，使用typeof undeclared_variable并不会产生异常，会直接返回 undefined。 if (function f(){})与eval()12345var x">
+<meta name="description" content="JavaScript 中 undefined 和 not defined 的区别JavaScript 未声明变量直接使用会抛出异常：var name is not defined，如果没有处理异常，代码就停止运行了。但是，使用typeof undeclared_variable并不会产生异常，会直接返回 undefined。">
 <meta name="keywords" content="JavaScript">
 <meta property="og:type" content="article">
 <meta property="og:title" content="稀奇古怪的JavaScript">
-<meta property="og:url" content="http://yoursite.com/2019/02/23/稀奇古怪的JavaScript/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/02/26/稀奇古怪的JavaScript/index.html">
 <meta property="og:site_name" content="Qin&amp;#x7684;&amp;#x4FEE;&amp;#x884C;&amp;#x4E4B;&amp;#x8DEF;">
-<meta property="og:description" content="JavaScript 中 undefined 和 not defined 的区别JavaScript 未声明变量直接使用会抛出异常：var name is not defined，如果没有处理异常，代码就停止运行了。但是，使用typeof undeclared_variable并不会产生异常，会直接返回 undefined。 if (function f(){})与eval()12345var x">
+<meta property="og:description" content="JavaScript 中 undefined 和 not defined 的区别JavaScript 未声明变量直接使用会抛出异常：var name is not defined，如果没有处理异常，代码就停止运行了。但是，使用typeof undeclared_variable并不会产生异常，会直接返回 undefined。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-26T15:58:11.855Z">
+<meta property="og:updated_time" content="2019-02-26T16:08:06.196Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="稀奇古怪的JavaScript">
-<meta name="twitter:description" content="JavaScript 中 undefined 和 not defined 的区别JavaScript 未声明变量直接使用会抛出异常：var name is not defined，如果没有处理异常，代码就停止运行了。但是，使用typeof undeclared_variable并不会产生异常，会直接返回 undefined。 if (function f(){})与eval()12345var x">
+<meta name="twitter:description" content="JavaScript 中 undefined 和 not defined 的区别JavaScript 未声明变量直接使用会抛出异常：var name is not defined，如果没有处理异常，代码就停止运行了。但是，使用typeof undeclared_variable并不会产生异常，会直接返回 undefined。">
 
 
 
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/02/23/稀奇古怪的JavaScript/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/02/26/稀奇古怪的JavaScript/"/>
 
 
 
@@ -265,7 +265,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/23/稀奇古怪的JavaScript/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/26/稀奇古怪的JavaScript/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="qin.">
@@ -294,8 +294,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-23T12:44:09+08:00">
-                2019-02-23
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-26T12:44:09+08:00">
+                2019-02-26
               </time>
             
 
@@ -356,7 +356,7 @@
       
 
       
-        <h1 id="JavaScript-中-undefined-和-not-defined-的区别"><a href="#JavaScript-中-undefined-和-not-defined-的区别" class="headerlink" title="JavaScript 中 undefined 和 not defined 的区别"></a>JavaScript 中 undefined 和 not defined 的区别</h1><p>JavaScript 未声明变量直接使用会抛出异常：var name is not defined，如果没有处理异常，代码就停止运行了。<br>但是，使用typeof undeclared_variable并不会产生异常，会直接返回 undefined。</p>
+        <h1 id="JavaScript-中-undefined-和-not-defined-的区别"><a href="#JavaScript-中-undefined-和-not-defined-的区别" class="headerlink" title="JavaScript 中 undefined 和 not defined 的区别"></a>JavaScript 中 undefined 和 not defined 的区别</h1><p>JavaScript 未声明变量直接使用会抛出异常：var name is not defined，如果没有处理异常，代码就停止运行了。<br>但是，使用typeof undeclared_variable并不会产生异常，会直接返回 undefined。<br><a id="more"></a></p>
 <h1 id="if-function-f-与eval"><a href="#if-function-f-与eval" class="headerlink" title="if (function f(){})与eval()"></a>if (function f(){})与eval()</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var x = 1;</span><br><span class="line">if (function y()&#123;&#125;) &#123;</span><br><span class="line">    x += typeof y;</span><br><span class="line">&#125;</span><br><span class="line">console.log(x);//  1undefined</span><br></pre></td></tr></table></figure>
 <p>JavaScript中if语句求值其实使用eval函数，eval(function f(){}) 返回 function f(){} 也就是 true。<br>下面我们可以把代码改造下，变成其等效代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var x = 1;</span><br><span class="line">if (1) &#123;</span><br><span class="line">    eval(function y()&#123;&#125;);</span><br><span class="line">    x += typeof y;</span><br><span class="line">&#125;</span><br><span class="line">console.log(x);//  1undefined</span><br></pre></td></tr></table></figure></p>
 <p><code>eval()</code>:该方法只接受原始字符串作为参数，如果 string 参数不是原始字符串，那么该方法将不作任何改变地返回。<br>如果去除<code>eval()</code>的话就是返回<code>1function</code></p>
@@ -390,8 +390,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/23/newTab/" rel="next" title="稀奇古怪的JavaScript">
-                <i class="fa fa-chevron-left"></i> 稀奇古怪的JavaScript
+              <a href="/2019/02/23/数据可视化/" rel="next" title="数据可视化">
+                <i class="fa fa-chevron-left"></i> 数据可视化
               </a>
             
           </div>
@@ -400,8 +400,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/02/23/数据可视化/" rel="prev" title="数据可视化">
-                数据可视化 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/02/27/React的疑难杂症/" rel="prev" title="React学习笔记">
+                React学习笔记 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
