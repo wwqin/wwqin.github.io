@@ -88,7 +88,7 @@
 <meta property="og:description" content="render外层嵌套的divrander函数return只能返回一个大的JSX，如果出现两个就需要在外面套一个&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;但是多出来的一个不必要的div会给我们增加许多的麻烦所以就可以用&amp;lt;React.fragment&amp;gt;&amp;lt;/React.fragment&amp;gt;来取代&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.imgur.com/iQMlj9b.jpg">
-<meta property="og:updated_time" content="2018-08-20T06:34:09.088Z">
+<meta property="og:updated_time" content="2019-02-26T15:49:53.091Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React学习笔记">
 <meta name="twitter:description" content="render外层嵌套的divrander函数return只能返回一个大的JSX，如果出现两个就需要在外面套一个&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;但是多出来的一个不必要的div会给我们增加许多的麻烦所以就可以用&amp;lt;React.fragment&amp;gt;&amp;lt;/React.fragment&amp;gt;来取代&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;。">
@@ -361,10 +361,10 @@
         <h1 id="render外层嵌套的div"><a href="#render外层嵌套的div" class="headerlink" title="render外层嵌套的div"></a>render外层嵌套的div</h1><p>rander函数return只能返回一个大的JSX，如果出现两个就需要在外面套一个<code>&lt;div&gt;&lt;/div&gt;</code>但是多出来的一个不必要的div会给我们增加许多的麻烦所以就可以用<code>&lt;React.fragment&gt;&lt;/React.fragment&gt;</code>来取代<code>&lt;div&gt;&lt;/div&gt;</code>。<br><a id="more"></a></p>
 <h1 id="关于key值的warning"><a href="#关于key值的warning" class="headerlink" title="关于key值的warning"></a>关于key值的warning</h1><p>Warning: Each child in an array or iterator should have a unique “key” prop.<br>这个Warning代表缺少key值，补充一下key值的是干嘛的：</p>
 <blockquote>
-<p>当我们组件状态更新后，会重新渲染组件，渲染组件的时候会一个个去根据key值的情况去渲染：<br>A. 渲染前的key值存在，则去寻找这个key值对应的组件：<br>    a.组件数据不变，则不重新渲染这个组件；<br>    b.若组件数据改变，则渲染改变的这一部分数据；<br>B.渲染前的key值不存在，则会销毁这个key值对应的组件：<br>C.出现新的key值，则渲染一个新的key值对应的组件；</p>
+<p>当我们组件状态更新后，会重新渲染组件，渲染组件的时候会一个个去根据key值的情况去渲染：<br>A. 渲染前的key值存在，则去寻找这个key值对应的组件：<br>    &nbsp;&nbsp;a.组件数据不变，则不重新渲染这个组件；<br>    &nbsp;&nbsp;b.若组件数据改变，则渲染改变的这一部分数据；<br>B.渲染前的key值不存在，则会销毁这个key值对应的组件：<br>C.出现新的key值，则渲染一个新的key值对应的组件；</p>
 </blockquote>
 <h1 id="父组件与子组件的通信"><a href="#父组件与子组件的通信" class="headerlink" title="父组件与子组件的通信"></a>父组件与子组件的通信</h1><p>将网页拆分成多个组件之后还可以将大的组件继续拆分，所以就出现了子组件，但是父组件与子组件是如何通信的呢？<br>父组件向子组件传值，这个比较容易理解，例如<br><code>&lt;TodoItem handDelete={this.handDelete.bind(this)} key={index} index={index} content={item}/&gt;</code>中的<code>content</code>就是向子组件传递了一个<code>item</code>值，在子组件接手数据的时候则是<code>this.props.content</code>等于父组件中的<code>item</code>值。<br>子组件如何与父组件通信<br>总的来说就是通过函数传递，父组件那边写好了处理子组件数据的函数并传给子组件，子组件调用函数并传入数据，父组件就可以接收数据并存储。</p>
-<h1 id="React里面写函数有特定的规则"><a href="#React里面写函数有特定的规则" class="headerlink" title="React里面写函数有特定的规则"></a>React里面写函数有特定的规则</h1><p>React里面写函数有特定的规则，例如<code>onClick={this.handleBtnClick.bind(this)}</code>与普通JavaScript不同的是大小写和花括号的区别，调用css的区别也差不多用的是<code>className={style}</code>而不是<code>class=“style”</code>。</p>
+<h1 id="React里面写函数有特定的规则"><a href="#React里面写函数有特定的规则" class="headerlink" title="React里面写函数有特定的规则"></a>React里面写函数有特定的规则</h1><p>React里面写函数有特定的规则，例如<code>onClick={this.handleBtnClick.bind(this)}</code>与普通JavaScript不同的是大小写和花括号的区别，调用css的区别也差不多用的是<code>className={style}</code>而不是<code>class=“style”</code>。<br>总的来说再我看来，大概就是有这么几种情况，当代码块中间有<code>-</code>之类的，比如<code>font-size:48px</code>就需要改写成驼峰写法<code>fontSize:48px</code>，还有就是与语法冲突了比如css中的class和JavaScript中的class重名了所以才需要用<code>className</code>来表示类名。</p>
 <h2 id="JSX注释"><a href="#JSX注释" class="headerlink" title="JSX注释"></a>JSX注释</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">在JSx中注释与在JavaScript中略有不同，之前说过在JSX想写js的话需要加一个&#123; &#125;写注释的时候同理</span><br><span class="line">&#123;/*这是注释*/&#125;</span><br><span class="line">单行注释比较麻烦</span><br><span class="line">&#123;</span><br><span class="line">//这是注释</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="输入不转译"><a href="#输入不转译" class="headerlink" title="输入不转译"></a>输入不转译</h2><p><code>&lt;li&gt;dangerrouslySetInnerHTML={{__html: item}}&lt;/li&gt;</code></p>
 <h2 id="利用lable聚焦"><a href="#利用lable聚焦" class="headerlink" title="利用lable聚焦"></a>利用lable聚焦</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;lable&gt;输入聚焦</span><br><span class="line">&lt;lable htmlFor=&quot;a&quot;&gt;输入内容&lt;/lable&gt;</span><br><span class="line">&lt;input id=&quot;a&quot;&gt;</span><br></pre></td></tr></table></figure>
@@ -393,13 +393,16 @@
 <li>当数据（props、state）发生变化时执行生命周期函数，shouldComponentUpdata(组件即将被变更)产生布尔返回值，true是需要改变组件，false不需要更新。</li>
 <li>componentWillUpdata（组件被更新之前shouldComponentUpdata返回true执行）。</li>
 <li>render重新渲染。</li>
-<li>componentDidUpdata（组件更新完成之后执行）。componentWillReceiveProps（没有props的情况下不会被执行，顶层组件没有接收所以不会调用。当一个组件从父组接收参数，只要父组件的render函数被<strong>重新</strong>执行了，子组件的这个函数就会被执行）</li>
+<li>componentDidUpdata（组件更新完成之后执行）。</li>
+<li>componentWillReceiveProps（没有props的情况下不会被执行，顶层组件没有接收所以不会调用。当一个组件从父组接收参数，只要父组件的render函数被<strong>重新</strong>执行了，子组件的这个函数就会被执行）</li>
 </ol>
 <p><strong>去除挂载</strong></p>
 <ol>
 <li>componentWillUnmount（当这个组件即将被从页面种剔除的时候执行的函数）</li>
 </ol>
 <p>所有生命周期函数可以不存在，render函数必须存在，因为之前继承了component里面就已经有了</p>
+<h1 id="DOM节点操作与插件结合"><a href="#DOM节点操作与插件结合" class="headerlink" title="DOM节点操作与插件结合"></a>DOM节点操作与插件结合</h1><p>我们可以在任何网页应用中使用 React。不仅可以把 React 添加到其他应用里，而且只要稍作改动，我们也可以把其他应用添加到 React 项目里。将 React 与 jQuery 结合使用。当然，类似的思路同样可以应用与其他场景。<br>对于 React 之外的 DOM 节点操作，React 是不会去处理的，因为 React 内部有自己的渲染逻辑。当相同的 DOM 节点被外部的代码改变时，React 就会很迷茫，并不知道发生了什么。在这里，我们给 DOM 的根节点元素加了一个 ref。在 componentDidMount 中，我们会调用这个 ref，并把它传给 jQuery 插件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class SomePlugin extends React.Component &#123;</span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    this.$el = this.el;//获取到DOM节点，可以对DOM进行操作</span><br><span class="line">    this.$el.&#123;         //对DOM进行操作</span><br><span class="line">		Do something</span><br><span class="line">		innerHTML</span><br><span class="line">		append</span><br><span class="line">	&#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentWillUnmount() &#123;</span><br><span class="line">    this.$el.somePlugin(&apos;destroy&apos;);//卸载事件监听器</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return &lt;div ref=&#123;el =&gt; this.el = el&#125; /&gt;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>为了防止 React 在 DOM 加载后修改节点，我们先要在 render() 中返回一个空的 <code>&lt;div /&gt;</code>。这个空的<code>&lt;div /&gt;</code>既没有属性也没有子元素，这样一来，React 就不会更新它了。那么，我们封装的 jQuery 插件就可以随意地更新这个节点。其实这样做不只使用与jQuery ，同样适用于原生的JavaScript的DOM操作。</p>
 
       
     </div>
@@ -543,7 +546,7 @@ var jiathis_config={
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -565,7 +568,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -614,7 +617,7 @@ var jiathis_config={
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#render外层嵌套的div"><span class="nav-number">1.</span> <span class="nav-text">render外层嵌套的div</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于key值的warning"><span class="nav-number">2.</span> <span class="nav-text">关于key值的warning</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#父组件与子组件的通信"><span class="nav-number">3.</span> <span class="nav-text">父组件与子组件的通信</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React里面写函数有特定的规则"><span class="nav-number">4.</span> <span class="nav-text">React里面写函数有特定的规则</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JSX注释"><span class="nav-number">4.1.</span> <span class="nav-text">JSX注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入不转译"><span class="nav-number">4.2.</span> <span class="nav-text">输入不转译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用lable聚焦"><span class="nav-number">4.3.</span> <span class="nav-text">利用lable聚焦</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于Registerserviceworker"><span class="nav-number">5.</span> <span class="nav-text">关于Registerserviceworker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#科普PWA"><span class="nav-number">5.1.</span> <span class="nav-text">科普PWA</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#propTypes与defaultProps"><span class="nav-number">6.</span> <span class="nav-text">propTypes与defaultProps</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#propTypes"><span class="nav-number">6.1.</span> <span class="nav-text">propTypes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#defaultProps"><span class="nav-number">6.2.</span> <span class="nav-text">defaultProps</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#state-props-render"><span class="nav-number">7.</span> <span class="nav-text">state props render</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#props"><span class="nav-number">7.1.</span> <span class="nav-text">props</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于-state"><span class="nav-number">7.2.</span> <span class="nav-text">关于 state</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#render"><span class="nav-number">7.3.</span> <span class="nav-text">render</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#虚拟DOM"><span class="nav-number">8.</span> <span class="nav-text">虚拟DOM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生命周期函数"><span class="nav-number">9.</span> <span class="nav-text">生命周期函数</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#render外层嵌套的div"><span class="nav-number">1.</span> <span class="nav-text">render外层嵌套的div</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于key值的warning"><span class="nav-number">2.</span> <span class="nav-text">关于key值的warning</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#父组件与子组件的通信"><span class="nav-number">3.</span> <span class="nav-text">父组件与子组件的通信</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React里面写函数有特定的规则"><span class="nav-number">4.</span> <span class="nav-text">React里面写函数有特定的规则</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JSX注释"><span class="nav-number">4.1.</span> <span class="nav-text">JSX注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入不转译"><span class="nav-number">4.2.</span> <span class="nav-text">输入不转译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用lable聚焦"><span class="nav-number">4.3.</span> <span class="nav-text">利用lable聚焦</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于Registerserviceworker"><span class="nav-number">5.</span> <span class="nav-text">关于Registerserviceworker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#科普PWA"><span class="nav-number">5.1.</span> <span class="nav-text">科普PWA</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#propTypes与defaultProps"><span class="nav-number">6.</span> <span class="nav-text">propTypes与defaultProps</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#propTypes"><span class="nav-number">6.1.</span> <span class="nav-text">propTypes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#defaultProps"><span class="nav-number">6.2.</span> <span class="nav-text">defaultProps</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#state-props-render"><span class="nav-number">7.</span> <span class="nav-text">state props render</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#props"><span class="nav-number">7.1.</span> <span class="nav-text">props</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于-state"><span class="nav-number">7.2.</span> <span class="nav-text">关于 state</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#render"><span class="nav-number">7.3.</span> <span class="nav-text">render</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#虚拟DOM"><span class="nav-number">8.</span> <span class="nav-text">虚拟DOM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生命周期函数"><span class="nav-number">9.</span> <span class="nav-text">生命周期函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DOM节点操作与插件结合"><span class="nav-number">10.</span> <span class="nav-text">DOM节点操作与插件结合</span></a></li></ol></div>
             
 
           </div>
@@ -641,7 +644,7 @@ var jiathis_config={
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
