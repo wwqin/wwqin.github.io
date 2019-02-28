@@ -83,12 +83,12 @@
 <meta name="keywords" content="React">
 <meta property="og:type" content="article">
 <meta property="og:title" content="React学习笔记">
-<meta property="og:url" content="http://yoursite.com/2019/02/27/React的疑难杂症/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/02/28/React的疑难杂症/index.html">
 <meta property="og:site_name" content="Qin&amp;#x7684;&amp;#x4FEE;&amp;#x884C;&amp;#x4E4B;&amp;#x8DEF;">
 <meta property="og:description" content="render外层嵌套的divrander函数return只能返回一个大的JSX，如果出现两个就需要在外面套一个&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;但是多出来的一个不必要的div会给我们增加许多的麻烦所以就可以用&amp;lt;React.fragment&amp;gt;&amp;lt;/React.fragment&amp;gt;来取代&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.imgur.com/iQMlj9b.jpg">
-<meta property="og:updated_time" content="2019-02-26T16:08:07.256Z">
+<meta property="og:updated_time" content="2019-02-28T16:24:45.923Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React学习笔记">
 <meta name="twitter:description" content="render外层嵌套的divrander函数return只能返回一个大的JSX，如果出现两个就需要在外面套一个&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;但是多出来的一个不必要的div会给我们增加许多的麻烦所以就可以用&amp;lt;React.fragment&amp;gt;&amp;lt;/React.fragment&amp;gt;来取代&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;。">
@@ -122,7 +122,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/02/27/React的疑难杂症/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/02/28/React的疑难杂症/"/>
 
 
 
@@ -267,7 +267,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/27/React的疑难杂症/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/28/React的疑难杂症/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="qin.">
@@ -296,8 +296,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-27T00:01:22+08:00">
-                2019-02-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-28T00:14:22+08:00">
+                2019-02-28
               </time>
             
 
@@ -402,7 +402,12 @@
 </ol>
 <p>所有生命周期函数可以不存在，render函数必须存在，因为之前继承了component里面就已经有了</p>
 <h1 id="DOM节点操作与插件结合"><a href="#DOM节点操作与插件结合" class="headerlink" title="DOM节点操作与插件结合"></a>DOM节点操作与插件结合</h1><p>我们可以在任何网页应用中使用 React。不仅可以把 React 添加到其他应用里，而且只要稍作改动，我们也可以把其他应用添加到 React 项目里。将 React 与 jQuery 结合使用。当然，类似的思路同样可以应用与其他场景。<br>对于 React 之外的 DOM 节点操作，React 是不会去处理的，因为 React 内部有自己的渲染逻辑。当相同的 DOM 节点被外部的代码改变时，React 就会很迷茫，并不知道发生了什么。在这里，我们给 DOM 的根节点元素加了一个 ref。在 componentDidMount 中，我们会调用这个 ref，并把它传给 jQuery 插件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class SomePlugin extends React.Component &#123;</span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    this.$el = this.el;//获取到DOM节点，可以对DOM进行操作</span><br><span class="line">    this.$el.&#123;         //对DOM进行操作</span><br><span class="line">		Do something</span><br><span class="line">		innerHTML</span><br><span class="line">		append</span><br><span class="line">	&#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentWillUnmount() &#123;</span><br><span class="line">    this.$el.somePlugin(&apos;destroy&apos;);//卸载事件监听器</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return &lt;div ref=&#123;el =&gt; this.el = el&#125; /&gt;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>为了防止 React 在 DOM 加载后修改节点，我们先要在 render() 中返回一个空的 <code>&lt;div /&gt;</code>。这个空的<code>&lt;div /&gt;</code>既没有属性也没有子元素，这样一来，React 就不会更新它了。那么，我们封装的 jQuery 插件就可以随意地更新这个节点。其实这样做不只使用与jQuery ，同样适用于原生的JavaScript的DOM操作。</p>
+<p>为了防止 React 在 DOM 加载后修改节点，我们先要在 render() 中返回一个空的 <code>&lt;div /&gt;</code>。这个空的<code>&lt;div /&gt;</code>既没有属性也没有子元素，这样一来，React 就不会更新它了。那么，我们封装的 jQuery 插件就可以随意地更新这个节点。其实这样做不只使用与jQuery ，同样适用于原生的JavaScript的DOM操作。<br>在实战经过一系列实践之后发现事情远远没有这么简单，如果将DOM操作放到<code>componentDidMount()</code>的确能在第一次渲染的时候有效的进行DOM操作，但是再对这个组件进行操作的时候，比如一个下拉框，如果我用<code>this.state.isShow:true</code>来控制显示与否，那么更改了这个组件的状态就不会再触发DOM操作。现在仍然没有找到什么好的方法来解决，在React中自己有一套方案，我记得好像是<code>dangerrouslySetInnerHTML={}</code>，但是从名字就能看出来这并不是什么好东西，因为这个方法很容易受到XSS攻击。在上述还触发DOM操作的钩子中仍然存对生命周期函数不太掌握，还要好好看看，下面再补上。</p>
+<blockquote>
+<p>生命周期函数</p>
+</blockquote>
+<h1 id="条件渲染组件"><a href="#条件渲染组件" class="headerlink" title="条件渲染组件"></a>条件渲染组件</h1><p>在Reactd的实际操作中有许多需要条件渲染的组件，比如在登陆窗口，已登录和未登录的肯定需要渲染不同的组件，这就涉及到了一个条件渲染的问题，在jsx中使用条件语句来生成特定的组件，首先需要介绍的应该是map，当需要取出一个数组中的所有item来循环生成一个list，这时就需要一个map来拯救你，<code>this.state.data((item)=&gt;&lt;App&gt;{item.text}&lt;/App&gt;)</code>，这样就省去了很多不必要的麻烦。然后我要介绍的是三元运算符生成组件，就好像前面举的例子，在登陆的时候，需要一个flag来判断用户是否已经登陆然后生成对应的组件，<code>{this.state.flag?&lt;In/&gt;:&lt;Out/&gt;}</code>,这样就很舒服了。<br>想到了条件，总是忘不了<code>if...else...</code>，那么在jsx中如何运用这些常用的条件判断来生成组件呢<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class SomePlugin extends React.Component &#123;</span><br><span class="line">  //省略部分代码</span><br><span class="line">  render() &#123;</span><br><span class="line">	let item;</span><br><span class="line">	if(this.state.isShow)&#123;</span><br><span class="line">	  item = this.state.data((item)=&gt;&lt;A&gt;&#123;item.text&#125;&lt;/A&gt;);</span><br><span class="line">	&#125;else&#123;</span><br><span class="line">	  item = this.state.data((item)=&gt;&lt;B&gt;&#123;item.text&#125;&lt;/B&gt;);</span><br><span class="line">	&#125;</span><br><span class="line">    return (&lt;div&gt;</span><br><span class="line">			&#123;item&#125;</span><br><span class="line">		   &lt;/div&gt;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在<code>render()</code>函数中用一个变量代替HTML代码，再用平时熟悉的JavaScript写条件判断就容易很多了，最后在return中需要渲染的地方加上这一个变量就OK了，真的很舒服啊~</p>
 
       
     </div>
@@ -542,7 +547,7 @@ var jiathis_config={
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -613,7 +618,7 @@ var jiathis_config={
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#render外层嵌套的div"><span class="nav-number">1.</span> <span class="nav-text">render外层嵌套的div</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于key值的warning"><span class="nav-number">2.</span> <span class="nav-text">关于key值的warning</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#父组件与子组件的通信"><span class="nav-number">3.</span> <span class="nav-text">父组件与子组件的通信</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React里面写函数有特定的规则"><span class="nav-number">4.</span> <span class="nav-text">React里面写函数有特定的规则</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JSX注释"><span class="nav-number">4.1.</span> <span class="nav-text">JSX注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入不转译"><span class="nav-number">4.2.</span> <span class="nav-text">输入不转译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用lable聚焦"><span class="nav-number">4.3.</span> <span class="nav-text">利用lable聚焦</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于Registerserviceworker"><span class="nav-number">5.</span> <span class="nav-text">关于Registerserviceworker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#科普PWA"><span class="nav-number">5.1.</span> <span class="nav-text">科普PWA</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#propTypes与defaultProps"><span class="nav-number">6.</span> <span class="nav-text">propTypes与defaultProps</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#propTypes"><span class="nav-number">6.1.</span> <span class="nav-text">propTypes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#defaultProps"><span class="nav-number">6.2.</span> <span class="nav-text">defaultProps</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#state-props-render"><span class="nav-number">7.</span> <span class="nav-text">state props render</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#props"><span class="nav-number">7.1.</span> <span class="nav-text">props</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于-state"><span class="nav-number">7.2.</span> <span class="nav-text">关于 state</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#render"><span class="nav-number">7.3.</span> <span class="nav-text">render</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#虚拟DOM"><span class="nav-number">8.</span> <span class="nav-text">虚拟DOM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生命周期函数"><span class="nav-number">9.</span> <span class="nav-text">生命周期函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DOM节点操作与插件结合"><span class="nav-number">10.</span> <span class="nav-text">DOM节点操作与插件结合</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#render外层嵌套的div"><span class="nav-number">1.</span> <span class="nav-text">render外层嵌套的div</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于key值的warning"><span class="nav-number">2.</span> <span class="nav-text">关于key值的warning</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#父组件与子组件的通信"><span class="nav-number">3.</span> <span class="nav-text">父组件与子组件的通信</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React里面写函数有特定的规则"><span class="nav-number">4.</span> <span class="nav-text">React里面写函数有特定的规则</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JSX注释"><span class="nav-number">4.1.</span> <span class="nav-text">JSX注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入不转译"><span class="nav-number">4.2.</span> <span class="nav-text">输入不转译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用lable聚焦"><span class="nav-number">4.3.</span> <span class="nav-text">利用lable聚焦</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于Registerserviceworker"><span class="nav-number">5.</span> <span class="nav-text">关于Registerserviceworker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#科普PWA"><span class="nav-number">5.1.</span> <span class="nav-text">科普PWA</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#propTypes与defaultProps"><span class="nav-number">6.</span> <span class="nav-text">propTypes与defaultProps</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#propTypes"><span class="nav-number">6.1.</span> <span class="nav-text">propTypes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#defaultProps"><span class="nav-number">6.2.</span> <span class="nav-text">defaultProps</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#state-props-render"><span class="nav-number">7.</span> <span class="nav-text">state props render</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#props"><span class="nav-number">7.1.</span> <span class="nav-text">props</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于-state"><span class="nav-number">7.2.</span> <span class="nav-text">关于 state</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#render"><span class="nav-number">7.3.</span> <span class="nav-text">render</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#虚拟DOM"><span class="nav-number">8.</span> <span class="nav-text">虚拟DOM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生命周期函数"><span class="nav-number">9.</span> <span class="nav-text">生命周期函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DOM节点操作与插件结合"><span class="nav-number">10.</span> <span class="nav-text">DOM节点操作与插件结合</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#条件渲染组件"><span class="nav-number">11.</span> <span class="nav-text">条件渲染组件</span></a></li></ol></div>
             
 
           </div>
