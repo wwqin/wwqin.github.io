@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="React," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="写在前面的话接触nextjs的契机可以说是想学着跳出自己写代码的舒适区去学习更多的东西(小声BB如果用React+Redux+React-Router的话项目早就已经写完了)，首先介绍一下我们要做的项目。简单来说就是一个作业平台，只不过这个作业平台还搭载了OJ和后台管理，我主要是负责后台和比赛这两个部分，看起来并不太难，其实难点还是不少的，首先就是nextjs以及服务端渲染我们所有开发人员都没有接">
+<meta name="keywords" content="React">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nextjs踩坑日常">
+<meta property="og:url" content="http://yoursite.com/2019/08/05/nextjs/index.html">
+<meta property="og:site_name" content="Qin&amp;#x7684;&amp;#x4FEE;&amp;#x884C;&amp;#x4E4B;&amp;#x8DEF;">
+<meta property="og:description" content="写在前面的话接触nextjs的契机可以说是想学着跳出自己写代码的舒适区去学习更多的东西(小声BB如果用React+Redux+React-Router的话项目早就已经写完了)，首先介绍一下我们要做的项目。简单来说就是一个作业平台，只不过这个作业平台还搭载了OJ和后台管理，我主要是负责后台和比赛这两个部分，看起来并不太难，其实难点还是不少的，首先就是nextjs以及服务端渲染我们所有开发人员都没有接">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-06T06:32:29.223Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nextjs踩坑日常">
+<meta name="twitter:description" content="写在前面的话接触nextjs的契机可以说是想学着跳出自己写代码的舒适区去学习更多的东西(小声BB如果用React+Redux+React-Router的话项目早就已经写完了)，首先介绍一下我们要做的项目。简单来说就是一个作业平台，只不过这个作业平台还搭载了OJ和后台管理，我主要是负责后台和比赛这两个部分，看起来并不太难，其实难点还是不少的，首先就是nextjs以及服务端渲染我们所有开发人员都没有接">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/05/nextjs/"/>
+
+
+
+
+
+  <title>nextjs踩坑日常 | Qin&#x7684;&#x4FEE;&#x884C;&#x4E4B;&#x8DEF;</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Qin&#x7684;&#x4FEE;&#x884C;&#x4E4B;&#x8DEF;</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+    
+  
+  
+
+  <article class="post post-type-normal true" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/05/nextjs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="qin.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qin&#x7684;&#x4FEE;&#x884C;&#x4E4B;&#x8DEF;">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">nextjs踩坑日常</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-05T22:03:08+08:00">
+                2019-08-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习心得/" itemprop="url" rel="index">
+                    <span itemprop="name">学习心得</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="写在前面的话"><a href="#写在前面的话" class="headerlink" title="写在前面的话"></a>写在前面的话</h1><p>接触nextjs的契机可以说是想学着跳出自己写代码的舒适区去学习更多的东西(小声BB如果用React+Redux+React-Router的话项目早就已经写完了)，首先介绍一下我们要做的项目。简单来说就是一个作业平台，只不过这个作业平台还搭载了OJ和后台管理，我主要是负责后台和比赛这两个部分，看起来并不太难，其实难点还是不少的，首先就是nextjs以及服务端渲染我们所有开发人员都没有接触过，其次是MonacoEditor(我并没有做MonacoEditor)，接下来我会以整个项目来简单的说说nextjs的踩坑过程(血泪史).</p>
+<h1 id="next环境搭建"><a href="#next环境搭建" class="headerlink" title="next环境搭建"></a>next环境搭建</h1><h2 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h2><p>其实next的配置其实非常的简单，就像官方文档一样<code>npm install --save next react react-dom</code>就搞定了，再把启动的script加入到packge.json中就ok了。<br><a id="more"></a></p>
+<h2 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h2><p>第一步好了以后我开心的好像两百斤的胖子，其实并没有想到这是噩梦的开始，我配置好了首先就是随便写了几个组件试了试传说中不用配置就可以用的路由，发现还是有点东西的，首先是index.js通过next给的Link跳到了其他页面，又从其他页面调回来，这一切看起来并没有任何问题，但仔细一想发现事情并没有那么简单，假如每个组件都可以根据文件路由来跳转的话，那岂不是如果知道了我的文件目录就可以为所欲为了，那还要在每个组件加一个拦截，岂不是太麻烦了，所以就需要禁止文件路由了，在next中并没有react之前那种webpack配置文件所以我们需要自己建一个配置文件<code>next.config.js</code>，并在里面增加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  distDir: &apos;build&apos;,//自定义构建目录</span><br><span class="line">  useFileSystemPublicRoutes: false,//不使用文件路由</span><br><span class="line">  generateBuildId: async () =&gt; &#123;</span><br><span class="line">    return &apos;my-build-id&apos;</span><br><span class="line">  &#125;//配置构建 ID</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="自定义路由"><a href="#自定义路由" class="headerlink" title="自定义路由"></a>自定义路由</h3><h4 id="第一种方法：新建server"><a href="#第一种方法：新建server" class="headerlink" title="第一种方法：新建server"></a>第一种方法：新建server</h4><p>当你的路由配置好了之后你会发现又不行了，因为不能用文件路由只能自定义路由了，传统的自定义路由一般就是自己写一个server来自定义，比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">const server = express()</span><br><span class="line"></span><br><span class="line">server.get(&apos;/home&apos;, (req, res) =&gt; &#123;</span><br><span class="line">  const actualPage = &apos;/home/home&apos;</span><br><span class="line">  const queryParams = &apos;home&apos;</span><br><span class="line">  app.render(req, res, actualPage, queryParams)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.get(&apos;/personcenter&apos;, (req, res) =&gt; &#123;</span><br><span class="line">  const actualPage = &apos;/home/PersonCenter/personCenter&apos;</span><br><span class="line">  const queryParams = &apos;personcenter&apos;</span><br><span class="line">  app.render(req, res, actualPage, queryParams)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.get(&apos;/assignment&apos;, (req, res) =&gt; &#123;</span><br><span class="line">  const actualPage = &apos;/assignment/assignment&apos;</span><br><span class="line">  const queryParams = &apos;assignment&apos;</span><br><span class="line">  app.render(req, res, actualPage, queryParams)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.get(&apos;/assignment/coding&apos;, (req, res) =&gt; &#123;</span><br><span class="line">  const actualPage = `/assignment/pages/assignmentCoding/pages/codingHome`;</span><br><span class="line">  const queryParams = &apos;assignmentCoding&apos;;</span><br><span class="line">  app.render(req, res, actualPage, queryParams)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.get(&apos;/assignment/question&apos;, (req, res) =&gt; &#123;</span><br><span class="line">  const actualPage = `/assignment/pages/assignmentCoding/pages/codingDetail`;</span><br><span class="line">  const queryParams = &apos;codingDetail&apos;;</span><br><span class="line">  app.render(req, res, actualPage, queryParams)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.get(&apos;/competition&apos;, (req, res) =&gt; &#123;</span><br><span class="line">  const actualPage = &apos;/competition/competition&apos;</span><br><span class="line">  const queryParams = &apos;competition&apos;</span><br><span class="line">  app.render(req, res, actualPage, queryParams)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.get(&apos;/competition/Arena&apos;, (req, res) =&gt; &#123;</span><br><span class="line">  const actualPage = &apos;/competition/competitionArena/competitionArena&apos;</span><br><span class="line">  const queryParams = &#123; competitionNum: req.query.competitionNum &#125;</span><br><span class="line">  app.render(req, res, actualPage, queryParams)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.get(&apos;/management&apos;, (req, res) =&gt; &#123;</span><br><span class="line">  const actualPage = &apos;/management/management&apos;</span><br><span class="line">  const queryParams = &apos;management&apos;</span><br><span class="line">  app.render(req, res, actualPage, queryParams)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">server.get(&apos;*&apos;, (req, res) =&gt; &#123;</span><br><span class="line">  return handle(req, res)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>这样自定义一个server是没有问题的，但是在之前写好的script就要改变一些了，原本启动的命令就应该改成<code>node server.js</code>,打包命令也应该换成<code>NODE_ENV=production node server.js</code>。</p>
+<h4 id="第二种方法：更改next-config-js自定义路由配置"><a href="#第二种方法：更改next-config-js自定义路由配置" class="headerlink" title="第二种方法：更改next.config.js自定义路由配置"></a>第二种方法：更改next.config.js自定义路由配置</h4><p>但是为了简化这些繁琐的步骤，next自己也有一套自定义路由的方法，就是在之前说过的<code>next.config.js</code>中增加自定义路由配置，下面配置的效果和之前写的那个server起到的效果应该是一样的，但是在前者还可以针对一些特殊的路由进行操作，所以我认为前者更好一些(虽然有点麻烦)。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">exportPathMap: function(defaultPathMap) &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      &apos;/&apos;: &#123; page: &apos;/home/home&apos;, query: &#123; title: &apos;home&apos; &#125;  &#125;,</span><br><span class="line">      &apos;/management&apos;: &#123; page: &apos;/management/management&apos;, query: &#123; title: &apos;management&apos; &#125;  &#125;,</span><br><span class="line">      &apos;/assignment&apos;: &#123; page: &apos;/assignment/assignment&apos;, query: &#123; title: &apos;assignment&apos; &#125;  &#125;,</span><br><span class="line">      &apos;/competition&apos;: &#123; page: &apos;/competition/competition&apos;, query: &#123; title: &apos;competition&apos; &#125;  &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="其他的自定义配置"><a href="#其他的自定义配置" class="headerlink" title="其他的自定义配置"></a>其他的自定义配置</h2><h3 id="css、less"><a href="#css、less" class="headerlink" title="css、less"></a>css、less</h3><p>路由搞好了我就开开心心的开始专心安装项目所需要的一些基本的包，像axios啥的装起来用起来可正常了，但是有些东西并非我们想象中的那么简单，比如css、less、Antd，在之前的项目中配置css、less之类的都是在webpack 的配置文件中添加，但是在next中并没有所以我们还得在之前的<code>next.config.js</code>写同样的css和less的配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">const withLess = require(&apos;@zeit/next-less&apos;);</span><br><span class="line">const withCSS = require(&apos;@zeit/next-css&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = withCSS(withLess(&#123;</span><br><span class="line">  webpack(config, options) &#123;</span><br><span class="line">    config.module.rules.push(</span><br><span class="line">      &#123;</span><br><span class="line">      test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,</span><br><span class="line">      use: &#123;</span><br><span class="line">        loader: &apos;url-loader&apos;,</span><br><span class="line">        options: &#123;</span><br><span class="line">          limit: 100000</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    config.plugins.push(</span><br><span class="line">      new MonacoWebpackPlugin()</span><br><span class="line">    );</span><br><span class="line">    return config</span><br><span class="line">  &#125;,</span><br><span class="line">  distDir: &apos;build&apos;,//自定义构建目录</span><br><span class="line">  useFileSystemPublicRoutes: false,//不使用文件路由</span><br><span class="line">  generateBuildId: async () =&gt; &#123;</span><br><span class="line">    return &apos;my-build-id&apos;</span><br><span class="line">  &#125;//配置构建 ID</span><br><span class="line">&#125;))</span><br></pre></td></tr></table></figure></p>
+<p>可能这个配置看起来有点沙雕，但是这是经过了一整天的琢磨才想出来的一种能解决问题的写法。</p>
+<h3 id="再提一个react的日常问题，Antd"><a href="#再提一个react的日常问题，Antd" class="headerlink" title="再提一个react的日常问题，Antd"></a>再提一个react的日常问题，Antd</h3><p>Antd出问题不是一天两天了，经常将Antd引入项目后Antd的样式无法生效或者less无法被识别等等。总而言之就是Antd无法被识别了。解决这个问题首先就是要确保你的项目less已经装上了，之后就可以开始愉快的debug了。<br>第一种问题是<strong>Antd样式无法生效</strong>，其实我也不知道咋回事，但是我得知道怎么解决，只要在你的css或者less的公共样式文件里引入Antd的less或者css文件就好了<code>@import &quot;~antd/dist/antd.less&quot;</code><br>第二种问题是在第一种问题的基础上发生的<strong>@无法被识别</strong>，解决这个问题很简单，你可以直接把你的less版本降低到<code>&quot;less&quot;: &quot;^2.7.2&quot;</code>，如果版本不能被降低的话得重新配置less，这个俺现在也没去查。</p>
+<h3 id="打个总结"><a href="#打个总结" class="headerlink" title="打个总结"></a>打个总结</h3><p>其实nextjs的webpack自定义配置的官方文档还是比较清晰的，多查文档多查官方github仓库里的issue和example还是可以解决的。</p>
+<h1 id="自定义-app-js"><a href="#自定义-app-js" class="headerlink" title="自定义_app.js"></a>自定义_app.js</h1><p>先说一下服务端渲染的基本理论以及为什么要用服务端渲染，简单理解是将组件或页面通过服务器生成html字符串，再发送到浏览器，最后将静态标记”混合”为客户端上完全交互的应用程序，再说说他的优势</p>
+<ol>
+<li>更利于SEO。<br>不同爬虫工作原理类似，只会爬取源码，不会执行网站的任何脚本（Google除外，据说Googlebot可以运行javaScript）。使用了React或者其它MVVM框架之后，页面大多数DOM元素都是在客户端根据js动态生成，可供爬虫抓取分析的内容大大减少(如图一)。另外，浏览器爬虫不会等待我们的数据完成之后再去抓取我们的页面数据。服务端渲染返回给客户端的是已经获取了异步数据并执行JavaScript脚本的最终HTML，网络爬中就可以抓取到完整页面的信息。</li>
+<li>更利于首屏渲染<br>首屏的渲染是node发送过来的html字符串，并不依赖于js文件了，这就会使用户更快的看到页面的内容。尤其是针对大型单页应用，打包后文件体积比较大，普通客户端渲染加载所有所需文件时间较长，首页就会有一个很长的白屏等待时间。<br>nextjs帮我们解决了大部分的问题，他解决了渲染的问题而我们则是需要去优化SEO.<br>那么问题来了，如何优化SEO呢？</li>
+</ol>
+<p>首先就是去优化页面的meta部分，meta部分涉及了网页关键词网页描述等，那么在我们写的组件里面可不会有meta，而在项目中也没有一个index.html供我们去写meta，所以我们就用到了_app.js。他的作用就是在生成的所有网页外面再包上一层外衣，这外衣上面就有meta、title等head里面的内容。他还有一个很关键的作用就是注入数据，在SPA中如果没有数据的注入那么网页相当于是空白的，但是在注入数据之后就可以清晰的看出这个网页的作用和内容了，这对于优化SEO是很好的。这就相当于在服务端渲染过后的html已经具备了符合SEO的dom和一些基本的数据了，缺少的只是个性化的一些用户的数据。</p>
+<h1 id="nextjs-redux"><a href="#nextjs-redux" class="headerlink" title="nextjs+redux"></a>nextjs+redux</h1><p>其实nextjs+redux并不困难在官方给的example中代码十分精简，学过redux的同学都应该知道基本的redux在react中的基本配置，就像官方文档给的那样</p>
+<p><details></details></p>
+<p><summary>展开查看</summary></p>
+<p><pre><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">import &#123; createStore, applyMiddleware &#125; from &apos;redux&apos;</span><br><span class="line">import &#123; composeWithDevTools &#125; from &apos;redux-devtools-extension&apos;</span><br><span class="line"></span><br><span class="line">const exampleInitialState = &#123;</span><br><span class="line">  lastUpdate: 0,</span><br><span class="line">  light: false,</span><br><span class="line">  count: 0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export const actionTypes = &#123;</span><br><span class="line">  TICK: &apos;TICK&apos;,</span><br><span class="line">  INCREMENT: &apos;INCREMENT&apos;,</span><br><span class="line">  DECREMENT: &apos;DECREMENT&apos;,</span><br><span class="line">  RESET: &apos;RESET&apos;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// REDUCERS</span><br><span class="line">export const reducer = (state = exampleInitialState, action) =&gt; &#123;</span><br><span class="line">  switch (action.type) &#123;</span><br><span class="line">    case actionTypes.TICK:</span><br><span class="line">      return Object.assign(&#123;&#125;, state, &#123;</span><br><span class="line">        lastUpdate: action.ts,</span><br><span class="line">        light: !!action.light</span><br><span class="line">      &#125;)</span><br><span class="line">    case actionTypes.INCREMENT:</span><br><span class="line">      return Object.assign(&#123;&#125;, state, &#123;</span><br><span class="line">        count: state.count + 1</span><br><span class="line">      &#125;)</span><br><span class="line">    case actionTypes.DECREMENT:</span><br><span class="line">      return Object.assign(&#123;&#125;, state, &#123;</span><br><span class="line">        count: state.count - 1</span><br><span class="line">      &#125;)</span><br><span class="line">    case actionTypes.RESET:</span><br><span class="line">      return Object.assign(&#123;&#125;, state, &#123;</span><br><span class="line">        count: exampleInitialState.count</span><br><span class="line">      &#125;)</span><br><span class="line">    default:</span><br><span class="line">      return state</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// ACTIONS</span><br><span class="line">export const serverRenderClock = () =&gt; &#123;</span><br><span class="line">  return &#123; type: actionTypes.TICK, light: false, ts: Date.now() &#125;</span><br><span class="line">&#125;</span><br><span class="line">export const startClock = () =&gt; &#123;</span><br><span class="line">  return &#123; type: actionTypes.TICK, light: true, ts: Date.now() &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export const incrementCount = () =&gt; &#123;</span><br><span class="line">  return &#123; type: actionTypes.INCREMENT &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export const decrementCount = () =&gt; &#123;</span><br><span class="line">  return &#123; type: actionTypes.DECREMENT &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export const resetCount = () =&gt; &#123;</span><br><span class="line">  return &#123; type: actionTypes.RESET &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function initializeStore (initialState = exampleInitialState) &#123;</span><br><span class="line">  return createStore(</span><br><span class="line">    reducer,</span><br><span class="line">    initialState,</span><br><span class="line">    composeWithDevTools(applyMiddleware())</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></pre></p>
+<p><br><br>官方文档其实就已经解决了next with redux 的问题，但是还会出现一个新的问题，就是store无法持续化，假如从A页面通过路由切换到B页面，如果是SPA的话store还可以存在，因为本质上还是同一个网页，但是nextjs不同，他是重新渲染出了一个新的页面以便SEO所以store又重新被初始化了，上一个页面需要持续化到下一个页面的数据就无法获得了，比如什么登录持续化之类的。因此我们就需要解决这个问题，而解决一个问题的工具在官方的example也有但是在文档中并未提及，那就是<strong>redux-persist</strong>，接下来就说说redux-persist的配置。<br>首先在自己的store文件夹中新增一个高级组件<strong>withReduxStore</strong>，这个高级组件的代码如下</p>
+<p><details></details></p>
+<p><summary>withReduxStore.js</summary></p>
+<p><pre><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">import React from &apos;react&apos;</span><br><span class="line">import &#123;initializeStore&#125; from &apos;./index&apos;</span><br><span class="line"></span><br><span class="line">const isServer = typeof window === &apos;undefined&apos;</span><br><span class="line">const __NEXT_REDUX_STORE__ = &apos;__NEXT_REDUX_STORE__&apos;</span><br><span class="line"></span><br><span class="line">function getOrCreateStore(initialState) &#123;</span><br><span class="line"></span><br><span class="line">  if (isServer) &#123;</span><br><span class="line">    return initializeStore(initialState)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  if (!window[__NEXT_REDUX_STORE__]) &#123;</span><br><span class="line">    window[__NEXT_REDUX_STORE__] = initializeStore(initialState);</span><br><span class="line">  &#125;</span><br><span class="line">  //需要放在外面，包含redux的初始function</span><br><span class="line">  return window[__NEXT_REDUX_STORE__]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default (App) =&gt; &#123;</span><br><span class="line">	</span><br><span class="line">  return class AppWithRedux extends React.Component &#123;</span><br><span class="line">		</span><br><span class="line">    static async getInitialProps (appContext) &#123;</span><br><span class="line"></span><br><span class="line">      const reduxStore = getOrCreateStore();</span><br><span class="line"></span><br><span class="line">      appContext.ctx.reduxStore = reduxStore</span><br><span class="line"></span><br><span class="line">      let appProps = &#123;&#125;</span><br><span class="line">      if (typeof App.getInitialProps === &apos;function&apos;) &#123;</span><br><span class="line">        appProps = await App.getInitialProps.call(App, appContext)</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      return &#123;</span><br><span class="line">        ...appProps,</span><br><span class="line">        initialReduxState: reduxStore.getState()</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">      super(props)</span><br><span class="line">      this.reduxStore = getOrCreateStore(props.initialReduxState)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">      return &lt;App &#123;...this.props&#125; reduxStore=&#123;this.reduxStore&#125; /&gt;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></pre></p>
+<p><br><br>然后再在_app.js中添加并使用，在constructor中继承上一个页面的store</p>
+<p><details></details></p>
+<p><summary>_app.js</summary></p>
+<p><pre><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">import App, &#123; Container &#125; from &apos;next/app&apos;;</span><br><span class="line">import React from &apos;react&apos;;</span><br><span class="line">import &#123; Provider &#125; from &apos;react-redux&apos;;</span><br><span class="line">import withReduxStore from &apos;../store/with-redux-store&apos;</span><br><span class="line">import Router, &#123;withRouter&#125; from &apos;next/router&apos;</span><br><span class="line">import withRedux from &apos;next-redux-wrapper&apos;</span><br><span class="line">import Head from &apos;next/head&apos;;</span><br><span class="line">import createStore from &apos;../store/index&apos;;</span><br><span class="line">import &apos;./index.less&apos;</span><br><span class="line">import &apos;../static/fonts/iconfont.css&apos;</span><br><span class="line">import &#123; persistStore &#125; from &apos;redux-persist&apos;</span><br><span class="line">import &#123; PersistGate &#125; from &apos;redux-persist/integration/react&apos;</span><br><span class="line"></span><br><span class="line">class MyApp extends App &#123;</span><br><span class="line">  constructor (props) &#123;</span><br><span class="line">    super(props)</span><br><span class="line">    this.persistor = persistStore(props.reduxStore)</span><br><span class="line">  &#125;</span><br><span class="line">  render() &#123;</span><br><span class="line">    const &#123; Component, pageProps, router, reduxStore &#125; = this.props;</span><br><span class="line">    return (</span><br><span class="line">      &lt;Container&gt;</span><br><span class="line">        &lt;Head&gt;</span><br><span class="line">          &lt;title&gt;SACC&lt;/title&gt;</span><br><span class="line">					&lt;meta name=&quot;viewport&quot; content=&quot;initial-scale=1.0, width=device-width&quot; /&gt;</span><br><span class="line">        &lt;/Head&gt;</span><br><span class="line">        &lt;Provider store=&#123;reduxStore&#125;&gt;</span><br><span class="line">          &lt;PersistGate</span><br><span class="line">            loading=&#123;&lt;Component &#123;...pageProps&#125; /&gt;&#125;</span><br><span class="line">            persistor=&#123;this.persistor&#125;</span><br><span class="line">          &gt;</span><br><span class="line">            &lt;Component &#123;...pageProps&#125; /&gt;</span><br><span class="line">          &lt;/PersistGate&gt;</span><br><span class="line">        &lt;/Provider&gt;</span><br><span class="line">      &lt;/Container&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">export default withReduxStore(MyApp)</span><br></pre></td></tr></table></figure></pre></p>
+<p><br><br>还有一种情况就是需要利用combineReducers整合各个部分的redux，往常我们常用的是<code>redux-immutable</code>中的combineReducers，而对于redux-presite来说并不能识别，所以我们只有使用<code>redux</code>，具体的reducer写法在<code>import { persistReducer } from &#39;redux-persist&#39;</code>后再引入<code>import storage from &#39;redux-persist/lib/storage&#39;</code>，因为从原来上来说持续化store是通过localstorage来完成的，最后就是按照persistConfig来定义每一个部分的reducer，再通过<code>persistReducer(config,reducer)</code>来将配置与reducer结合。</p>
+<p><details></details></p>
+<p><summary>reducer.js</summary></p>
+<p><pre><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">import &#123; combineReducers &#125; from &apos;redux&apos;;</span><br><span class="line">import &#123; reducer as homeReducer&#125; from &apos;../pages/home/store&apos;;</span><br><span class="line">import &#123; reducer as assignmentReducer&#125; from &apos;../pages/assignment/store&apos;;</span><br><span class="line">import &#123; reducer as managementReducer&#125; from &apos;../pages/management/store&apos;;</span><br><span class="line">import &#123; reducer as competitionReducer&#125; from &apos;../pages/competition/store&apos;;</span><br><span class="line">import &#123; persistReducer &#125; from &apos;redux-persist&apos;</span><br><span class="line">import storage from &apos;redux-persist/lib/storage&apos;</span><br><span class="line">import immutableTransform from &apos;redux-persist-transform-immutable&apos;</span><br><span class="line">const homepersistConfig = &#123;</span><br><span class="line">  key: &apos;home&apos;,</span><br><span class="line">  storage,</span><br><span class="line">  whitelist: [&apos;BasicInformationList&apos;,&apos;loginStatus&apos;]</span><br><span class="line">&#125;;</span><br><span class="line">const competitionpersistConfig = &#123;</span><br><span class="line">    key: &apos;competition&apos;,</span><br><span class="line">    storage,</span><br><span class="line">    whitelist: [&apos;competitionName&apos;]</span><br><span class="line">&#125;  </span><br><span class="line">const managementpersistConfig = &#123;</span><br><span class="line">    key: &apos;management&apos;,</span><br><span class="line">    storage,</span><br><span class="line">    whitelist: [&apos;show&apos;,&apos;showId&apos;,&apos;fromTableList&apos;,&apos;fromTableItem&apos;]</span><br><span class="line">&#125;</span><br><span class="line">const assignmentpersistConfig = &#123;</span><br><span class="line">    key: &apos;assignment&apos;,</span><br><span class="line">    storage,</span><br><span class="line">    whitelist: [&apos;currentTitle&apos;,&apos;currentColor&apos;,&apos;english&apos;,&apos;currentQuestion&apos;,&apos;questionList&apos;,&apos;totalPage&apos;,&apos;currentPage&apos;,&apos;codingParam&apos;]</span><br><span class="line">&#125;</span><br><span class="line">const reducer = combineReducers(&#123;</span><br><span class="line">    home: persistReducer(homepersistConfig, homeReducer),</span><br><span class="line">    competition: persistReducer(competitionpersistConfig, competitionReducer),</span><br><span class="line">    management: persistReducer(managementpersistConfig, managementReducer),</span><br><span class="line">    assignment: persistReducer(assignmentpersistConfig, assignmentReducer)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">export default reducer;</span><br></pre></td></tr></table></figure></pre></p>
+<p><br><br>现在redux就配置完了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/React/" rel="tag"><i class="fa fa-tag"></i> React</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/28/React的疑难杂症/" rel="next" title="React学习笔记">
+                <i class="fa fa-chevron-left"></i> React学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">qin.</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/wwqin" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:245432372@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-qq"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面的话"><span class="nav-number">1.</span> <span class="nav-text">写在前面的话</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#next环境搭建"><span class="nav-number">2.</span> <span class="nav-text">next环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#起步"><span class="nav-number">2.1.</span> <span class="nav-text">起步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#路由"><span class="nav-number">2.2.</span> <span class="nav-text">路由</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义路由"><span class="nav-number">2.2.1.</span> <span class="nav-text">自定义路由</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一种方法：新建server"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">第一种方法：新建server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二种方法：更改next-config-js自定义路由配置"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">第二种方法：更改next.config.js自定义路由配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他的自定义配置"><span class="nav-number">2.3.</span> <span class="nav-text">其他的自定义配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#css、less"><span class="nav-number">2.3.1.</span> <span class="nav-text">css、less</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#再提一个react的日常问题，Antd"><span class="nav-number">2.3.2.</span> <span class="nav-text">再提一个react的日常问题，Antd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#打个总结"><span class="nav-number">2.3.3.</span> <span class="nav-text">打个总结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自定义-app-js"><span class="nav-number">3.</span> <span class="nav-text">自定义_app.js</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#nextjs-redux"><span class="nav-number">4.</span> <span class="nav-text">nextjs+redux</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">qin.</span>
+
+  
+</div>
+
+
+  <!-- <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+-->
+
+
+<div>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv" style='display:none'>
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+    有<span id="busuanzi_value_site_uv"></span>人看过我的博客啦~好开心~
+</span>
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/three/three.min.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":200},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>
