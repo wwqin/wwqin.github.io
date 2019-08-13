@@ -259,6 +259,165 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/13/React源码解析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="qin.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qin&#x7684;&#x4FEE;&#x884C;&#x4E4B;&#x8DEF;">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/13/React源码解析/" itemprop="url">React源码解析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-13T18:03:34+08:00">
+                2019-08-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/React/" itemprop="url" rel="index">
+                    <span itemprop="name">React</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="React源码解析"><a href="#React源码解析" class="headerlink" title="React源码解析"></a>React源码解析</h1><p>首先clone一个react的源码，打开入口文件<code>index.js</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&apos;use strict&apos;;</span><br><span class="line"></span><br><span class="line">if (process.env.NODE_ENV === &apos;production&apos;) &#123;</span><br><span class="line">  module.exports = require(&apos;./cjs/react.production.min.js&apos;);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">  module.exports = require(&apos;./cjs/react.development.js&apos;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以发现入口文件仅仅只是做了一个判断是否进入dev模式，因为线上模式的文件是已经压缩过的了不好分析所以我们看生产环境下的<code>development.js</code>。打开<code>development.js</code>文件发现React源码仅有2000多行感觉并不是很多，不过看着这么多看不懂的代码还是很头疼的完全没有一点头绪，所以我们从他暴露出来的部分看看React都有些什么东西。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">var React = &#123;</span><br><span class="line">  Children: &#123;</span><br><span class="line">    map: mapChildren,</span><br><span class="line">    forEach: forEachChildren,</span><br><span class="line">    count: countChildren,</span><br><span class="line">    toArray: toArray,</span><br><span class="line">    only: onlyChild</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  createRef: createRef,</span><br><span class="line">  Component: Component,</span><br><span class="line">  PureComponent: PureComponent,</span><br><span class="line"></span><br><span class="line">  createContext: createContext,</span><br><span class="line">  forwardRef: forwardRef,</span><br><span class="line">  lazy: lazy,</span><br><span class="line">  memo: memo,</span><br><span class="line"></span><br><span class="line">  useCallback: useCallback,</span><br><span class="line">  useContext: useContext,</span><br><span class="line">  useEffect: useEffect,</span><br><span class="line">  useImperativeHandle: useImperativeHandle,</span><br><span class="line">  useDebugValue: useDebugValue,</span><br><span class="line">  useLayoutEffect: useLayoutEffect,</span><br><span class="line">  useMemo: useMemo,</span><br><span class="line">  useReducer: useReducer,</span><br><span class="line">  useRef: useRef,</span><br><span class="line">  useState: useState,</span><br><span class="line"></span><br><span class="line">  Fragment: REACT_FRAGMENT_TYPE,</span><br><span class="line">  Profiler: REACT_PROFILER_TYPE,</span><br><span class="line">  StrictMode: REACT_STRICT_MODE_TYPE,</span><br><span class="line">  Suspense: REACT_SUSPENSE_TYPE,</span><br><span class="line">  unstable_SuspenseList: REACT_SUSPENSE_LIST_TYPE,</span><br><span class="line"></span><br><span class="line">  createElement: createElementWithValidation,</span><br><span class="line">  cloneElement: cloneElementWithValidation,</span><br><span class="line">  createFactory: createFactoryWithValidation,</span><br><span class="line">  isValidElement: isValidElement,</span><br><span class="line"></span><br><span class="line">  version: ReactVersion,</span><br><span class="line"></span><br><span class="line">  unstable_withSuspenseConfig: withSuspenseConfig,</span><br><span class="line"></span><br><span class="line">  __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: ReactSharedInternals</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>从他暴露出来的API我们不难发现其实还是很有规律的大概可以根据换行分为这么几个部分。</p>
+<ol>
+<li>Children部分。这一部分的API大部分都是对子组件的一些基本操作，比如map、foreach之类的。</li>
+<li>Component部分。这一部分大概是讲怎么生成一个组件，以及一个组件到底是什么样子的(绝不可能仅仅只是你定义了一个class而已)。</li>
+<li>forwardRef、lazy、memo、createContext。forwardRef 是用来解决 HOC 组件(类似redux中connect的高级组件)传递 ref 的问题的。lazy 是用来实现异步加载功能的。memo 是一个高阶函数，它与 React.PureComponent类似，但是一个函数组件而非一个类。createContext大家可能都不太陌生了，以前都用过context来传值，再新的版本将context改进并投入使用(以前的context性能是真的差)。</li>
+<li>user系列。这是React16 的 Hooks。</li>
+<li>Fragment、Profiler、StrictMode、Suspense、unstable_SuspenseList。后面的五个都是 React 提供的组件，但他们呢其实都只是占位符，都是一个 Symbol，在 React 实际检测到他们的时候会做一些特殊的处理</li>
+<li>createElement、cloneElement、createFactory、isValidElement。从名字就可以看出这是对ReactElement的一些操作。</li>
+</ol>
+<h2 id="组件实现"><a href="#组件实现" class="headerlink" title="组件实现"></a>组件实现</h2><p>首先从组件开始讲起，因为无论是Children部分还是其他的都是基于组件来实现的。<br>新建一个React项目，console一个组件看看控制台是什么样子的。<br><img src="https://i.imgur.com/1Eb2WGD.jpg" alt="图1"><br>发现这个组件仅仅只是一个对象而已，此时再去对比一下创建组件部分的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var element = &#123;</span><br><span class="line">    // This tag allows us to uniquely identify this as a React Element</span><br><span class="line">    $$typeof: REACT_ELEMENT_TYPE,</span><br><span class="line"></span><br><span class="line">    // Built-in properties that belong on the element</span><br><span class="line">    type: type,</span><br><span class="line">    key: key,</span><br><span class="line">    ref: ref,</span><br><span class="line">    props: props,</span><br><span class="line"></span><br><span class="line">    // Record the component responsible for creating this element.</span><br><span class="line">    _owner: owner</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure></p>
+<p>是不是发现构建一个组件如此简单，我们不妨再往组件里面添加一些东西试试<br><img src="https://i.imgur.com/IEBld3L.jpg" alt="图2"><br>打开控制台我们会发现仅仅只是在props里面增加了同样的东西<br><img src="https://i.imgur.com/PnS2ir7.jpg" alt="图3"><br>从这里不难看出这里的DOM组件只是一个个的对象而已，无论多复杂的操作，都只是先进行虚拟DOM的JS计算，把这个组件对象计算好了以后，再一次性的通过Diff算法进行渲染或者更新，而不是每次都要直接操作真实的DOM。调用DOM的开销是很大的。而Virtual DOM的执行完全都在Javascript 引擎中，完全不会有这个开销。在比较原生的jQuery年代，通过JS来操纵DOM元素，而且都是真实的DOM元素，而且我们都知道复杂或频繁的DOM操作通常是性能瓶颈产生的原因，所以React引入了虚拟DOM（Virtual DOM）的概念。<br>知道了组件是什么以后接下来我们去应该了解一下组件是如何被创建的。<br>如何创建一个组件呢？首先当然是创建一个react.element，这里按图索骥可以找到createElement这个方法，前面部分提取了部分保留名称，后面部分对剩余的属性进行了判断并存储在新的props里<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">function createElement(type, config, children) &#123;</span><br><span class="line">  var propName = void 0;</span><br><span class="line"></span><br><span class="line">  // Reserved names are extracted</span><br><span class="line">  var props = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">  var key = null;</span><br><span class="line">  var ref = null;</span><br><span class="line">  var self = null;</span><br><span class="line">  var source = null;</span><br><span class="line"></span><br><span class="line">  if (config != null) &#123;</span><br><span class="line">    if (hasValidRef(config)) &#123;</span><br><span class="line">      ref = config.ref;</span><br><span class="line">    &#125;</span><br><span class="line">    if (hasValidKey(config)) &#123;</span><br><span class="line">      key = &apos;&apos; + config.key;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    self = config.__self === undefined ? null : config.__self;</span><br><span class="line">    source = config.__source === undefined ? null : config.__source;</span><br><span class="line">    // Remaining properties are added to a new props object</span><br><span class="line">    for (propName in config) &#123;</span><br><span class="line">      if (hasOwnProperty.call(config, propName) &amp;&amp; !RESERVED_PROPS.hasOwnProperty(propName)) &#123;</span><br><span class="line">        props[propName] = config[propName];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  return ReactElement(type, key, ref, self, source, ReactCurrentOwner.current, props);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以精简一下，就可以更直观<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function createElement(type, config, children) &#123;</span><br><span class="line">  var propName = void 0;</span><br><span class="line"></span><br><span class="line">  // Reserved names are extracted</span><br><span class="line">  var props = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">  var key = null;</span><br><span class="line">  var ref = null;</span><br><span class="line">  var self = null;</span><br><span class="line">  var source = null;</span><br><span class="line">  return ReactElement(type, key, ref, self, source, ReactCurrentOwner.current, props);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再顺着这个函数就可以找到<code>ReactElement</code>，找到这个函数就可以发现这才是组件的核心，不难发现这个方法就是上文所提到的创建组件的核心<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">var ReactElement = function (type, key, ref, self, source, owner, props) &#123;</span><br><span class="line">  var element = &#123;</span><br><span class="line">    // This tag allows us to uniquely identify this as a React Element</span><br><span class="line">    $$typeof: REACT_ELEMENT_TYPE,</span><br><span class="line"></span><br><span class="line">    // Built-in properties that belong on the element</span><br><span class="line">    type: type,</span><br><span class="line">    key: key,</span><br><span class="line">    ref: ref,</span><br><span class="line">    props: props,</span><br><span class="line"></span><br><span class="line">    // Record the component responsible for creating this element.</span><br><span class="line">    _owner: owner</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  ......(省略部分代码)</span><br><span class="line"></span><br><span class="line">  return element;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>但是这仅仅只是组件的创建，在React中组件不仅仅只是组件，他分为Component和PureComponent。那么他是如何识别这两种类型的组件并且创建的呢？接下来好好研究一下这个问题。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/05/nextjs/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -462,8 +621,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Debug/" itemprop="url" rel="index">
-                    <span itemprop="name">Debug</span>
+                  <a href="/categories/React/" itemprop="url" rel="index">
+                    <span itemprop="name">React</span>
                   </a>
                 </span>
 
@@ -1585,154 +1744,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/02/About-css/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="qin.">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Qin&#x7684;&#x4FEE;&#x884C;&#x4E4B;&#x8DEF;">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/02/About-css/" itemprop="url">About css选择器</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-02T12:37:45+08:00">
-                2018-08-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/学习心得/" itemprop="url" rel="index">
-                    <span itemprop="name">学习心得</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="写在前面的话"><a href="#写在前面的话" class="headerlink" title="写在前面的话"></a>写在前面的话</h1><p>在我看来css是我在编程过程中最头疼的几个问题之一，首先是定位问题，对css元素、选择器不熟悉的话肯定要出问题，其次就是浮动问题，最后就是响应式布局，这里我主要就是记录css，其他的后面再单独记录。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/08/02/About-css/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1783,7 +1794,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1794,7 +1805,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
