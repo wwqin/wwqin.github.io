@@ -90,7 +90,7 @@
 <meta property="og:image" content="https://i.imgur.com/1Eb2WGD.jpg">
 <meta property="og:image" content="https://i.imgur.com/IEBld3L.jpg">
 <meta property="og:image" content="https://i.imgur.com/PnS2ir7.jpg">
-<meta property="og:updated_time" content="2019-08-14T10:02:22.051Z">
+<meta property="og:updated_time" content="2019-08-25T05:59:39.104Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React源码解析(一)">
 <meta name="twitter:description" content="React组件的实现首先clone一个react的源码，打开入口文件index.js1234567&amp;apos;use strict&amp;apos;;if (process.env.NODE_ENV === &amp;apos;production&amp;apos;) &amp;#123;  module.exports = require(&amp;apos;./cjs/react.production.min.js&amp;apos;)">
@@ -380,7 +380,7 @@
 <p>首先先不管他是如何实现这些方法的，我们从代码中可以得知这些方法都是通过原型链挂载到<code>Component</code>上的。但是组件是分为两个类别的，而我们写代码的时候都是通过一行<code>extends React.component</code>就继承了component的所有方法了。如果要理解其中的秘密我们就只好再去看看PureCompoent的代码了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function PureComponent(props, context, updater) &#123;</span><br><span class="line">  this.props = props;</span><br><span class="line">  this.context = context;</span><br><span class="line">  // If a component has string refs, we will assign a different object later.</span><br><span class="line">  this.refs = emptyObject;</span><br><span class="line">  this.updater = updater || ReactNoopUpdateQueue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>不出意外，还是同样的配方。但是有一些不同的是PureCompoent并没有挂载那几个方法，那么他是如何获得的这些方法的呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function ComponentDummy() &#123;&#125;</span><br><span class="line">ComponentDummy.prototype = Component.prototype;</span><br><span class="line">...</span><br><span class="line">var pureComponentPrototype = PureComponent.prototype = new ComponentDummy();</span><br><span class="line">pureComponentPrototype.constructor = PureComponent;</span><br><span class="line">// Avoid an extra prototype jump for these methods.</span><br><span class="line">_assign(pureComponentPrototype, Component.prototype);</span><br></pre></td></tr></table></figure></p>
 <p>我们从代码的前面可以看到他定义了一个<code>ComponentDummy</code>的构造器通过他的原型指向了<code>Component</code>的原型。再后面又实例化了一个<code>ComponentDummy</code>的对象<code>pureComponentPrototype</code>，又通过这个对象的<code>constructor</code>属性指向了<code>PureComponent</code>，因此<code>PureComponent</code>也成为了一个构造器，也就是上面的第二种组件基类。最后一行将两个原型合并，也就是相当于这些方法都有了。</p>
-
+<h2 id="虚拟DOM"><a href="#虚拟DOM" class="headerlink" title="虚拟DOM"></a>虚拟DOM</h2>
       
     </div>
     
@@ -419,6 +419,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/26/常用工具/" rel="prev" title="常用工具">
+                常用工具 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -519,7 +523,7 @@ var jiathis_config={
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -590,7 +594,7 @@ var jiathis_config={
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#React组件的实现"><span class="nav-number">1.</span> <span class="nav-text">React组件的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#组件实现"><span class="nav-number">1.1.</span> <span class="nav-text">组件实现</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#React组件的实现"><span class="nav-number">1.</span> <span class="nav-text">React组件的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#组件实现"><span class="nav-number">1.1.</span> <span class="nav-text">组件实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚拟DOM"><span class="nav-number">1.2.</span> <span class="nav-text">虚拟DOM</span></a></li></ol></li></ol></div>
             
 
           </div>
