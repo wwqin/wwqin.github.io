@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[开发流程简介]]></title>
+    <url>%2F2019%2F11%2F16%2F%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B%E7%AE%80%E4%BB%8B%2F</url>
+    <content type="text"><![CDATA[开发流程单怼项目的日常在校阶段接触到的项目基本都是单怼的情况比较多，比如程序设计周、老师的一些外包项目以及自己的一些想法的实现。首先说说项目大概会有这么几个阶段： 需求分析 开发阶段、测试阶段 上线 以下的例子均为同一个内容，那就是老师给你布置了一个任务，任务的内容是设计并实现一个校史馆预约系统。 需求分析首先对需求进行分析，由于老师也不是很懂需要你自己去进行需求分析。首先这个系统肯定需要登录以及权限管理，其次在预约中肯定需要表单的提交以及提交的规则展示，最后需要更高一级的权限对预约进行确认。总结一下有下面几点： 登录、注册、权限 提交预约、通知预约结果 确认(拒绝)预约 查看log 以上几点需求，登录和注册以及是常见并且贯穿两个端(学生端和老师端)的东西，其次提交预约、通知预约结果是学生端的，确认(拒绝)预约和查看log是教师端的。明确需求之后就可以进行开发前的准备了 开发阶段、测试阶段之所以合在一起写是因为在个人开发的时候测试一个模块往往都是自行打log测试，所以在开发的同时就已经完成了测试 开发前的准备需求明确了，这下要明确我们去怎么实现以及怎么去设计系统了。最好的办法就是先制作原型图。 安利一手原型图制作软件：Ant Design、墨刀、蓝湖 然后根据原型图进行技术选型，这里的技术选型就没必要考虑什么了，自己怎么顺手怎么来，不过还是要根据项目的大小以及需求，比如老师会让你必须用小程序之类的。是我的话前端:html css jQuery javascript bootstrap animate.css后端:node express mysql 前端设计选定了这一套技术栈之后就需要对基本架构进行搭建，先说一下前端的基本架构是什么，首先index.html这是前端的入口文件必须要有，其次reset.css这个是对样式进行初始化，最后就是将前面定好的技术栈需要到的包，比如bootstrap、animate下载下来放到lib文件夹。结束了这一切之后文件目录应该是这样的123456789101112├── web│ ├── index.html 入口│ ├── html html文件│ ├── js js文件│ ├── css │ │ ├── reset.css 样式初始化 │ │ ├── style.css 主要样式│ │ └── model.css 适配样式│ │── staic 静态资源部分│ │── lib 需要的模块│ │ ├── bootstrap│ │ └── animate 后端设计后端设计，先设计数据库再进行接口设计。 开发阶段文件目录构建好了之后对逻辑部分就行设计。首先有这么几个功能，提交、通知、确认(拒绝)、登录(登出)、注册、查看log。先对把他们从网页中抽离出来单独编写代码针对这几个功能，然后再还原设计图通过调用这些函数来实现这些交互功能。在写的过程中一边写一边调试，实际上只要搭建好了基础设施建设起来是非常快的。 上线阶段无非就是线上服务器部署、nginx、自动化之类的]]></content>
+      <categories>
+        <category>软件能</category>
+      </categories>
+      <tags>
+        <tag>开发心得</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[常用工具]]></title>
     <url>%2F2019%2F08%2F26%2F%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%2F</url>
     <content type="text"><![CDATA[一些自用工具 SSH工具MobaXtermXshell+File zille浏览器ChromePostman请求模拟器 Google 翻译CaretTab一个精美简单、完全可定制的新式标签页，包括多个时钟、日期、搜索、快速链接等等！ FirefoxGitGithub代码仓库 Gitlab编译器vs codesublime textJetBrains系列IDEA（java）CLion（C/C++）DataGrip(数据库)WebStom(前端)NoteOneNote幕布其他工具Photoshop美图秀秀goland虚拟机Oracle VM VirtualBoxMarkdown一些常用网站https://www.haorooms.com/nav一个前端导航网站https://segmentfault.com/思否https://www.imooc.com/慕课https://www.design-seeds.com/设计种子（找配色的地方）https://stackoverflow.com/stackoverflow（查报错）]]></content>
