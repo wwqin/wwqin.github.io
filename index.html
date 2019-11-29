@@ -354,7 +354,18 @@
       
         
           
-            <h1 id="面试前的自检清单1-0"><a href="#面试前的自检清单1-0" class="headerlink" title="面试前的自检清单1.0"></a>面试前的自检清单1.0</h1><h2 id="1-1事件循环"><a href="#1-1事件循环" class="headerlink" title="1.1事件循环"></a>1.1事件循环</h2><h2 id="1-2继承-组合式、寄生式、组合寄生式"><a href="#1-2继承-组合式、寄生式、组合寄生式" class="headerlink" title="1.2继承(组合式、寄生式、组合寄生式)"></a>1.2继承(组合式、寄生式、组合寄生式)</h2><h2 id="1-3cookie-session-tooken区别"><a href="#1-3cookie-session-tooken区别" class="headerlink" title="1.3cookie||session||tooken区别"></a>1.3cookie||session||tooken区别</h2><h2 id="1-4三次握手四次挥手"><a href="#1-4三次握手四次挥手" class="headerlink" title="1.4三次握手四次挥手"></a>1.4三次握手四次挥手</h2><h2 id="1-5手动Promise"><a href="#1-5手动Promise" class="headerlink" title="1.5手动Promise"></a>1.5手动Promise</h2>
+            <h1 id="面试前的自检清单1-0"><a href="#面试前的自检清单1-0" class="headerlink" title="面试前的自检清单1.0"></a>面试前的自检清单1.0</h1><h2 id="1-1事件循环"><a href="#1-1事件循环" class="headerlink" title="1.1事件循环"></a>1.1事件循环</h2><p>众所周知，JavaScript 是一门单线程语言，虽然在 html5 中提出了 Web-Worker ，但这并未改变 JavaScript 是单线程这一核心。为了协调事件、用户交互、脚本、UI 渲染和网络处理等行为，用户引擎必须使用 event loops，也就是事件循环。</p>
+<h3 id="任务队列"><a href="#任务队列" class="headerlink" title="任务队列"></a>任务队列</h3><p>首先介绍一下什么是任务队列，对于一个单线程语言来说执行代码顺序是由任务队列来决定的，同步任务都会被放到主线程中执行。在代码运行到那一块的时候首先会去创建一个新的执行环境然后把这个执行环境推入执行栈顶部，同样如果在函数中又调用了其他函数那么发生同样的事情再创建一个新的执行环境并推入栈顶，浏览器始终处于栈顶的执行环境之中，执行完之后自动出栈。这就是同步任务执行的过程。那么异步任务是怎么执行的呢？同步任务是按执行栈的顺序来执行，那么异步就是按照任务队列的顺序来进行的，执行有了结果后进入等待状态(等待进入执行栈)，然后等执行栈里面的执行完后再执行异步任务，异步任务执行完以后会再进入下一个事件循环。任务队列主要是针对于异步任务的。</p>
+<h3 id="浏览器事件循环"><a href="#浏览器事件循环" class="headerlink" title="浏览器事件循环"></a>浏览器事件循环</h3><p>在知道了任务队列之后，我们知道异步任务有了回调结果之后会进入任务队列等待，但是任务队列仍然分为两种，一种是微任务，另外一种是宏任务。那么什么是微任务？什么是宏任务呢？</p>
+<blockquote>
+<p>微任务：Promises(浏览器实现的原生Promise)、MutationObserver、process.nextTick等<br><br>宏任务：setTimeout、setInterval、setImmediate、I/O、UI rendering等<br><br>PS:script(整体代码)即一开始在主执行栈中的同步代码本质上也属于宏任务，属于第一个执行的task</p>
+</blockquote>
+<p>那么在这个循环中是优先执行同步任务，然后对于异步任务来说先执行微任务再执行宏任务，举个栗子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">console.log(1);</span><br><span class="line"></span><br><span class="line">setTimeout(function() &#123;</span><br><span class="line">  console.log(2);</span><br><span class="line">&#125;, 0);</span><br><span class="line"></span><br><span class="line">new Promise(function(resolve,reject)&#123;</span><br><span class="line">    console.log(3)</span><br><span class="line">    resolve()</span><br><span class="line">&#125;).then(function() &#123;</span><br><span class="line">  console.log(4);</span><br><span class="line">&#125;).then(function() &#123;</span><br><span class="line">  console.log(5);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">console.log(6);</span><br><span class="line">//1 - 3 - 6 - 4 - 5 - 2</span><br></pre></td></tr></table></figure></p>
+<p>从上面这个例子很清晰的可以看出先执行了一遍同步部分后执行微任务(<code>Promise.then(...)</code>)再执行宏任务(<code>setTimeout(...)</code>)，但是如果在微任务中嵌套宏任务又是怎么样的执行顺序呢？举个栗子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">console.log(1)</span><br><span class="line"></span><br><span class="line">setTimeout(() =&gt; &#123;</span><br><span class="line">  console.log(2);</span><br><span class="line">  Promise.resolve().then(() =&gt; &#123;</span><br><span class="line">    console.log(3)</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;, 0);</span><br><span class="line"> </span><br><span class="line">new Promise((resolve) =&gt; &#123;</span><br><span class="line">  console.log(4);</span><br><span class="line">  resolve();</span><br><span class="line">&#125;).then(() =&gt; &#123;</span><br><span class="line">  console.log(5);</span><br><span class="line">  setTimeout(() =&gt; console.log(6), 0)</span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line">console.log(7);</span><br><span class="line">//1 - 4 - 7 - 5 - 2 - 3 - 6</span><br></pre></td></tr></table></figure>
+<p><code>1 - 4 - 7</code>是同步任务执行完了，<code>5 - 2</code>是第一遍事件循环，<code>3 - 6</code>是二次循环。<br>以上就是浏览器事件循环的全部内容了，接下来是Node的事件循环。</p>
+<h3 id="Node中的事件循环"><a href="#Node中的事件循环" class="headerlink" title="Node中的事件循环"></a>Node中的事件循环</h3><p>后面再补这个。</p>
+<h2 id="1-2继承-组合式、寄生式、组合寄生式"><a href="#1-2继承-组合式、寄生式、组合寄生式" class="headerlink" title="1.2继承(组合式、寄生式、组合寄生式)"></a>1.2继承(组合式、寄生式、组合寄生式)</h2><h2 id="1-3cookie-session-tooken区别"><a href="#1-3cookie-session-tooken区别" class="headerlink" title="1.3cookie||session||tooken区别"></a>1.3cookie||session||tooken区别</h2><h2 id="1-4三次握手四次挥手"><a href="#1-4三次握手四次挥手" class="headerlink" title="1.4三次握手四次挥手"></a>1.4三次握手四次挥手</h2><h2 id="1-5手动Promise"><a href="#1-5手动Promise" class="headerlink" title="1.5手动Promise"></a>1.5手动Promise</h2>
           
         
       
@@ -504,7 +515,7 @@
 </ol>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/11/16/开发流程简介/#more" rel="contents">
+            <a class="btn" href="/2019/11/16/开发流程简介/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -652,7 +663,7 @@
           <p>一些自用工具<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/08/26/常用工具/#more" rel="contents">
+            <a class="btn" href="/2019/08/26/常用工具/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -801,7 +812,7 @@
 <p>可以发现入口文件仅仅只是做了一个判断是否进入dev模式，因为线上模式的文件是已经压缩过的了不好分析所以我们看生产环境下的<code>development.js</code>。打开<code>development.js</code>文件发现React源码仅有2000多行感觉并不是很多，不过看着这么多看不懂的代码还是很头疼的完全没有一点头绪，所以我们从他暴露出来的部分看看React都有些什么东西。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/08/13/React源码解析/#more" rel="contents">
+            <a class="btn" href="/2019/08/13/React源码解析/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -950,7 +961,7 @@
 <h1 id="next环境搭建"><a href="#next环境搭建" class="headerlink" title="next环境搭建"></a>next环境搭建</h1><h2 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h2><p>其实next的配置其实非常的简单，就像官方文档一样<code>npm install --save next react react-dom</code>就搞定了，再把启动的script加入到packge.json中就ok了。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/08/05/nextjs/#more" rel="contents">
+            <a class="btn" href="/2019/08/05/nextjs/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1098,7 +1109,7 @@
           <h1 id="render外层嵌套的div"><a href="#render外层嵌套的div" class="headerlink" title="render外层嵌套的div"></a>render外层嵌套的div</h1><p>rander函数return只能返回一个大的JSX，如果出现两个就需要在外面套一个<code>&lt;div&gt;&lt;/div&gt;</code>但是多出来的一个不必要的div会给我们增加许多的麻烦所以就可以用<code>&lt;React.fragment&gt;&lt;/React.fragment&gt;</code>来取代<code>&lt;div&gt;&lt;/div&gt;</code>。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/28/React的疑难杂症/#more" rel="contents">
+            <a class="btn" href="/2019/02/28/React的疑难杂症/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1246,7 +1257,7 @@
           <h1 id="JavaScript-中-undefined-和-not-defined-的区别"><a href="#JavaScript-中-undefined-和-not-defined-的区别" class="headerlink" title="JavaScript 中 undefined 和 not defined 的区别"></a>JavaScript 中 undefined 和 not defined 的区别</h1><p>JavaScript 未声明变量直接使用会抛出异常：var name is not defined，如果没有处理异常，代码就停止运行了。<br>但是，使用typeof undeclared_variable并不会产生异常，会直接返回 undefined。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/26/稀奇古怪的JavaScript/#more" rel="contents">
+            <a class="btn" href="/2019/02/26/稀奇古怪的JavaScript/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1395,7 +1406,7 @@
 <h1 id="首先我们说说为什么要做数据可视化？"><a href="#首先我们说说为什么要做数据可视化？" class="headerlink" title="首先我们说说为什么要做数据可视化？"></a>首先我们说说为什么要做数据可视化？</h1><h2 id="快"><a href="#快" class="headerlink" title="快"></a>快</h2><p>视觉是人类获取外界信息最高速，最主要也是最重要渠道。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/02/23/数据可视化/#more" rel="contents">
+            <a class="btn" href="/2019/02/23/数据可视化/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1543,7 +1554,7 @@
           <h1 id="网页设计大赛心得"><a href="#网页设计大赛心得" class="headerlink" title="网页设计大赛心得"></a>网页设计大赛心得</h1><h2 id="说在前面的话"><a href="#说在前面的话" class="headerlink" title="说在前面的话"></a>说在前面的话</h2><p>  本次比赛从十月十一号正式在Gitlab上搭建，做的题材就是我们院科协的1.0版本，临时参考了各种酷炫网站的各种特效并打算将其组合起来，但是发现实际效果好像不太行，所以决定走简约风格，而这个呢就是参考某一个网站具体网址我也忘了。啰嗦了这么多就开始进入正题吧。<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/11/27/development-website/#more" rel="contents">
+            <a class="btn" href="/2018/11/27/development-website/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1696,7 +1707,7 @@
 <p>看视频整理要点笔记:</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/10/29/ES6/#more" rel="contents">
+            <a class="btn" href="/2018/10/29/ES6/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
