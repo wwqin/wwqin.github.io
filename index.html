@@ -507,19 +507,45 @@
 
       
         
-          <h1 id="开发流程"><a href="#开发流程" class="headerlink" title="开发流程"></a>开发流程</h1><h2 id="单怼项目的日常"><a href="#单怼项目的日常" class="headerlink" title="单怼项目的日常"></a>单怼项目的日常</h2><p>在校阶段接触到的项目基本都是单怼的情况比较多，比如程序设计周、老师的一些外包项目以及自己的一些想法的实现。首先说说项目大概会有这么几个阶段：</p>
+          
+            <h1 id="开发流程"><a href="#开发流程" class="headerlink" title="开发流程"></a>开发流程</h1><h2 id="单怼项目的日常"><a href="#单怼项目的日常" class="headerlink" title="单怼项目的日常"></a>单怼项目的日常</h2><p>在校阶段接触到的项目基本都是单怼的情况比较多，比如程序设计周、老师的一些外包项目以及自己的一些想法的实现。首先说说项目大概会有这么几个阶段：</p>
 <ol>
 <li>需求分析</li>
 <li>开发阶段、测试阶段</li>
 <li>上线</li>
 </ol>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/11/16/开发流程简介/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+<p>以下的例子均为同一个内容，那就是老师给你布置了一个任务，任务的内容是设计并实现一个校史馆预约系统。</p>
+<h3 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h3><p>首先对需求进行分析，由于老师也不是很懂，需要你自己去进行需求分析。首先这个系统肯定需要登录以及权限管理，其次在预约中肯定需要表单的提交以及提交的规则展示，最后需要更高一级的权限对预约进行确认。总结一下有下面几点：</p>
+<ul>
+<li>登录、注册、权限</li>
+<li>提交预约、通知预约结果</li>
+<li>确认(拒绝)预约</li>
+<li>查看log</li>
+</ul>
+<p>以上几点需求，登录和注册以及是常见并且贯穿两个端(学生端和老师端)的东西，其次提交预约、通知预约结果是学生端的，确认(拒绝)预约和查看log是教师端的。明确需求之后就可以进行开发前的准备了</p>
+<h3 id="开发阶段、测试阶段"><a href="#开发阶段、测试阶段" class="headerlink" title="开发阶段、测试阶段"></a>开发阶段、测试阶段</h3><p>之所以合在一起写是因为在个人开发的时候测试一个模块往往都是自行打log测试，所以在开发的同时就已经完成了测试</p>
+<h4 id="开发前的准备"><a href="#开发前的准备" class="headerlink" title="开发前的准备"></a>开发前的准备</h4><p>需求明确了，这下要明确我们去怎么实现以及怎么去设计系统了。最好的办法就是先制作<strong>原型图</strong>。</p>
+<blockquote>
+<p>安利一手原型图制作软件：<a href="https://landing.ant.design/index-cn" title="Ant Design" target="_blank" rel="noopener">Ant Design</a>、<a href="https://modao.cc/" title="Ant Design" target="_blank" rel="noopener">墨刀</a>、<a href="https://lanhuapp.com/" title="Ant Design" target="_blank" rel="noopener">蓝湖</a></p>
+</blockquote>
+<p>然后根据原型图进行技术选型，这里的技术选型就没必要考虑什么了，自己怎么顺手怎么来，不过还是要根据项目的大小以及需求，比如老师会让你必须用小程序之类的。是我的话<br><strong>前端</strong>:html css jQuery javascript bootstrap animate.css<br><strong>后端</strong>:node express mysql</p>
+<h5 id="前端设计"><a href="#前端设计" class="headerlink" title="前端设计"></a>前端设计</h5><p>选定了这一套技术栈之后就需要对基本架构进行搭建，先说一下前端的基本架构是什么，首先<code>index.html</code>这是前端的入口文件必须要有，其次<code>reset.css</code>这个是对样式进行初始化，最后就是将前面定好的技术栈需要到的包，比如bootstrap、animate下载下来放到lib文件夹。结束了这一切之后文件目录应该是这样的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">├── web</span><br><span class="line">│   ├── index.html 入口</span><br><span class="line">│   ├── html html文件</span><br><span class="line">│   ├── js js文件</span><br><span class="line">│   ├── css </span><br><span class="line">│   │   ├── reset.css 样式初始化 </span><br><span class="line">│   │   ├── style.css 主要样式</span><br><span class="line">│   │   └── model.css 适配样式</span><br><span class="line">│   │── staic 静态资源部分</span><br><span class="line">│   │── lib 需要的模块</span><br><span class="line">│   │   ├── bootstrap</span><br><span class="line">│   │   └── animate</span><br></pre></td></tr></table></figure></p>
+<h5 id="后端设计"><a href="#后端设计" class="headerlink" title="后端设计"></a>后端设计</h5><p>后端设计，先设计数据库再进行接口设计。</p>
+<h4 id="开发阶段"><a href="#开发阶段" class="headerlink" title="开发阶段"></a>开发阶段</h4><p>文件目录构建好了之后对逻辑部分就行设计。<br>首先有这么几个功能，提交、通知、确认(拒绝)、登录(登出)、注册、查看log。先对把他们从网页中抽离出来单独编写代码针对这几个功能，然后再还原设计图通过调用这些函数来实现这些交互功能。<br>在写的过程中一边写一边调试，实际上只要搭建好了基础设施建设起来是非常快的。</p>
+<h3 id="上线阶段"><a href="#上线阶段" class="headerlink" title="上线阶段"></a>上线阶段</h3><p>无非就是线上服务器部署、nginx、自动化之类的</p>
+<h2 id="多人合作开发"><a href="#多人合作开发" class="headerlink" title="多人合作开发"></a>多人合作开发</h2><p>当项目变得越来越复杂体量变得越来越大的时候，一个人显得有些独木难支了，这个时候就需要进行多人开发了，多人开发的流程和单人开发其实相似，但是因为项目较大的缘故项目的技术选项可能会有所不同，会选择一些更容易工程化的东西。还是会经历如下几个阶段：</p>
+<ol>
+<li>需求分析</li>
+<li>开发阶段</li>
+<li>测试阶段</li>
+<li>上线阶段</li>
+</ol>
+<h3 id="需求分析-1"><a href="#需求分析-1" class="headerlink" title="需求分析"></a>需求分析</h3><p>这次我们的例子就用我们的比赛系统，在需求分析阶段和单人开发其实差不多只不过需求更加复杂更加多了，需要合理的给每个人分配。主要的区别应该是在架构阶段和开发阶段。</p>
+<h3 id="架构阶段"><a href="#架构阶段" class="headerlink" title="架构阶段"></a>架构阶段</h3><p>由于需要进行工程化所以在进行技术选型的时候需要做出一些适当的改变，为了迎合大型项目的需求我们选择<br>前端:React Redux redux-thunk next antd axios immutable<br>后端:….</p>
+<h3 id="开发阶段-1"><a href="#开发阶段-1" class="headerlink" title="开发阶段"></a>开发阶段</h3><p>开发阶段需要遵守一定的事先约好的开发规范，最好有一定的代码规范保证自己代码的可读性和可维护性，而管理这个过程可以使用git来进行管理，将代码分成几个分支，主分支用来放最新的上线版本，dev分支放主要开发版本，再建几个历史版本的分支以及几个人各自的开发分支，那么在代码提交合并的时候由leader进行codereview后完成合并，发现问题有leader及时指出改正。</p>
+<h3 id="上线阶段-1"><a href="#上线阶段-1" class="headerlink" title="上线阶段"></a>上线阶段</h3><p>也是部署的一些问题不多说</p>
+
+          
         
       
     </div>
