@@ -406,9 +406,28 @@
 <li>验证成功后，服务端会签发一个token，然后返回给客户端</li>
 <li>客户端收到token后，保存在cookie中</li>
 <li>客户端每次向服务器请求资源时，携带token</li>
-<li>服务端收到请求，去验证token，验证成功，返回数据<h2 id="1-4三次握手四次挥手"><a href="#1-4三次握手四次挥手" class="headerlink" title="1.4三次握手四次挥手"></a>1.4三次握手四次挥手</h2><h2 id="1-5手动Promise"><a href="#1-5手动Promise" class="headerlink" title="1.5手动Promise"></a>1.5手动Promise</h2><h2 id="1-6webpack-loader-pluging"><a href="#1-6webpack-loader-pluging" class="headerlink" title="1.6webpack loader pluging"></a>1.6webpack loader pluging</h2><h2 id="1-7浅拷贝和深拷贝"><a href="#1-7浅拷贝和深拷贝" class="headerlink" title="1.7浅拷贝和深拷贝"></a>1.7浅拷贝和深拷贝</h2></li>
+<li>服务端收到请求，去验证token，验证成功，返回数据<h2 id="1-4三次握手四次挥手"><a href="#1-4三次握手四次挥手" class="headerlink" title="1.4三次握手四次挥手"></a>1.4三次握手四次挥手</h2><h2 id="1-5手动Promise"><a href="#1-5手动Promise" class="headerlink" title="1.5手动Promise"></a>1.5手动Promise</h2><h2 id="1-6webpack-loader-pluging"><a href="#1-6webpack-loader-pluging" class="headerlink" title="1.6webpack loader pluging"></a>1.6webpack loader pluging</h2><h2 id="1-7浅拷贝和深拷贝"><a href="#1-7浅拷贝和深拷贝" class="headerlink" title="1.7浅拷贝和深拷贝"></a>1.7浅拷贝和深拷贝</h2><h1 id="项目自检清单2-0"><a href="#项目自检清单2-0" class="headerlink" title="项目自检清单2.0"></a>项目自检清单2.0</h1><h2 id="2-1-NSCS"><a href="#2-1-NSCS" class="headerlink" title="2.1 NSCS"></a>2.1 NSCS</h2><h3 id="项目配置"><a href="#项目配置" class="headerlink" title="项目配置"></a>项目配置</h3><h4 id="webpack配置"><a href="#webpack配置" class="headerlink" title="webpack配置"></a>webpack配置</h4>采用了下面几个loader，loader的作用就是相当于转译器，webpack无法读取除了js以外的任何文件，loader的作用就是为了将其他文件转换为webpack可以读取的文件</li>
 </ol>
-
+<ul>
+<li>next-less</li>
+<li>next-css</li>
+<li>file-loader</li>
+<li>url-loader</li>
+<li>style-loader</li>
+</ul>
+<p>plugin，plugin相当于是webpack的扩展器，主要是监听webpack的生命周期中的某一个钩子来触发某一些操作，比如监听打包过程中最后的emit来选择输出文件</p>
+<ul>
+<li>monaco-editor-webpack-plugin（我也不知道这个是什么鬼）</li>
+</ul>
+<h4 id="next"><a href="#next" class="headerlink" title="next"></a>next</h4><p>next各种基础配置项目搭建以及带来的副作用</p>
+<ul>
+<li>服务端渲染后根据路由切成了多个html导致原来在SPA中的redux无法使用，通过看官方issue里面提供的解决方法(装redux-persist)就是将redux数据放入local storage里面。个人感觉不是太好</li>
+<li>文件名即路由的问题，需要设置自定义路由，因为根据我的命名习惯会出现<code>/home/home</code>这种极其不符合常理的操作</li>
+<li>现在仍无法使用<code>getInitialProps</code>来初始化组件的props</li>
+<li>动态导入。因为无法直接操作dom，有一些包在导入的时候需要window对象但是在组件挂载的时候并没有生成dom，所以需要动态导入。<code>import dynamic from &#39;next/dynamic&#39;</code>通过它去自定义组件加载的时机</li>
+<li>怎么去部署，因为路由拦截也是在前端做的</li>
+</ul>
+<h4 id="redux"><a href="#redux" class="headerlink" title="redux"></a>redux</h4><h2 id="2-2-sacc-cli"><a href="#2-2-sacc-cli" class="headerlink" title="2.2 sacc-cli"></a>2.2 sacc-cli</h2><h2 id="2-3-PatentMiner"><a href="#2-3-PatentMiner" class="headerlink" title="2.3 PatentMiner"></a>2.3 PatentMiner</h2><h2 id="2-4-Sacc-Homepage"><a href="#2-4-Sacc-Homepage" class="headerlink" title="2.4 Sacc-Homepage"></a>2.4 Sacc-Homepage</h2>
           
         
       
