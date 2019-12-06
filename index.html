@@ -259,6 +259,160 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/06/项目自检清单/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="qin.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qin&#x7684;&#x4FEE;&#x884C;&#x4E4B;&#x8DEF;">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/06/项目自检清单/" itemprop="url">项目自检清单</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-06T14:07:01+08:00">
+                2019-12-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件能/" itemprop="url" rel="index">
+                    <span itemprop="name">软件能</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="项目自检清单1-0"><a href="#项目自检清单1-0" class="headerlink" title="项目自检清单1.0"></a>项目自检清单1.0</h1><h2 id="1-1-NSCS"><a href="#1-1-NSCS" class="headerlink" title="1.1 NSCS"></a>1.1 NSCS</h2><h3 id="项目配置"><a href="#项目配置" class="headerlink" title="项目配置"></a>项目配置</h3><h4 id="webpack配置"><a href="#webpack配置" class="headerlink" title="webpack配置"></a>webpack配置</h4><p>采用了下面几个loader，loader的作用就是相当于转译器，webpack无法读取除了js以外的任何文件，loader的作用就是为了将其他文件转换为webpack可以读取的文件</p>
+<ul>
+<li>next-less</li>
+<li>next-css</li>
+<li>file-loader</li>
+<li>url-loader</li>
+<li>style-loader
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/12/06/项目自检清单/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/28/面试前的自检清单/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -353,91 +507,14 @@
 
       
         
-          
-            <h1 id="面试前的自检清单1-0"><a href="#面试前的自检清单1-0" class="headerlink" title="面试前的自检清单1.0"></a>面试前的自检清单1.0</h1><h2 id="1-1事件循环"><a href="#1-1事件循环" class="headerlink" title="1.1事件循环"></a>1.1事件循环</h2><p>众所周知，JavaScript 是一门单线程语言，虽然在 html5 中提出了 Web-Worker ，但这并未改变 JavaScript 是单线程这一核心。为了协调事件、用户交互、脚本、UI 渲染和网络处理等行为，用户引擎必须使用 event loops，也就是事件循环。</p>
-<h3 id="任务队列"><a href="#任务队列" class="headerlink" title="任务队列"></a>任务队列</h3><p>首先介绍一下什么是任务队列，对于一个单线程语言来说执行代码顺序是由任务队列来决定的，同步任务都会被放到主线程中执行。在代码运行到那一块的时候首先会去创建一个新的执行环境然后把这个执行环境推入执行栈顶部，同样如果在函数中又调用了其他函数那么发生同样的事情再创建一个新的执行环境并推入栈顶，浏览器始终处于栈顶的执行环境之中，执行完之后自动出栈。这就是同步任务执行的过程。那么异步任务是怎么执行的呢？同步任务是按执行栈的顺序来执行，异步任务委托给了其他浏览器的线程执行，执行有了结果后进入等待状态(等待进入执行栈)，在任务队列中存放的是这些异步函数的执行状态，只有当异步任务执行完以后才可以进行回调，而任务队列就是维护异步任务回调函数的队列，它会等到同步任务执行完以后再按照先进先出的顺序进行执行，执行过程中先去执行微任务再去执行宏任务，这样一轮事件循环就结束了，异步任务执行完以后会再进入下一个事件循环。任务队列主要是针对于异步任务的。</p>
-<h3 id="浏览器事件循环"><a href="#浏览器事件循环" class="headerlink" title="浏览器事件循环"></a>浏览器事件循环</h3><p>在知道了任务队列之后，我们知道异步任务有了回调结果之后会进入任务队列等待，但是任务队列仍然分为两种，一种是微任务，另外一种是宏任务。那么什么是微任务？什么是宏任务呢？</p>
-<blockquote>
-<p>微任务：Promises(浏览器实现的原生Promise)、MutationObserver、process.nextTick等<br><br>宏任务：setTimeout、setInterval、setImmediate、I/O、UI rendering等<br><br>PS:script(整体代码)即一开始在主执行栈中的同步代码本质上也属于宏任务，属于第一个执行的task</p>
-</blockquote>
-<p>那么在这个循环中是优先执行同步任务，然后对于异步任务来说先执行微任务再执行宏任务，举个栗子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">console.log(1);</span><br><span class="line"></span><br><span class="line">setTimeout(function() &#123;</span><br><span class="line">  console.log(2);</span><br><span class="line">&#125;, 0);</span><br><span class="line"></span><br><span class="line">new Promise(function(resolve,reject)&#123;</span><br><span class="line">    console.log(3)</span><br><span class="line">    resolve()</span><br><span class="line">&#125;).then(function() &#123;</span><br><span class="line">  console.log(4);</span><br><span class="line">&#125;).then(function() &#123;</span><br><span class="line">  console.log(5);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">console.log(6);</span><br><span class="line">//1 - 3 - 6 - 4 - 5 - 2</span><br></pre></td></tr></table></figure></p>
-<p>从上面这个例子很清晰的可以看出先执行了一遍同步部分后执行微任务(<code>Promise.then(...)</code>)再执行宏任务(<code>setTimeout(...)</code>)，但是如果在微任务中嵌套宏任务又是怎么样的执行顺序呢？举个栗子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">console.log(1)</span><br><span class="line"></span><br><span class="line">setTimeout(() =&gt; &#123;</span><br><span class="line">  console.log(2);</span><br><span class="line">  Promise.resolve().then(() =&gt; &#123;</span><br><span class="line">    console.log(3)</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;, 0);</span><br><span class="line"> </span><br><span class="line">new Promise((resolve) =&gt; &#123;</span><br><span class="line">  console.log(4);</span><br><span class="line">  resolve();</span><br><span class="line">&#125;).then(() =&gt; &#123;</span><br><span class="line">  console.log(5);</span><br><span class="line">  setTimeout(() =&gt; console.log(6), 0)</span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line">console.log(7);</span><br></pre></td></tr></table></figure>
-<p><code>1 - 4 - 7</code>是同步任务执行完了，<code>5 - 2</code>是第一遍事件循环，<code>3 - 6</code>是二次循环。<br>以上就是浏览器事件循环的全部内容了，接下来是Node的事件循环。</p>
-<h3 id="Node中的事件循环"><a href="#Node中的事件循环" class="headerlink" title="Node中的事件循环"></a>Node中的事件循环</h3><p>Node中的事件循环相对于浏览器的事件循环来说多了几个步骤，但是相对于执行顺序来讲只是多了两个函数的区别，首先说一说这六个阶段</p>
-<ul>
-<li><strong>timer</strong>（定时器）：本阶段执行已经被<code>setTimeout()</code>和 <code>setInterval()</code> 的调度回调函数</li>
-<li><strong>pending callbacks</strong> (待定回调)：执行延迟到下一个循环迭代的 I/O 回调。</li>
-<li><strong>idle,prepare</strong>：仅系统内部使用。</li>
-<li><strong>poll</strong>（轮询）：检索新的 I/O 事件;执行与 I/O 相关的回调（几乎所有情况下，除了关闭的回调函数，那些由计时器和 <code>setImmediate()</code> 调度的之外），其余情况 node 将在适当的时候在此阻塞。</li>
-<li><strong>check</strong>（检测）：<code>setImmediate()</code> 回调函数在这里执行。</li>
-<li><strong>close callbacks</strong>(关闭的回调函数):一些关闭的回调函数，如：<code>socket.on(&#39;close&#39;, ...)</code>。</li>
-</ul>
-<h4 id="执行顺序"><a href="#执行顺序" class="headerlink" title="执行顺序"></a>执行顺序</h4><p><code>process.nextTick</code>方法可以在当前”执行栈”的尾部—-下一次Event Loop（主线程读取”任务队列”）之前—-触发回调函数。也就是说，它指定的任务总是发生在所有异步任务之前。<code>setImmediate</code>方法则是在当前”任务队列”的尾部添加事件，也就是说，它指定的任务总是在下一次Event Loop时执行，这与<code>setTimeout(fn, 0)</code>很像。也就是说<code>process.nextTick</code>方法相当于插队，<code>setImmediate</code>方法总是在<strong>check</strong>阶段执行。那么<code>process.nextTick</code>方法相对于promise.then来说更加优先。在一轮事件循环中<code>setImmediate</code>方法在<code>setTimeout</code>之前。</p>
-<h2 id="1-2闭包-继承-组合式、寄生式、组合寄生式"><a href="#1-2闭包-继承-组合式、寄生式、组合寄生式" class="headerlink" title="1.2闭包 继承(组合式、寄生式、组合寄生式)"></a>1.2闭包 继承(组合式、寄生式、组合寄生式)</h2><h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><h4 id="实现静态私有变量"><a href="#实现静态私有变量" class="headerlink" title="实现静态私有变量"></a>实现静态私有变量</h4><p>打印自身执行次数的函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function helper()&#123;</span><br><span class="line">  let i = 0;</span><br><span class="line">  return function()&#123;</span><br><span class="line">    i++;</span><br><span class="line">    console.log(i)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">let foo = helper()</span><br><span class="line">var a = foo()</span><br><span class="line">var b = foo()</span><br></pre></td></tr></table></figure></p>
-<h4 id="实现类"><a href="#实现类" class="headerlink" title="实现类"></a>实现类</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var Book = (function ()&#123;</span><br><span class="line">  var bookNum = 0;</span><br><span class="line">  function getBookNum()&#123;console.log(bookNum)&#125;</span><br><span class="line">  function _book(id,name,priceNums)&#123;</span><br><span class="line">    this.id = id;</span><br><span class="line">    this.name = name;</span><br><span class="line">    this.priceNums = priceNums;</span><br><span class="line">    this.getName = function ()&#123;console.log(this.name)&#125;</span><br><span class="line">    this.getId = function ()&#123;console.log(this.id)&#125;</span><br><span class="line">    this.getPriceNums = function ()&#123;console.log(this.priceNums)&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  _book.prototype = &#123;</span><br><span class="line">    display:function ()&#123;console.log(&apos;display&apos;)&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  return _book</span><br><span class="line">&#125;)()</span><br><span class="line">var a = new Book(1,&apos;a&apos;,200)</span><br></pre></td></tr></table></figure>
-<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><h4 id="类式继承"><a href="#类式继承" class="headerlink" title="类式继承"></a>类式继承</h4><p>直接将对象的prototype指向一个父类的实例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function Father(name,lastName)&#123;</span><br><span class="line">  this.name = name;</span><br><span class="line">  this.lastName = lastName;</span><br><span class="line">  this.like = [1,2,3]</span><br><span class="line">&#125;</span><br><span class="line">Father.prototype.getLastName = function()&#123;</span><br><span class="line">  console.log(this.lastName)</span><br><span class="line">&#125;</span><br><span class="line">function Son(name)&#123;</span><br><span class="line">  this.name = name;</span><br><span class="line">&#125; </span><br><span class="line">Son.prototype = new Father(&apos;a&apos;,&apos;b&apos;)</span><br><span class="line">Son.prototype.getName = function()&#123;</span><br><span class="line">  console.log(this.name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这样做有两个缺点，一是由于之类通过原型prototype对父类进行实例化继承父类。所以父类中共有的属性如果是引用类型那么就会在所有子类中被共用，在修改的同时会产生一些不可避免的副作用。二是由于是使用prototype继承的父类所以无法向父类传递参数，实例化的时候也无法对父类的构造函数进行初始化。</p>
-<h4 id="构造函数继承"><a href="#构造函数继承" class="headerlink" title="构造函数继承"></a>构造函数继承</h4><p>构造函数继承就是如字面意思一样直接把继承放到构造函数中进行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function Father(name,lastName)&#123;</span><br><span class="line">  this.name = name;</span><br><span class="line">  this.lastName = lastName;</span><br><span class="line">  this.like = [1,2,3]</span><br><span class="line">&#125;</span><br><span class="line">Father.prototype.getLastName = function()&#123;</span><br><span class="line">  console.log(this.lastName)</span><br><span class="line">&#125;</span><br><span class="line">function Son(name,lastName)&#123;</span><br><span class="line">  this.name = name;</span><br><span class="line">  Father.call(this,lastName)</span><br><span class="line">&#125; </span><br><span class="line">Son.prototype.getName = function()&#123;</span><br><span class="line">  console.log(this.name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这样做的坏处也十分明显，父类直接覆盖了子类属性同时父类的一些共有方法是放在prototype上的，这样做因为没有涉及到原型prototype所以无法使用，违背了设计原理</p>
-<h4 id="组合继承"><a href="#组合继承" class="headerlink" title="组合继承"></a>组合继承</h4><p>前两种方式都有着自己的缺点，类式继承是无法输入父类参数和更改父类引用类型数据的时候会出现副作用，构造函数继承是会覆盖和无法使用父类共有方法，那么将两者结合的话是否就可以了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function Father(name,lastName)&#123;</span><br><span class="line">  this.name = name;</span><br><span class="line">  this.lastName = lastName;</span><br><span class="line">  this.like = [1,2,3]</span><br><span class="line">&#125;</span><br><span class="line">Father.prototype.getLastName = function()&#123;</span><br><span class="line">  console.log(this.lastName)</span><br><span class="line">&#125;</span><br><span class="line">function Son(name,lastName)&#123;</span><br><span class="line">  Father.call(this,&apos;&apos;,lastName)</span><br><span class="line">  this.name = name;</span><br><span class="line">&#125;</span><br><span class="line">Son.prototype = new Father() </span><br><span class="line">Son.prototype.getName = function()&#123;</span><br><span class="line">  console.log(this.name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>虽然这种方法看起来规避了所有的缺点，但是由于是两种方法的结合所以在子类的构造函数里执行了一次父类的构造函数，在prototype实例化父类的时候也执行了一次父类的构造函数</p>
-<h4 id="原型式继承"><a href="#原型式继承" class="headerlink" title="原型式继承"></a>原型式继承</h4><p>这种方法类似于类式继承同样也存在和类式继承同样的问题，更改父类引用类型变量的时候会引起副作用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function inheritObject(o)&#123;</span><br><span class="line">  function F()&#123;&#125;</span><br><span class="line">  F.prototype = o</span><br><span class="line">  return new F()</span><br><span class="line">&#125;</span><br><span class="line">function Father(name,lastName)&#123;</span><br><span class="line">  this.name = name;</span><br><span class="line">  this.lastName = lastName;</span><br><span class="line">  this.like = [1,2,3]</span><br><span class="line">&#125;</span><br><span class="line">Father.prototype.getLastName = function()&#123;</span><br><span class="line">  console.log(this.lastName)</span><br><span class="line">&#125;</span><br><span class="line">var a = inheritObject(Father(1,2))</span><br></pre></td></tr></table></figure></p>
-<p>封装了一个方法通过空对象去继承</p>
-<h4 id="寄生式继承"><a href="#寄生式继承" class="headerlink" title="寄生式继承"></a>寄生式继承</h4><p>这种方法是对原型式继承的扩充，规避了它的缺点，同时去扩展这个对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function inheritObject(o)&#123;</span><br><span class="line">  function F()&#123;&#125;</span><br><span class="line">  F.prototype = o</span><br><span class="line">  return new F()</span><br><span class="line">&#125;</span><br><span class="line">function createSon(obj)&#123;</span><br><span class="line">  var o = new inheritObject(obj);</span><br><span class="line">  o.getLastName = function ()&#123;</span><br><span class="line">    console.log(lastName)</span><br><span class="line">  &#125;</span><br><span class="line">  return o</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="寄生组合式继承"><a href="#寄生组合式继承" class="headerlink" title="寄生组合式继承"></a>寄生组合式继承</h4><p>寄生+组合，完美<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">function inheritObject(o)&#123;</span><br><span class="line">  function F()&#123;&#125;</span><br><span class="line">  F.prototype = o</span><br><span class="line">  return new F()</span><br><span class="line">&#125;</span><br><span class="line">function inheritPrototype(father,son)&#123;</span><br><span class="line">  var p = new inheritObject(father.prototype)</span><br><span class="line">  p.constructor = son</span><br><span class="line">  son.prototype = p</span><br><span class="line">&#125;</span><br><span class="line">function Father(name,lastName)&#123;</span><br><span class="line">  this.name = name;</span><br><span class="line">  this.lastName = lastName;</span><br><span class="line">  this.like = [1,2,3]</span><br><span class="line">&#125;</span><br><span class="line">Father.prototype.getLastName = function()&#123;</span><br><span class="line">  console.log(this.lastName)</span><br><span class="line">&#125;</span><br><span class="line">function Son(name,lastName)&#123;</span><br><span class="line">  Father.call(this,name,lastName)</span><br><span class="line">  this.name = name;</span><br><span class="line">&#125;</span><br><span class="line">inheritPrototype(Father,Son)</span><br><span class="line">Son.prototype.getName = function()&#123;</span><br><span class="line">  console.log(this.name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="多继承"><a href="#多继承" class="headerlink" title="多继承"></a>多继承</h3><p>属性复制</p>
-<h2 id="1-3cookie-session-token区别"><a href="#1-3cookie-session-token区别" class="headerlink" title="1.3cookie||session||token区别"></a>1.3cookie||session||token区别</h2><h3 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h3><p>由服务端生成，发送给浏览器，保存在本地浏览器上的数据，用来识别用户信息的一个键值对，每一次发送请求的时候都会带上cookie发送给服务器。内容大小不超过4KB。<br><strong>优点</strong>：</p>
-<ul>
-<li>简单性。Cookie 是一种基于文本的轻量结构，包含简单的键值对。</li>
-<li>不需要任何服务器资源 Cookie 存储在客户端并在发送后由服务器读取。</li>
-<li>可配置到期规则 Cookie 可以在浏览器会话结束时到期，或者可以在客户端计算机上无限期存在，这取决于客户端的到期规则。</li>
-</ul>
-<p><strong>缺点</strong>：</p>
-<ul>
-<li>大小受到限制</li>
-<li>潜在的安全风险 Cookie 可能会被篡改。用户可能会操纵其计算机上的 Cookie，这意味着会对安全性造成潜在风险或者导致依赖于 Cookie 的应用程序失败。</li>
-<li>容易受到CSRF攻击</li>
-</ul>
-<h3 id="session"><a href="#session" class="headerlink" title="session"></a>session</h3><p>当用户打开页面，服务器会生成session,使用session将用户的信息缓存在服务器或数据库中，里面有唯一的sessionID，将sessionID返回给客户端，客户端每次发送请求时，cookie中携带session，服务器通过对比验证用户身份信息，用户离开网站后，session 会被销毁。cookie和session一般不会单独来使用，搭配使用更好。由于cookie内容大小有限而且存在安全问题，所以使用session来存放一些重要信息，cookie存放其他信息。</p>
-<p><strong>优点</strong>：</p>
-<ul>
-<li>安全性更高</li>
-</ul>
-<p><strong>缺点</strong>：</p>
-<ul>
-<li>占用服务器资源</li>
-</ul>
-<h3 id="token"><a href="#token" class="headerlink" title="token"></a>token</h3><p>用户身份验证的方式，最简单的token组成： uid(用户唯一的身份标识)，time(当前时间的时间戳)，sign(签名)，还可以把不变的参数也放进token，避免多次查库。使用token的身份验证，在服务端不需要存储用户的登陆信息，大致流程：</p>
-<ol>
-<li>客户端使用账号密码请求登陆</li>
-<li>服务端收到请求，验证账号密码</li>
-<li>验证成功后，服务端会签发一个token，然后返回给客户端</li>
-<li>客户端收到token后，保存在cookie中</li>
-<li>客户端每次向服务器请求资源时，携带token</li>
-<li>服务端收到请求，去验证token，验证成功，返回数据<h2 id="1-4三次握手四次挥手"><a href="#1-4三次握手四次挥手" class="headerlink" title="1.4三次握手四次挥手"></a>1.4三次握手四次挥手</h2><h2 id="1-5手动Promise"><a href="#1-5手动Promise" class="headerlink" title="1.5手动Promise"></a>1.5手动Promise</h2><h2 id="1-6webpack-loader-pluging"><a href="#1-6webpack-loader-pluging" class="headerlink" title="1.6webpack loader pluging"></a>1.6webpack loader pluging</h2><h2 id="1-7浅拷贝和深拷贝"><a href="#1-7浅拷贝和深拷贝" class="headerlink" title="1.7浅拷贝和深拷贝"></a>1.7浅拷贝和深拷贝</h2><h1 id="项目自检清单2-0"><a href="#项目自检清单2-0" class="headerlink" title="项目自检清单2.0"></a>项目自检清单2.0</h1><h2 id="2-1-NSCS"><a href="#2-1-NSCS" class="headerlink" title="2.1 NSCS"></a>2.1 NSCS</h2><h3 id="项目配置"><a href="#项目配置" class="headerlink" title="项目配置"></a>项目配置</h3><h4 id="webpack配置"><a href="#webpack配置" class="headerlink" title="webpack配置"></a>webpack配置</h4>采用了下面几个loader，loader的作用就是相当于转译器，webpack无法读取除了js以外的任何文件，loader的作用就是为了将其他文件转换为webpack可以读取的文件</li>
-</ol>
-<ul>
-<li>next-less</li>
-<li>next-css</li>
-<li>file-loader</li>
-<li>url-loader</li>
-<li>style-loader</li>
-</ul>
-<p>plugin，plugin相当于是webpack的扩展器，主要是监听webpack的生命周期中的某一个钩子来触发某一些操作，比如监听打包过程中最后的emit来选择输出文件</p>
-<ul>
-<li>monaco-editor-webpack-plugin（我也不知道这个是什么鬼）</li>
-</ul>
-<h4 id="next"><a href="#next" class="headerlink" title="next"></a>next</h4><p>next各种基础配置项目搭建以及带来的副作用</p>
-<ul>
-<li>服务端渲染后根据路由切成了多个html导致原来在SPA中的redux无法使用，通过看官方issue里面提供的解决方法(装redux-persist)就是将redux数据放入local storage里面。个人感觉不是太好</li>
-<li>文件名即路由的问题，需要设置自定义路由，因为根据我的命名习惯会出现<code>/home/home</code>这种极其不符合常理的操作</li>
-<li>现在仍无法使用<code>getInitialProps</code>来初始化组件的props</li>
-<li>动态导入。因为无法直接操作dom，有一些包在导入的时候需要window对象但是在组件挂载的时候并没有生成dom，所以需要动态导入。<code>import dynamic from &#39;next/dynamic&#39;</code>通过它去自定义组件加载的时机</li>
-<li>怎么去部署，因为路由拦截也是在前端做的</li>
-</ul>
-<h4 id="redux"><a href="#redux" class="headerlink" title="redux"></a>redux</h4><h2 id="2-2-sacc-cli"><a href="#2-2-sacc-cli" class="headerlink" title="2.2 sacc-cli"></a>2.2 sacc-cli</h2><h2 id="2-3-PatentMiner"><a href="#2-3-PatentMiner" class="headerlink" title="2.3 PatentMiner"></a>2.3 PatentMiner</h2><h2 id="2-4-Sacc-Homepage"><a href="#2-4-Sacc-Homepage" class="headerlink" title="2.4 Sacc-Homepage"></a>2.4 Sacc-Homepage</h2>
-          
+          <h1 id="面试前的自检清单1-0"><a href="#面试前的自检清单1-0" class="headerlink" title="面试前的自检清单1.0"></a>面试前的自检清单1.0</h1><h2 id="1-1事件循环"><a href="#1-1事件循环" class="headerlink" title="1.1事件循环"></a>1.1事件循环</h2><p>众所周知，JavaScript 是一门单线程语言，虽然在 html5 中提出了 Web-Worker ，但这并未改变 JavaScript 是单线程这一核心。为了协调事件、用户交互、脚本、UI 渲染和网络处理等行为，用户引擎必须使用 event loops，也就是事件循环。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/11/28/面试前的自检清单/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1689,159 +1766,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/29/ES6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="qin.">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Qin&#x7684;&#x4FEE;&#x884C;&#x4E4B;&#x8DEF;">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/29/ES6/" itemprop="url">ES6</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-29T22:14:34+08:00">
-                2018-10-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/学习心得/" itemprop="url" rel="index">
-                    <span itemprop="name">学习心得</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>ES6 各种新语法 入门了解  石川blue讲解</p>
-<p>视频地址</p>
-<ul>
-<li><a href="https://www.bilibili.com/video/av20327829/" target="_blank" rel="noopener">b站：深入解读ES6系列</a></li>
-</ul>
-<p>看视频整理要点笔记:</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/29/ES6/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1892,7 +1816,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
